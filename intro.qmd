@@ -1,0 +1,23 @@
+# Introduction {#sec-intro}
+
+```{r source_r, echo = FALSE}
+source("_common.R")
+```
+
+__Goals__: 
+
+* This is goal 1.
+* This is goal 2.
+* This is goal 3.
+
+This is an introduction. This is a reference @dumelle2023spmodel
+
+## R Code Appendix
+
+```{r get-labels, echo = FALSE}
+labs = knitr::all_labels()
+labs = setdiff(labs, c("source_r", "get-labels"))
+```
+
+```{r all-code, ref.label=labs, eval = FALSE}
+```

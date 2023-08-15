@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Spatial Data Workshop",
+    "section": "",
+    "text": "Welcome\nHello and welcome! The purpose of this site is to provide workshop materials for the Spatial Data workshop at the 2023 EPA R User Group Workshop. Slides that accompany this workshop are available for download linked here by clicking the “Download raw file” button via the ellipsis or downward arrow symbol on the right side of the screen.\nWorkshop Summary. This is our summary"
+  },
+  {
+    "objectID": "index.html#author-introduction",
+    "href": "index.html#author-introduction",
+    "title": "Spatial Data Workshop",
+    "section": "Author Introduction",
+    "text": "Author Introduction\nMarc Weber is…\nMichael Dumelle is a statistician for the United States Environmental Protection Agency (USEPA). He works primarily on facilitating the survey design and analysis of USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States. His primary research interests are in spatial statistics, survey design, environmental and ecological applications, and software development."
+  },
+  {
+    "objectID": "index.html#set-up",
+    "href": "index.html#set-up",
+    "title": "Spatial Data Workshop",
+    "section": "Set Up",
+    "text": "Set Up\nThe packages that we use throughout this bundle include ggplot2. To install and load them, run\n\n\n\n\ninstall.packages(\"ggplot2\")\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "index.html#disclaimer",
+    "href": "index.html#disclaimer",
+    "title": "Spatial Data Workshop",
+    "section": "Disclaimer",
+    "text": "Disclaimer\nThe views expressed in this manuscript are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any mention of trade names, products, or services does not imply an endorsement by the U.S. government or the U.S. Environmental Protection Agency. The U.S. Environmental Protection Agency does not endorse any commercial products, services, or enterprises."
+  },
+  {
+    "objectID": "intro.html#r-code-appendix",
+    "href": "intro.html#r-code-appendix",
+    "title": "1  Introduction",
+    "section": "\n1.1 R Code Appendix",
+    "text": "1.1 R Code Appendix\n\n\n\n\n\n\n\n\n\n\nDumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and Prediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Dumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and\nPrediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+  }
+]
