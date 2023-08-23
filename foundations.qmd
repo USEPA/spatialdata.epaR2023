@@ -1,0 +1,48 @@
+# Foundations {#sec-foundations}
+
+```{r source_r, echo = FALSE}
+source("_common.R")
+```
+
+## Goals and Outcomes
+
+* This is goal 1.
+* This is goal 2.
+* This is goal 3.
+
+This is an introduction. This is a reference @dumelle2023spmodel
+
+## R Code Appendix
+
+```{r get-labels, echo = FALSE}
+labs = knitr::all_labels()
+labs = setdiff(labs, c("source_r", "get-labels"))
+```
+
+```{r all-code, ref.label=labs, eval = FALSE}
+```
+
+## Geographic Data Models in R
+
+:::{.callout-note}
+A few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through [OSgeo](https://www.osgeo.org) and [OGC](https://www.ogc.org)). These core libraries include:
+-   **PROJ** --\> Spatial projections, transformations
+
+-   **GEOS** --\> Geometry operations (measures, relations)
+
+-   **GDAL** --\> Raster and feature abstraction and processing (read, write)
+
+-   **NetCDF** --\> Multidimensional (XYZT) data abstraction (read, write)
+:::
+
+### Spatial Data in R
+
+### Geographic Data I/O
+
+### Coordinate Reference Systems
+
+### Vector
+
+### Raster
+
+
