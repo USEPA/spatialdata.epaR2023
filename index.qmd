@@ -2,24 +2,29 @@
 
 Hello and welcome! The purpose of this site is to provide workshop materials for the Spatial Data workshop at the 2023 EPA R User Group Workshop. Slides that accompany this workshop are available for download linked here by clicking the "Download raw file" button via the ellipsis or downward arrow symbol on the right side of the screen.
 
-__Workshop Summary.__ This is our summary
+## Workshop Agenda
 
+- 1:00pm - 1:45pm EDT: 
+- 1:45pm - 2:15pm EDT: 
+- 2:15pm - 2:20pm Break
+- 2:20pm - 2:35pm EDT: 
+- 2:35pm - 2:45pm Break
+- 2:45pm - 3:15pm EDT: 
+- 3:15pm - 3:20pm Break
+- 3:20pm - 3:45pm EDT: 
+- 3:45pm - 4:15pm EDT: 
+- 4:15pm - 4:45pm EDT: 
+- 4:45pm - 5:00pm EDT:
+  
 ## Author Introduction
 
-Marc Weber is...
+Marc Weber is a geographer at the Pacific Ecological Systems Division (PESD) at the United States Environmental Protection Agency (USEPA). His work supports various aspects of the USEPA's National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States, as he helped develop and maintains the StreamCat and LakeCat datasets.  His work focuses on spatial analysis in R and Python, Geographic Information Science (GIS), aquatic ecology, remote sensing, open source science and environmental modeling
 
 Michael Dumelle is a statistician for the United States Environmental Protection Agency (USEPA). He works primarily on facilitating the survey design and analysis of USEPA's National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States. His primary research interests are in spatial statistics, survey design, environmental and ecological applications, and software development.
 
 ## Set Up
 
-The packages that we use throughout this bundle include `ggplot2`. To install and load them, run
-
-```{r}
-#| warning: false
-#| echo: false
-
-library(ggplot2)
-```
+The packages that we use throughout this bundle are listed below. To install and load them, run:
 
 ```{r}
 #| eval: false

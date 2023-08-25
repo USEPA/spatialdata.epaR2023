@@ -7,7 +7,7 @@ book:
   author: "Marc Weber and Michael Dumelle"
   page-footer:
     left: |
-      spatial data workshop materials written by Marc Weber and Michael Dumelle
+      Spatial Data Workshop Materials written by Marc Weber and Michael Dumelle
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
   chapters:
