@@ -22,7 +22,7 @@ labs = setdiff(labs, c("source_r", "get-labels"))
 ```{r all-code, ref.label=labs, eval = FALSE}
 ```
 
-## Geographic Data Models in R
+## Geographic Data in R
 
 :::{.callout-note}
 A few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through [OSgeo](https://www.osgeo.org) and [OGC](https://www.ogc.org)). These core libraries include:
@@ -37,12 +37,12 @@ A few core libraries underpin spatial libraries in R (and Python!) and in softwa
 
 ### Spatial Data in R
 
-### Geographic Data I/O
-
 ### Coordinate Reference Systems
 
 ### Vector
 
 ### Raster
+
+### Geographic Data I/O
 
 
