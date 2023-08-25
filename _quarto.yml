@@ -7,13 +7,15 @@ book:
   author: "Marc Weber and Michael Dumelle"
   page-footer:
     left: |
-      spmodel workshop materials written by Marc Weber and Michael Dumelle
+      Spatial Data Workshop Materials written by Marc Weber and Michael Dumelle
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
   chapters:
     - index.qmd
-    - intro.qmd
-    - references.qmd
+    - foundations.qmd
+    - geoprocessing.qmd
+    - visualization_advanced_applications.qmd
+    - resources.qmd
 
 bibliography: references.bib
 

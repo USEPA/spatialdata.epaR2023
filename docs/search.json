@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Spatial Data Workshop",
     "section": "",
-    "text": "Welcome\nHello and welcome! The purpose of this site is to provide workshop materials for the Spatial Data workshop at the 2023 EPA R User Group Workshop. Slides that accompany this workshop are available for download linked here by clicking the “Download raw file” button via the ellipsis or downward arrow symbol on the right side of the screen.\nWorkshop Summary. This is our summary"
+    "text": "Hello and welcome! The purpose of this site is to provide workshop materials for the Spatial Data workshop at the 2023 EPA R User Group Workshop. Slides that accompany this workshop are available for download linked here by clicking the “Download raw file” button via the ellipsis or downward arrow symbol on the right side of the screen.\n\n\n\n1:00pm - 1:45pm EDT:\n1:45pm - 2:15pm EDT:\n2:15pm - 2:20pm Break\n2:20pm - 2:35pm EDT:\n2:35pm - 2:45pm Break\n2:45pm - 3:15pm EDT:\n3:15pm - 3:20pm Break\n3:20pm - 3:45pm EDT:\n3:45pm - 4:15pm EDT:\n4:15pm - 4:45pm EDT:\n4:45pm - 5:00pm EDT:\n\n\n\n\nMarc Weber is a geographer at the Pacific Ecological Systems Division (PESD) at the United States Environmental Protection Agency (USEPA). His work supports various aspects of the USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States, as he helped develop and maintains the StreamCat and LakeCat datasets. His work focuses on spatial analysis in R and Python, Geographic Information Science (GIS), aquatic ecology, remote sensing, open source science and environmental modeling\nMichael Dumelle is a statistician for the United States Environmental Protection Agency (USEPA). He works primarily on facilitating the survey design and analysis of USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States. His primary research interests are in spatial statistics, survey design, environmental and ecological applications, and software development.\n\n\n\nThe packages that we use throughout this bundle are listed below. To install and load them, run:\n\ninstall.packages(\"ggplot2\")\nlibrary(ggplot2)\n\n\n\n\nThe views expressed in this manuscript are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any mention of trade names, products, or services does not imply an endorsement by the U.S. government or the U.S. Environmental Protection Agency. The U.S. Environmental Protection Agency does not endorse any commercial products, services, or enterprises."
   },
   {
     "objectID": "index.html#author-introduction",
@@ -31,7 +31,7 @@
     "objectID": "intro.html#r-code-appendix",
     "href": "intro.html#r-code-appendix",
     "title": "1  Introduction",
-    "section": "\n1.1 R Code Appendix",
+    "section": "1.1 R Code Appendix",
     "text": "1.1 R Code Appendix\n\n\n\n\n\n\n\n\n\n\nDumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and Prediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
   },
   {
@@ -40,5 +40,96 @@
     "title": "References",
     "section": "",
     "text": "Dumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and\nPrediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "Goals:\nThis is an introduction. This is a reference Dumelle, Higham, and Ver Hoef (2023)"
+  },
+  {
+    "objectID": "foundations.html",
+    "href": "foundations.html",
+    "title": "1  Foundations",
+    "section": "",
+    "text": "Goals:\nThis is an introduction. This is a reference Dumelle, Higham, and Ver Hoef (2023)"
+  },
+  {
+    "objectID": "foundations.html#r-code-appendix",
+    "href": "foundations.html#r-code-appendix",
+    "title": "1  Foundations",
+    "section": "1.2 R Code Appendix",
+    "text": "1.2 R Code Appendix"
+  },
+  {
+    "objectID": "geoprocessing.html",
+    "href": "geoprocessing.html",
+    "title": "2  Geoprocessing",
+    "section": "",
+    "text": "Throughout this section, we …"
+  },
+  {
+    "objectID": "visualization_advanced_applications.html",
+    "href": "visualization_advanced_applications.html",
+    "title": "3  Visualization and Advanced Applications",
+    "section": "",
+    "text": "Throughout this section, we …"
+  },
+  {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Resources",
+    "section": "",
+    "text": "Dumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and\nPrediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+  },
+  {
+    "objectID": "foundations.html#goals-and-outcomes",
+    "href": "foundations.html#goals-and-outcomes",
+    "title": "1  Foundations",
+    "section": "1.1 Goals and Outcomes",
+    "text": "1.1 Goals and Outcomes\n\nThis is goal 1.\nThis is goal 2.\nThis is goal 3.\n\nThis is an introduction. This is a reference Dumelle, Higham, and Ver Hoef (2023)"
+  },
+  {
+    "objectID": "geoprocessing.html#goals-and-outcomes",
+    "href": "geoprocessing.html#goals-and-outcomes",
+    "title": "2  Geoprocessing",
+    "section": "2.1 Goals and Outcomes",
+    "text": "2.1 Goals and Outcomes\n\nThis is goal 1.\nThis is goal 2.\nThis is goal 3.\n\n\n\n\n\n\n\nNote\n\n\n\nYou may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on st_join() takes you to the documentation page for the st_join() function on the sf website."
+  },
+  {
+    "objectID": "foundations.html#geographic-data-models-in-r",
+    "href": "foundations.html#geographic-data-models-in-r",
+    "title": "1  Foundations",
+    "section": "1.3 Geographic Data Models in R",
+    "text": "1.3 Geographic Data Models in R\n\n\n\n\n\n\nNote\n\n\n\nA few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through OSgeo and OGC). These core libraries include: - PROJ –> Spatial projections, transformations\n\nGEOS –> Geometry operations (measures, relations)\nGDAL –> Raster and feature abstraction and processing (read, write)\nNetCDF –> Multidimensional (XYZT) data abstraction (read, write)\n\n\n\n\n1.3.1 Spatial Data in R\n\n\n1.3.2 Geographic Data I/O\n\n\n1.3.3 Coordinate Reference Systems\n\n\n1.3.4 Vector\n\n\n1.3.5 Raster\n\n\n\n\nDumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and Prediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+  },
+  {
+    "objectID": "geoprocessing.html#zonal-statistics",
+    "href": "geoprocessing.html#zonal-statistics",
+    "title": "2  Geoprocessing",
+    "section": "2.2 Zonal Statistics",
+    "text": "2.2 Zonal Statistics"
+  },
+  {
+    "objectID": "visualization_advanced_applications.html#goals-and-outcomes",
+    "href": "visualization_advanced_applications.html#goals-and-outcomes",
+    "title": "3  Visualization and Advanced Applications",
+    "section": "3.1 Goals and Outcomes",
+    "text": "3.1 Goals and Outcomes\n\nThis is goal 1.\nThis is goal 2.\nThis is goal 3.\n\n\n\n\n\n\n\nNote\n\n\n\nYou may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on st_join() takes you to the documentation page for the st_join() function on the sf website."
+  },
+  {
+    "objectID": "visualization_advanced_applications.html#visualization",
+    "href": "visualization_advanced_applications.html#visualization",
+    "title": "3  Visualization and Advanced Applications",
+    "section": "3.2 Visualization",
+    "text": "3.2 Visualization"
+  },
+  {
+    "objectID": "visualization_advanced_applications.html#advanced-applications",
+    "href": "visualization_advanced_applications.html#advanced-applications",
+    "title": "3  Visualization and Advanced Applications",
+    "section": "3.3 Advanced Applications",
+    "text": "3.3 Advanced Applications\n\n3.3.1 Using Web Services"
   }
 ]
