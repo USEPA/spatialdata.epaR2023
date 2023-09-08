@@ -33,6 +33,17 @@ install.packages("ggplot2")
 library(ggplot2)
 ```
 
+## How to follow along with material
+
+This workshop was built using [Quarto](https://quarto.org/) and [bookdown](https://github.com/rstudio/bookdown).  You can fork and clone [this repository](https://github.com/mhweber/spatialdata.epaR2023.git), or simply clone directly and open corresponding .qmd files to follow along with material in RStudio.  You can also copy code snippets from the rendered book site and paste into your code files in RStudio.
+
+[Quarto](https://quarto.org/) is a multi-language, next generation version of R Markdown from RStudio, with many new features and capabilities. Like R Markdown, Quarto uses Knitr to execute R code, and it can render most existing Rmd files without modification.  Like RMarkdown the benefits include:
+
+- Allows for reproducible reporting from R
+- You write your document in markdown and embed executable code chunks using the knitr syntax
+- You can update your document at any time by re-knitting the code chunks and convert your document to a number of formats (i.e. html, pdf, word documents)
+- We assume everyone in the workshop is familiar with using RStudio
+
 ## Disclaimer
 
 The views expressed in this manuscript are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any mention of trade names, products, or services does not imply an endorsement by the U.S. government or the U.S. Environmental Protection Agency. The U.S. Environmental Protection Agency does not endorse any commercial products, services, or enterprises.

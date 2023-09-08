@@ -131,5 +131,40 @@
     "title": "3  Visualization and Advanced Applications",
     "section": "3.3 Advanced Applications",
     "text": "3.3 Advanced Applications\n\n3.3.1 Using Web Services"
+  },
+  {
+    "objectID": "foundations.html#geographic-data-in-r",
+    "href": "foundations.html#geographic-data-in-r",
+    "title": "1  Foundations",
+    "section": "1.3 Geographic Data in R",
+    "text": "1.3 Geographic Data in R\n\n\n\n\n\n\nNote\n\n\n\nA few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through OSgeo and OGC). These core libraries include: - PROJ –> Spatial projections, transformations\n\nGEOS –> Geometry operations (measures, relations)\nGDAL –> Raster and feature abstraction and processing (read, write)\nNetCDF –> Multidimensional (XYZT) data abstraction (read, write)\n\n\n\n\n1.3.1 Spatial Data in R\n\n\n1.3.2 Coordinate Reference Systems\n\n\n1.3.3 Vector\n\n\n1.3.4 Raster\n\n\n1.3.5 Geographic Data I/O\n\n\n\n\nDumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and Prediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+  },
+  {
+    "objectID": "geoprocessing.html#spatial-subsetting",
+    "href": "geoprocessing.html#spatial-subsetting",
+    "title": "2  Geoprocessing",
+    "section": "2.2 Spatial Subsetting",
+    "text": "2.2 Spatial Subsetting"
+  },
+  {
+    "objectID": "geoprocessing.html#spatial-join",
+    "href": "geoprocessing.html#spatial-join",
+    "title": "2  Geoprocessing",
+    "section": "2.3 Spatial Join",
+    "text": "2.3 Spatial Join"
+  },
+  {
+    "objectID": "geoprocessing.html#dissolve",
+    "href": "geoprocessing.html#dissolve",
+    "title": "2  Geoprocessing",
+    "section": "2.4 Dissolve",
+    "text": "2.4 Dissolve"
+  },
+  {
+    "objectID": "geoprocessing.html#extract-and-zonal-statistics",
+    "href": "geoprocessing.html#extract-and-zonal-statistics",
+    "title": "2  Geoprocessing",
+    "section": "2.5 Extract and Zonal Statistics",
+    "text": "2.5 Extract and Zonal Statistics"
   }
 ]
