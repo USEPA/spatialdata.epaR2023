@@ -1,4 +1,4 @@
-# Visualization and Advanced Applications {#sec-visualization_advanced_applications}
+# Visualization {#sec-visualization}
 
 
 
@@ -19,6 +19,12 @@ You may click on any of the functions in this book to be directed to their respe
 
 ## Visualization
 
-## Advanced Applications
+### mapview
 
-### Using Web Services
+### leaflet
+
+### ggplot2
+
+### tmap
+
+
