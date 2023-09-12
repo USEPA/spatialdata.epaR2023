@@ -6,11 +6,24 @@ source("_common.R")
 
 ## Goals and Outcomes
 
-* This is goal 1.
-* This is goal 2.
-* This is goal 3.
+* Understand fundamental spatial data structures and libraries in R.
+* Become familiar with coordinate reference systems.
+* Perform some fundamental spatial operations in R.
+* Geographic I/O
 
-This is an introduction. This is a reference @dumelle2023spmodel
+We'll start by installing and loading some of the primary libraries for working with spatial data in R and examining spatial data structures in R.
+
+## Geographic Data Structures in R
+
+### Vector data
+
+### Raster data
+
+## Coordinate reference systems and projections
+
+## Spatial operations
+
+## Geographic data I/O
 
 ## R Code Appendix
 
