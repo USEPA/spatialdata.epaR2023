@@ -11,21 +11,21 @@
     "href": "foundations.html#goals-and-outcomes",
     "title": "1  Foundations",
     "section": "1.1 Goals and Outcomes",
-    "text": "1.1 Goals and Outcomes\n\nThis is goal 1.\nThis is goal 2.\nThis is goal 3.\n\nThis is an introduction. This is a reference Dumelle, Higham, and Ver Hoef (2023)"
+    "text": "1.1 Goals and Outcomes\n\nUnderstand fundamental spatial data structures and libraries in R.\nBecome familiar with coordinate reference systems.\nPerform some fundamental spatial operations in R.\nGeographic I/O\n\nWe’ll start by installing and loading some of the primary libraries for working with spatial data in R and examining spatial data structures in R."
   },
   {
     "objectID": "foundations.html#r-code-appendix",
     "href": "foundations.html#r-code-appendix",
     "title": "1  Foundations",
-    "section": "1.2 R Code Appendix",
-    "text": "1.2 R Code Appendix"
+    "section": "1.6 R Code Appendix",
+    "text": "1.6 R Code Appendix\n\n\n\n\nplot(iris)"
   },
   {
     "objectID": "foundations.html#geographic-data-in-r",
     "href": "foundations.html#geographic-data-in-r",
     "title": "1  Foundations",
-    "section": "1.3 Geographic Data in R",
-    "text": "1.3 Geographic Data in R\n\n\n\n\n\n\nNote\n\n\n\nA few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through OSgeo and OGC). These core libraries include: - PROJ –> Spatial projections, transformations\n\nGEOS –> Geometry operations (measures, relations)\nGDAL –> Raster and feature abstraction and processing (read, write)\nNetCDF –> Multidimensional (XYZT) data abstraction (read, write)\n\n\n\n\n1.3.1 Spatial Data in R\n\n\n1.3.2 Coordinate Reference Systems\n\n\n1.3.3 Vector\n\n\n1.3.4 Raster\n\n\n1.3.5 Geographic Data I/O\n\n\n\n\nDumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and Prediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+    "section": "1.7 Geographic Data in R",
+    "text": "1.7 Geographic Data in R\n\n\n\n\n\n\nNote\n\n\n\nA few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through OSgeo and OGC). These core libraries include: - PROJ –> Spatial projections, transformations\n\nGEOS –> Geometry operations (measures, relations)\nGDAL –> Raster and feature abstraction and processing (read, write)\nNetCDF –> Multidimensional (XYZT) data abstraction (read, write)\n\n\n\n\n1.7.1 Spatial Data in R\n\n\n1.7.2 Coordinate Reference Systems\n\n\n1.7.3 Vector\n\n\n1.7.4 Raster\n\n\n1.7.5 Geographic Data I/O"
   },
   {
     "objectID": "geoprocessing.html",
@@ -74,7 +74,7 @@
     "href": "visualization.html",
     "title": "3  Visualization",
     "section": "",
-    "text": "Throughout this section, we …"
+    "text": "Understand how to use several of the most popular libraries for plotting and visualizing spatial data inR\nThis is goal 2.\nThis is goal 3.\n\n\n\n\n\n\n\nNote\n\n\n\nYou may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on st_join() takes you to the documentation page for the st_join() function on the sf website."
   },
   {
     "objectID": "visualization.html#goals-and-outcomes",
@@ -116,6 +116,97 @@
     "href": "resources.html",
     "title": "Resources",
     "section": "",
-    "text": "Dumelle, Michael, Matt Higham, and Jay M. Ver Hoef. 2023. “spmodel: Spatial Statistical Modeling and\nPrediction in R.” PLOS ONE 18 (3): 1–32. https://doi.org/10.1371/journal.pone.0282524."
+    "text": "R Spatial - Spatial Data Science with R\nGeocomputation with R\nR Spatial Task View\nModern Geospatial Data Analysis with R by Zev Ross\nSIGR2021 Summer School\nSpatial Data Science - Pebesma and Bivand\nSpatial Data Science Course- Prof. Adam Wilson\nIntroduction to Mapping and Spatial Analysis with R\nR Spatial Workshop for EPA R User Group\nIntro to GIS and Spatial Analysis by Manuel Gimond\nFOSS4G2019 R for Geospatial Processing\nAn Introduction to Spatial Analysis and Mapping in R\nEarth Analytics Spatial Data in R\nHydroinformatics at VT: Extensive Notes and exercises for a course on data analysis techniques in hydrology using the programming language R"
+  },
+  {
+    "objectID": "resources.html#r-vector-processing-simple-features-resources",
+    "href": "resources.html#r-vector-processing-simple-features-resources",
+    "title": "Resources",
+    "section": "R Vector Processing / Simple Features Resources",
+    "text": "R Vector Processing / Simple Features Resources\n\nSimple Features for R\nSpatial Data in R: New Directions\nsp-sf Migration\nAn Exploration of Simple Features for R\nSimple Features: Building Spatial Data Pipelines in R\nTidy spatial data in R: using dplyr, tidyr, and ggplot2 with sf"
+  },
+  {
+    "objectID": "resources.html#r-raster-resources",
+    "href": "resources.html#r-raster-resources",
+    "title": "Resources",
+    "section": "R Raster Resources",
+    "text": "R Raster Resources\n\nterra\nSpatial Data Science with R and terra\nstars - spatiotemporal arrays\nWageningen University Intro to Raster\nWageningen University Advanced Raster Analysis\nThe Visual Raster Cheat Sheet GitHub Repo\nRastervis"
+  },
+  {
+    "objectID": "resources.html#r-mapping-resources",
+    "href": "resources.html#r-mapping-resources",
+    "title": "Resources",
+    "section": "R Mapping Resources",
+    "text": "R Mapping Resources\n\nmapview\nLeaflet for R\ntmap\nZev Ross Creating beautiful demographic maps in R with the tidycensus and tmap packages\nGeocomputation with R: Making maps with R\nNico Hahn: Making Maps with R R"
+  },
+  {
+    "objectID": "resources.html#web-services-in-r",
+    "href": "resources.html#web-services-in-r",
+    "title": "Resources",
+    "section": "Web Services in R",
+    "text": "Web Services in R\n\nAccessing REST API (JSON data) using httr and jsonlite\nWorking with Geospatial Hydrologic Data Using Web Services (R)"
+  },
+  {
+    "objectID": "resources.html#general-r-resources",
+    "href": "resources.html#general-r-resources",
+    "title": "Resources",
+    "section": "General R Resources",
+    "text": "General R Resources\n\nGoogle R Style Guide\nAdvanced R by Hadley Wickham"
+  },
+  {
+    "objectID": "foundations.html#geographic-data-structures-in-r",
+    "href": "foundations.html#geographic-data-structures-in-r",
+    "title": "1  Foundations",
+    "section": "1.2 Geographic Data Structures in R",
+    "text": "1.2 Geographic Data Structures in R\n\n\n\n\n\n\nExercise\n\n\n\nPlot the iris data\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nplot(iris)\n\n\n\n\n\n\n\n\n1.2.1 Vector data\n\n\n1.2.2 Raster data"
+  },
+  {
+    "objectID": "foundations.html#coordinate-reference-systems-and-projections",
+    "href": "foundations.html#coordinate-reference-systems-and-projections",
+    "title": "1  Foundations",
+    "section": "1.3 Coordinate reference systems and projections",
+    "text": "1.3 Coordinate reference systems and projections"
+  },
+  {
+    "objectID": "foundations.html#spatial-operations",
+    "href": "foundations.html#spatial-operations",
+    "title": "1  Foundations",
+    "section": "1.4 Spatial operations",
+    "text": "1.4 Spatial operations"
+  },
+  {
+    "objectID": "foundations.html#geographic-data-io",
+    "href": "foundations.html#geographic-data-io",
+    "title": "1  Foundations",
+    "section": "1.5 Geographic data I/O",
+    "text": "1.5 Geographic data I/O"
+  },
+  {
+    "objectID": "visualization.html#mapview",
+    "href": "visualization.html#mapview",
+    "title": "3  Visualization",
+    "section": "3.2 mapview",
+    "text": "3.2 mapview"
+  },
+  {
+    "objectID": "visualization.html#leaflet",
+    "href": "visualization.html#leaflet",
+    "title": "3  Visualization",
+    "section": "3.3 leaflet",
+    "text": "3.3 leaflet"
+  },
+  {
+    "objectID": "visualization.html#ggplot2",
+    "href": "visualization.html#ggplot2",
+    "title": "3  Visualization",
+    "section": "3.4 ggplot2",
+    "text": "3.4 ggplot2"
+  },
+  {
+    "objectID": "visualization.html#tmap",
+    "href": "visualization.html#tmap",
+    "title": "3  Visualization",
+    "section": "3.5 tmap",
+    "text": "3.5 tmap\nIt uses the same syntax as ggplot: the grammar of graphics - it supports both static and interactive modes"
   }
 ]

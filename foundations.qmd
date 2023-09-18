@@ -15,6 +15,19 @@ We'll start by installing and loading some of the primary libraries for working 
 
 ## Geographic Data Structures in R
 
+::: {.callout-important icon="false"}
+## Exercise
+
+Plot the `iris` data
+:::
+
+::: {.callout-important icon="false" collapse="true"}
+## Solution
+
+```{r}
+plot(iris)
+```
+:::
 ### Vector data
 
 ### Raster data
