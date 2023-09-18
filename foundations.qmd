@@ -15,6 +15,19 @@ We'll start by installing and loading some of the primary libraries for working 
 
 ## Geographic Data Structures in R
 
+:::{.callout-note}
+A few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through [OSgeo](https://www.osgeo.org) and [OGC](https://www.ogc.org)). These core libraries include:
+-   **PROJ** --\> Spatial projections, transformations
+
+-   **GEOS** --\> Geometry operations (measures, relations)
+
+-   **GDAL** --\> Raster and feature abstraction and processing (read, write)
+
+-   **NetCDF** --\> Multidimensional (XYZT) data abstraction (read, write)
+:::
+
+Vector versus raster data
+
 ::: {.callout-important icon="false"}
 ## Exercise
 
@@ -28,44 +41,14 @@ Plot the `iris` data
 plot(iris)
 ```
 :::
-### Vector data
-
-### Raster data
-
-## Coordinate reference systems and projections
-
-## Spatial operations
-
-## Geographic data I/O
-
-## R Code Appendix
-
-```{r get-labels, echo = FALSE}
-labs = knitr::all_labels()
-labs = setdiff(labs, c("source_r", "get-labels"))
-```
-
-```{r all-code, ref.label=labs, eval = FALSE}
-```
-
-## Geographic Data in R
-
-:::{.callout-note}
-A few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through [OSgeo](https://www.osgeo.org) and [OGC](https://www.ogc.org)). These core libraries include:
--   **PROJ** --\> Spatial projections, transformations
-
--   **GEOS** --\> Geometry operations (measures, relations)
-
--   **GDAL** --\> Raster and feature abstraction and processing (read, write)
-
--   **NetCDF** --\> Multidimensional (XYZT) data abstraction (read, write)
-:::
-
-### Spatial Data in R
 
 ### Coordinate Reference Systems
 
 ### Vector
+
+```{r}
+library(awra2020spatial)
+```
 
 ### Raster
 
