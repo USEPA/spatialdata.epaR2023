@@ -137,6 +137,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#spatial-join" id="toc-spatial-join" class="nav-link" data-scroll-target="#spatial-join"><span class="toc-section-number">2.3</span>  Spatial Join</a></li>
   <li><a href="#dissolve" id="toc-dissolve" class="nav-link" data-scroll-target="#dissolve"><span class="toc-section-number">2.4</span>  Dissolve</a></li>
   <li><a href="#extract-and-zonal-statistics" id="toc-extract-and-zonal-statistics" class="nav-link" data-scroll-target="#extract-and-zonal-statistics"><span class="toc-section-number">2.5</span>  Extract and Zonal Statistics</a></li>
+  <li><a href="#fixing-topology-errors" id="toc-fixing-topology-errors" class="nav-link" data-scroll-target="#fixing-topology-errors"><span class="toc-section-number">2.6</span>  Fixing topology errors</a></li>
   </ul>
 </nav>
     </div>
@@ -193,6 +194,29 @@ Note
 </section>
 <section id="extract-and-zonal-statistics" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="extract-and-zonal-statistics"><span class="header-section-number">2.5</span> Extract and Zonal Statistics</h2>
+</section>
+<section id="fixing-topology-errors" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="fixing-topology-errors"><span class="header-section-number">2.6</span> Fixing topology errors</h2>
+<ul>
+<li>show typical fixes for topology errors</li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You may encounter errors like this when running geoprocessing operations like <code>st_join</code> in R:</p>
+<pre><code>Error in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented
+= oriented,  :  Loop 0 is not valid: Edge 772 crosses edge 774</code></pre>
+<p>Running <code>st_make_valid</code> might not fix.</p>
+<p>You may need to turn off spherical geometry - <code>sf_use_s2(TRUE)</code>, run <code>st_make_valid</code>, and then turn spherical geometry back on - <code>sf_use_s2(FALSE)</code> See background on S2 <a href="https://r-spatial.org/r/2020/06/17/s2.html">here</a> and discussion of S2 related issues <a href="https://github.com/r-spatial/sf/issues/1771">here</a></p>
+</div>
+</div>
 
 
 </section>

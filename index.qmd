@@ -4,10 +4,10 @@ Hello and welcome! The purpose of this site is to provide workshop materials for
 
 ## Workshop Agenda
 
-- 1:00pm - 1:45pm EDT: 
-- 1:45pm - 2:15pm EDT: 
+- 1:00pm - 1:45pm EDT: Introduction and Spatial Data Structures in R
+- 1:45pm - 2:15pm EDT: Vector Data Model
 - 2:15pm - 2:20pm Break
-- 2:20pm - 2:35pm EDT: 
+- 2:20pm - 2:35pm EDT: Raster Data Model
 - 2:35pm - 2:45pm Break
 - 2:45pm - 3:15pm EDT: 
 - 3:15pm - 3:20pm Break
@@ -24,7 +24,7 @@ Michael Dumelle is a statistician for the United States Environmental Protection
 
 ## Set Up
 
-The packages that we use throughout this bundle are listed below. To install and load them, run:
+The packages that we use throughout this workshop are listed below. To install and load them, run:
 
 ```{r}
 #| eval: false
@@ -35,7 +35,7 @@ library(ggplot2)
 
 ## How to follow along with material
 
-This workshop was built using [Quarto](https://quarto.org/) and [bookdown](https://github.com/rstudio/bookdown).  You can fork and clone [this repository](https://github.com/mhweber/spatialdata.epaR2023.git), or simply clone directly and open corresponding .qmd files to follow along with material in RStudio.  You can also copy code snippets from the rendered book site and paste into your code files in RStudio.
+This workshop was built using [Quarto](https://quarto.org/) and [bookdown](https://github.com/rstudio/bookdown) and *rendered* to html.  If you are familiar with using git and GitHub, you can fork and clone [this repository](https://github.com/mhweber/spatialdata.epaR2023.git), or simply clone directly and open the corresponding .qmd files to follow along with material in RStudio.  You can also copy code snippets from the rendered book site and paste into your code files in RStudio.
 
 [Quarto](https://quarto.org/) is a multi-language, next generation version of R Markdown from RStudio, with many new features and capabilities. Like R Markdown, Quarto uses Knitr to execute R code, and it can render most existing Rmd files without modification.  Like RMarkdown the benefits include:
 

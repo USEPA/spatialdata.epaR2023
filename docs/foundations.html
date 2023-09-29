@@ -146,7 +146,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Spatial Data Workshop</a> 
+      <a href="./">Spatial Data Workshop</a>
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -154,35 +154,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <div id="quarto-search" class="" title="Search"></div>
         </div>
       </div>
-    <div class="sidebar-menu-container"> 
+    <div class="sidebar-menu-container">
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
   </div>
 </li>
         <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./foundations.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations</span></a>
   </div>
 </li>
         <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./geoprocessing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geoprocessing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization</span></a>
   </div>
 </li>
         <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./advanced_applications.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced Applications</span></a>
   </div>
 </li>
         <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./resources.html" class="sidebar-item-text sidebar-link">Resources</a>
   </div>
 </li>
@@ -193,15 +193,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
-   
+
   <ul>
   <li><a href="#goals-and-outcomes" id="toc-goals-and-outcomes" class="nav-link active" data-scroll-target="#goals-and-outcomes"><span class="toc-section-number">1.1</span>  Goals and Outcomes</a></li>
-  <li><a href="#geographic-data-structures-in-r" id="toc-geographic-data-structures-in-r" class="nav-link" data-scroll-target="#geographic-data-structures-in-r"><span class="toc-section-number">1.2</span>  Geographic Data Structures in R</a>
+  <li><a href="#spatial-data-structures-in-r" id="toc-spatial-data-structures-in-r" class="nav-link" data-scroll-target="#spatial-data-structures-in-r"><span class="toc-section-number">1.2</span>  Spatial Data Structures in R</a>
   <ul class="collapse">
-  <li><a href="#coordinate-reference-systems" id="toc-coordinate-reference-systems" class="nav-link" data-scroll-target="#coordinate-reference-systems"><span class="toc-section-number">1.2.1</span>  Coordinate Reference Systems</a></li>
-  <li><a href="#vector" id="toc-vector" class="nav-link" data-scroll-target="#vector"><span class="toc-section-number">1.2.2</span>  Vector</a></li>
-  <li><a href="#raster" id="toc-raster" class="nav-link" data-scroll-target="#raster"><span class="toc-section-number">1.2.3</span>  Raster</a></li>
-  <li><a href="#geographic-data-io" id="toc-geographic-data-io" class="nav-link" data-scroll-target="#geographic-data-io"><span class="toc-section-number">1.2.4</span>  Geographic Data I/O</a></li>
+  <li><a href="#simple-features-and-geospatial-grids" id="toc-simple-features-and-geospatial-grids" class="nav-link" data-scroll-target="#simple-features-and-geospatial-grids"><span class="toc-section-number">1.2.1</span>  Simple features and geospatial grids</a></li>
+  <li><a href="#vector-data-model" id="toc-vector-data-model" class="nav-link" data-scroll-target="#vector-data-model"><span class="toc-section-number">1.2.2</span>  Vector Data Model</a></li>
+  <li><a href="#coordinate-reference-systems" id="toc-coordinate-reference-systems" class="nav-link" data-scroll-target="#coordinate-reference-systems"><span class="toc-section-number">1.2.3</span>  Coordinate Reference Systems</a></li>
+  <li><a href="#raster" id="toc-raster" class="nav-link" data-scroll-target="#raster"><span class="toc-section-number">1.2.4</span>  Raster</a></li>
+  <li><a href="#geographic-data-io" id="toc-geographic-data-io" class="nav-link" data-scroll-target="#geographic-data-io"><span class="toc-section-number">1.2.5</span>  Geographic Data I/O</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -218,11 +219,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="quarto-title-meta">
 
-    
-  
-    
+
+
+
   </div>
-  
+
 
 </header>
 
@@ -239,8 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>We’ll start by installing and loading some of the primary libraries for working with spatial data in R and examining spatial data structures in R.</p>
 </section>
-<section id="geographic-data-structures-in-r" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="geographic-data-structures-in-r"><span class="header-section-number">1.2</span> Geographic Data Structures in R</h2>
+<section id="spatial-data-structures-in-r" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="spatial-data-structures-in-r"><span class="header-section-number">1.2</span> Spatial Data Structures in R</h2>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -251,7 +252,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A few core libraries underpin spatial libraries in R (and Python!) and in software applications(QGIS, ArcPro) and spatial data structures across languages and applications is primarily organized through <a href="https://www.osgeo.org">OSgeo</a> and <a href="https://www.ogc.org">OGC</a>). These core libraries include: - <strong>PROJ</strong> –&gt; Spatial projections, transformations</p>
+<p>A few core libraries underpin spatial libraries in R (and Python!) and in GIS software applications such as QGIS and ArcPro. Spatial data structures across languages and applications are primarily organized through <a href="https://www.osgeo.org">OSgeo</a> and <a href="https://www.ogc.org">OGC</a>). These core libraries include: - <strong>PROJ</strong> –&gt; Spatial projections, transformations</p>
 <ul>
 <li><p><strong>GEOS</strong> –&gt; Geometry operations (measures, relations)</p></li>
 <li><p><strong>GDAL</strong> –&gt; Raster and feature abstraction and processing (read, write)</p></li>
@@ -259,7 +260,210 @@ Note
 </ul>
 </div>
 </div>
-<p>Vector versus raster data</p>
+<section id="simple-features-and-geospatial-grids" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="simple-features-and-geospatial-grids"><span class="header-section-number">1.2.1</span> Simple features and geospatial grids</h3>
+<ul>
+<li><p>*<strong>Vector</strong> data are comprised of points, lines, and polygons that represent discrete spatial entities, such as a river, watershed, or stream gauge.</p></li>
+<li><p><strong>Raster</strong> data divides spaces into rectilinear cells (pixels) to represent spatially continuous phenomena, such as elevation or the weather. The cell size (or resolution) defines the fidelity of the data.</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/09-vec-raster.jpg" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="vector-data-model" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="vector-data-model"><span class="header-section-number">1.2.2</span> Vector Data Model</h3>
+<p>For <em>Vector</em> data, Simple Features (officially Simple Feature Access) is both an OGC and International Organization for Standardization (ISO) standard that specifies how (mostly) two-dimensional geometries can represent and describe objects in the real world. The Simple Features specification includes:</p>
+<ul>
+<li>a class hierarchy</li>
+<li>a set of operations</li>
+<li>binary and text encodings</li>
+</ul>
+<p>It describes how such objects can be stored in and retrieved from databases, and which geometrical operations should be defined for them.</p>
+<p>It outlines how the spatial elements of POINTS (XY locations with a specific coordinate reference system) extend to LINES, POLYGONS and GEOMETRYCOLLECTION(s).</p>
+<p>The “simple” adjective also refers to the fact that the line or polygon geometries are represented by sequences of points connected with straight lines that do not self-intersect.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/09-sf-model.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="simple-and-valid-geometries-and-ring-direction" class="level4" data-number="1.2.2.1">
+<h4 data-number="1.2.2.1" class="anchored" data-anchor-id="simple-and-valid-geometries-and-ring-direction"><span class="header-section-number">1.2.2.1</span> Simple and valid geometries and ring direction</h4>
+<p>This breakdown of simple features follows for the most part <a href="https://r-spatial.org/book/03-Geometries.html">this section in Spatial Data Science</a> For <em>linestrings</em> to be considered <em>simple</em> they must not self-intersect:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>(ls <span class="ot">&lt;-</span> <span class="fu">st_linestring</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="foundations_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<pre><code>#&gt; is_simple
+#&gt;     FALSE</code></pre>
+</div>
+<p>For <em>polygons</em> several other conditions have to be met to be <em>simple</em>:</p>
+<ul>
+<li>polygon rings are closed (the last point equals the first)</li>
+<li>polygon holes (inner rings) are inside their exterior ring</li>
+<li>polygon inner rings maximally touch the exterior ring in single points, not over a line</li>
+<li>a polygon ring does not repeat its own path</li>
+<li>in a multi-polygon, an external ring maximally touches another exterior ring in single points, not over a line</li>
+</ul>
+<p><em>z</em> and <em>m</em> coordinates As well as having the necessary X and Y coordinates, single point (vertex) simple features can have:</p>
+<ul>
+<li>a Z coordinate, denoting altitude, and/or</li>
+<li>an M value, denoting some “measure”</li>
+</ul>
+<p><strong>Text and binary encodings</strong> A key part of the standard feature encoding is <strong>text</strong> and <strong>binary</strong> encodings. The well-known text (WKT) encoding we have shown above gives us a human-readable description of the geometry. The well-known binary (WKB) encoding is machine-readable, lossless, and faster to work with than text encoding. WKB is used for all interactions with <code>GDAL</code> and <code>GEOS</code>.</p>
+<p><strong>Operations on geometries</strong> We can break down operations on geometries for <em>vector</em> features in the following way:</p>
+<ul>
+<li><strong>predicates</strong>: a logical asserting a certain property is <code>TRUE</code></li>
+<li><strong>measures</strong>: a quantity (a numeric value, possibly with measurement unit)</li>
+<li><strong>transformations</strong>: newly generated geometries</li>
+</ul>
+<p>We can look at these operations by <strong>what</strong> they operate on, whether the are single geometries, pairs, or sets of geometries:</p>
+<ul>
+<li><strong>unary</strong> when it’s a single geometry</li>
+<li><strong>binary</strong> when it’s pairs of geometries</li>
+<li><strong>n-ary</strong> when it’s sets of geometries</li>
+</ul>
+<p><strong>Unary</strong> predicates work to describe a property of a geometry.</p>
+<p>A list of unary predicates:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>predicate</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>is</code></td>
+<td>Tests if geometry belongs to a particular class</td>
+</tr>
+<tr class="even">
+<td><code>is_simple</code></td>
+<td>Tests whether geometry is simple</td>
+</tr>
+<tr class="odd">
+<td><code>is_valid</code></td>
+<td>Test whether geometry is valid</td>
+</tr>
+<tr class="even">
+<td><code>is_empty</code></td>
+<td>Tests if geometry is empty</td>
+</tr>
+</tbody>
+</table>
+<p>A list of binary predicates is:</p>
+<table class="table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 52%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>predicate</th>
+<th>meaning</th>
+<th>inverse of</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>contains</code></td>
+<td>None of the points of A are outside B</td>
+<td><code>within</code></td>
+</tr>
+<tr class="even">
+<td><code>contains_properly</code></td>
+<td>A contains B and B has no points in common with the boundary of A</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>covers</code></td>
+<td>No points of B lie in the exterior of A</td>
+<td><code>covered_by</code></td>
+</tr>
+<tr class="even">
+<td><code>covered_by</code></td>
+<td>Inverse of <code>covers</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>crosses</code></td>
+<td>A and B have some but not all interior points in common</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>disjoint</code></td>
+<td>A and B have no points in common</td>
+<td><code>intersects</code></td>
+</tr>
+<tr class="odd">
+<td><code>equals</code></td>
+<td>A and B are topologically equal: node order or number of nodes may differ; identical to A contains B and A within B</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>equals_exact</code></td>
+<td>A and B are geometrically equal, and have identical node order</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>intersects</code></td>
+<td>A and B are not disjoint</td>
+<td><code>disjoint</code></td>
+</tr>
+<tr class="even">
+<td><code>is_within_distance</code></td>
+<td>A is closer to B than a given distance</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>within</code></td>
+<td>None of the points of B are outside A</td>
+<td><code>contains</code></td>
+</tr>
+<tr class="even">
+<td><code>touches</code></td>
+<td>A and B have at least one boundary point in common, but no interior points</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>overlaps</code></td>
+<td>A and B have some points in common; the dimension of these is identical to that of A and B</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>relate</code></td>
+<td>Given a mask pattern, return whether A and B adhere to this pattern</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>See the <a href="https://r-spatial.org/book/03-Geometries.html">Geometries chapter of Spatial Data Science</a> for a full treatment that also covers **unary and binary measures* as well as <em>unary, binary and n-ary transformers</em></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/09-sf-model.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+>>>>>>> 96ec75d079c2d6549f7f6315754950f93ce65084
 <div class="callout-important callout callout-style-default no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -286,28 +490,24 @@ Solution
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="foundations_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="foundations_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
 </div>
-</div>
-<section id="coordinate-reference-systems" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="coordinate-reference-systems"><span class="header-section-number">1.2.1</span> Coordinate Reference Systems</h3>
-</section>
-<section id="vector" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="vector"><span class="header-section-number">1.2.2</span> Vector</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(awra2020spatial)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="raster" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="raster"><span class="header-section-number">1.2.3</span> Raster</h3>
 </section>
-<section id="geographic-data-io" class="level3" data-number="1.2.4">
-<h3 data-number="1.2.4" class="anchored" data-anchor-id="geographic-data-io"><span class="header-section-number">1.2.4</span> Geographic Data I/O</h3>
+<section id="coordinate-reference-systems" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="coordinate-reference-systems"><span class="header-section-number">1.2.3</span> Coordinate Reference Systems</h3>
+</section>
+<section id="raster" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="raster"><span class="header-section-number">1.2.4</span> Raster</h3>
+</section>
+<section id="geographic-data-io" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="geographic-data-io"><span class="header-section-number">1.2.5</span> Geographic Data I/O</h3>
 
 
 </section>
@@ -333,7 +533,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       toggleBodyColorMode(bsSheetEl);
     }
   }
-  toggleBodyColorPrimary();  
+  toggleBodyColorPrimary();
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -360,11 +560,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
       button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
+      tooltip = new bootstrap.Tooltip(button,
+        { trigger: "manual",
           customClass: "code-copy-button-tooltip",
           offset: [0, -8]});
-      tooltip.show();    
+      tooltip.show();
     }
     setTimeout(function() {
       if (tooltip) {
@@ -394,7 +594,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       theme: 'quarto',
       placement: 'bottom-start'
     };
-    window.tippy(el, config); 
+    window.tippy(el, config);
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
   for (var i=0; i<noterefs.length; i++) {
@@ -451,7 +651,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
       <a href="./index.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
-      </a>          
+      </a>
   </div>
   <div class="nav-page nav-page-next">
       <a href="./geoprocessing.html" class="pagination-link">
@@ -462,7 +662,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">Spatial Data Workshop Materials written by Marc Weber and Michael Dumelle</div>   
+    <div class="nav-footer-left">Spatial Data Workshop Materials written by Marc Weber and Michael Dumelle</div>
     <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
