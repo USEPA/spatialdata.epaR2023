@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.189">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -198,20 +198,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#goals-and-outcomes" id="toc-goals-and-outcomes" class="nav-link active" data-scroll-target="#goals-and-outcomes"><span class="toc-section-number">1.1</span>  Goals and Outcomes</a></li>
   <li><a href="#geographic-data-structures-in-r" id="toc-geographic-data-structures-in-r" class="nav-link" data-scroll-target="#geographic-data-structures-in-r"><span class="toc-section-number">1.2</span>  Geographic Data Structures in R</a>
   <ul class="collapse">
-  <li><a href="#vector-data" id="toc-vector-data" class="nav-link" data-scroll-target="#vector-data"><span class="toc-section-number">1.2.1</span>  Vector data</a></li>
-  <li><a href="#raster-data" id="toc-raster-data" class="nav-link" data-scroll-target="#raster-data"><span class="toc-section-number">1.2.2</span>  Raster data</a></li>
-  </ul></li>
-  <li><a href="#coordinate-reference-systems-and-projections" id="toc-coordinate-reference-systems-and-projections" class="nav-link" data-scroll-target="#coordinate-reference-systems-and-projections"><span class="toc-section-number">1.3</span>  Coordinate reference systems and projections</a></li>
-  <li><a href="#spatial-operations" id="toc-spatial-operations" class="nav-link" data-scroll-target="#spatial-operations"><span class="toc-section-number">1.4</span>  Spatial operations</a></li>
-  <li><a href="#geographic-data-io" id="toc-geographic-data-io" class="nav-link" data-scroll-target="#geographic-data-io"><span class="toc-section-number">1.5</span>  Geographic data I/O</a></li>
-  <li><a href="#r-code-appendix" id="toc-r-code-appendix" class="nav-link" data-scroll-target="#r-code-appendix"><span class="toc-section-number">1.6</span>  R Code Appendix</a></li>
-  <li><a href="#geographic-data-in-r" id="toc-geographic-data-in-r" class="nav-link" data-scroll-target="#geographic-data-in-r"><span class="toc-section-number">1.7</span>  Geographic Data in R</a>
-  <ul class="collapse">
-  <li><a href="#spatial-data-in-r" id="toc-spatial-data-in-r" class="nav-link" data-scroll-target="#spatial-data-in-r"><span class="toc-section-number">1.7.1</span>  Spatial Data in R</a></li>
-  <li><a href="#coordinate-reference-systems" id="toc-coordinate-reference-systems" class="nav-link" data-scroll-target="#coordinate-reference-systems"><span class="toc-section-number">1.7.2</span>  Coordinate Reference Systems</a></li>
-  <li><a href="#vector" id="toc-vector" class="nav-link" data-scroll-target="#vector"><span class="toc-section-number">1.7.3</span>  Vector</a></li>
-  <li><a href="#raster" id="toc-raster" class="nav-link" data-scroll-target="#raster"><span class="toc-section-number">1.7.4</span>  Raster</a></li>
-  <li><a href="#geographic-data-io-1" id="toc-geographic-data-io-1" class="nav-link" data-scroll-target="#geographic-data-io-1"><span class="toc-section-number">1.7.5</span>  Geographic Data I/O</a></li>
+  <li><a href="#coordinate-reference-systems" id="toc-coordinate-reference-systems" class="nav-link" data-scroll-target="#coordinate-reference-systems"><span class="toc-section-number">1.2.1</span>  Coordinate Reference Systems</a></li>
+  <li><a href="#vector" id="toc-vector" class="nav-link" data-scroll-target="#vector"><span class="toc-section-number">1.2.2</span>  Vector</a></li>
+  <li><a href="#raster" id="toc-raster" class="nav-link" data-scroll-target="#raster"><span class="toc-section-number">1.2.3</span>  Raster</a></li>
+  <li><a href="#geographic-data-io" id="toc-geographic-data-io" class="nav-link" data-scroll-target="#geographic-data-io"><span class="toc-section-number">1.2.4</span>  Geographic Data I/O</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -229,6 +219,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -250,67 +241,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="geographic-data-structures-in-r" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="geographic-data-structures-in-r"><span class="header-section-number">1.2</span> Geographic Data Structures in R</h2>
-<div class="callout-important callout callout-style-default no-icon callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Plot the <code>iris</code> data</p>
-</div>
-</div>
-<div class="callout-important callout callout-style-default no-icon callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="foundations_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<section id="vector-data" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="vector-data"><span class="header-section-number">1.2.1</span> Vector data</h3>
-</section>
-<section id="raster-data" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="raster-data"><span class="header-section-number">1.2.2</span> Raster data</h3>
-</section>
-</section>
-<section id="coordinate-reference-systems-and-projections" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="coordinate-reference-systems-and-projections"><span class="header-section-number">1.3</span> Coordinate reference systems and projections</h2>
-</section>
-<section id="spatial-operations" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="spatial-operations"><span class="header-section-number">1.4</span> Spatial operations</h2>
-</section>
-<section id="geographic-data-io" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="geographic-data-io"><span class="header-section-number">1.5</span> Geographic data I/O</h2>
-</section>
-<section id="r-code-appendix" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="r-code-appendix"><span class="header-section-number">1.6</span> R Code Appendix</h2>
-<div class="cell">
-
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="geographic-data-in-r" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="geographic-data-in-r"><span class="header-section-number">1.7</span> Geographic Data in R</h2>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -329,20 +259,55 @@ Note
 </ul>
 </div>
 </div>
-<section id="spatial-data-in-r" class="level3" data-number="1.7.1">
-<h3 data-number="1.7.1" class="anchored" data-anchor-id="spatial-data-in-r"><span class="header-section-number">1.7.1</span> Spatial Data in R</h3>
+<p>Vector versus raster data</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Plot the <code>iris</code> data</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="foundations_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="coordinate-reference-systems" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="coordinate-reference-systems"><span class="header-section-number">1.2.1</span> Coordinate Reference Systems</h3>
 </section>
-<section id="coordinate-reference-systems" class="level3" data-number="1.7.2">
-<h3 data-number="1.7.2" class="anchored" data-anchor-id="coordinate-reference-systems"><span class="header-section-number">1.7.2</span> Coordinate Reference Systems</h3>
+<section id="vector" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="vector"><span class="header-section-number">1.2.2</span> Vector</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(awra2020spatial)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="vector" class="level3" data-number="1.7.3">
-<h3 data-number="1.7.3" class="anchored" data-anchor-id="vector"><span class="header-section-number">1.7.3</span> Vector</h3>
+<section id="raster" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="raster"><span class="header-section-number">1.2.3</span> Raster</h3>
 </section>
-<section id="raster" class="level3" data-number="1.7.4">
-<h3 data-number="1.7.4" class="anchored" data-anchor-id="raster"><span class="header-section-number">1.7.4</span> Raster</h3>
-</section>
-<section id="geographic-data-io-1" class="level3" data-number="1.7.5">
-<h3 data-number="1.7.5" class="anchored" data-anchor-id="geographic-data-io-1"><span class="header-section-number">1.7.5</span> Geographic Data I/O</h3>
+<section id="geographic-data-io" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="geographic-data-io"><span class="header-section-number">1.2.4</span> Geographic Data I/O</h3>
 
 
 </section>
@@ -390,7 +355,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -426,24 +408,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

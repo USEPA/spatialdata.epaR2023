@@ -47,7 +47,7 @@ plot(iris)
 ### Vector
 
 ```{r}
-library(awra2020spatial)
+# library(awra2020spatial)
 ```
 
 ### Raster
