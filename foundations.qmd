@@ -17,13 +17,11 @@ We'll start by installing and loading some of the primary libraries for working 
 
 :::{.callout-note}
 A few core libraries underpin spatial libraries in R (and Python!) and in GIS software applications such as QGIS and ArcPro. Spatial data structures across languages and applications are primarily organized through [OSgeo](https://www.osgeo.org) and [OGC](https://www.ogc.org)). These core libraries include:
--   **PROJ** --\> Spatial projections, transformations
 
--   **GEOS** --\> Geometry operations (measures, relations)
-
--   **GDAL** --\> Raster and feature abstraction and processing (read, write)
-
--   **NetCDF** --\> Multidimensional (XYZT) data abstraction (read, write)
+- [GDAL](https://gdal.org/) --\> For raster and feature abstraction and process
+- [PROJ](https://proj.org/) --\> A library for coordinate transformations and projections
+- [GEOS](https://libgeos.org/) --\> A Planar geometry engine for operations (measures, relations) such as calculating buffers and centroids on data with a projected CRS
+- [S2](https://s2geometry.io/) --\>  a spherical geometry engine written in C++ developed by Google and adapted in R with the [**s2**](https://r-spatial.github.io/s2/) package
 :::
 
 ### Simple features and geospatial grids
