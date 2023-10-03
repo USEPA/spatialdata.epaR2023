@@ -14,7 +14,8 @@ book:
     - index.qmd
     - foundations.qmd
     - geoprocessing.qmd
-    - visualization_advanced_applications.qmd
+    - visualization.qmd
+    - advanced_applications.qmd
     - resources.qmd
 
 bibliography: references.bib

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.189">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./visualization_advanced_applications.html" rel="next">
+<link href="./visualization.html" rel="next">
 <link href="./foundations.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -110,7 +110,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./visualization_advanced_applications.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization and Advanced Applications</span></a>
+  <a href="./visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./advanced_applications.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced Applications</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -128,7 +133,11 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#goals-and-outcomes" id="toc-goals-and-outcomes" class="nav-link active" data-scroll-target="#goals-and-outcomes"><span class="toc-section-number">2.1</span>  Goals and Outcomes</a></li>
-  <li><a href="#zonal-statistics" id="toc-zonal-statistics" class="nav-link" data-scroll-target="#zonal-statistics"><span class="toc-section-number">2.2</span>  Zonal Statistics</a></li>
+  <li><a href="#spatial-subsetting" id="toc-spatial-subsetting" class="nav-link" data-scroll-target="#spatial-subsetting"><span class="toc-section-number">2.2</span>  Spatial Subsetting</a></li>
+  <li><a href="#spatial-join" id="toc-spatial-join" class="nav-link" data-scroll-target="#spatial-join"><span class="toc-section-number">2.3</span>  Spatial Join</a></li>
+  <li><a href="#dissolve" id="toc-dissolve" class="nav-link" data-scroll-target="#dissolve"><span class="toc-section-number">2.4</span>  Dissolve</a></li>
+  <li><a href="#extract-and-zonal-statistics" id="toc-extract-and-zonal-statistics" class="nav-link" data-scroll-target="#extract-and-zonal-statistics"><span class="toc-section-number">2.5</span>  Extract and Zonal Statistics</a></li>
+  <li><a href="#fixing-topology-errors" id="toc-fixing-topology-errors" class="nav-link" data-scroll-target="#fixing-topology-errors"><span class="toc-section-number">2.6</span>  Fixing topology errors</a></li>
   </ul>
 </nav>
     </div>
@@ -145,6 +154,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -173,8 +183,40 @@ Note
 </div>
 </div>
 </section>
-<section id="zonal-statistics" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="zonal-statistics"><span class="header-section-number">2.2</span> Zonal Statistics</h2>
+<section id="spatial-subsetting" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="spatial-subsetting"><span class="header-section-number">2.2</span> Spatial Subsetting</h2>
+</section>
+<section id="spatial-join" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="spatial-join"><span class="header-section-number">2.3</span> Spatial Join</h2>
+</section>
+<section id="dissolve" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="dissolve"><span class="header-section-number">2.4</span> Dissolve</h2>
+</section>
+<section id="extract-and-zonal-statistics" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="extract-and-zonal-statistics"><span class="header-section-number">2.5</span> Extract and Zonal Statistics</h2>
+</section>
+<section id="fixing-topology-errors" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="fixing-topology-errors"><span class="header-section-number">2.6</span> Fixing topology errors</h2>
+<ul>
+<li>show typical fixes for topology errors</li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You may encounter errors like this when running geoprocessing operations like <code>st_join</code> in R:</p>
+<pre><code>Error in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented
+= oriented,  :  Loop 0 is not valid: Edge 772 crosses edge 774</code></pre>
+<p>Running <code>st_make_valid</code> might not fix.</p>
+<p>You may need to turn off spherical geometry - <code>sf_use_s2(TRUE)</code>, run <code>st_make_valid</code>, and then turn spherical geometry back on - <code>sf_use_s2(FALSE)</code> See background on S2 <a href="https://r-spatial.org/r/2020/06/17/s2.html">here</a> and discussion of S2 related issues <a href="https://github.com/r-spatial/sf/issues/1771">here</a></p>
+</div>
+</div>
 
 
 </section>
@@ -221,7 +263,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -257,24 +316,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
@@ -285,15 +362,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./visualization_advanced_applications.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization and Advanced Applications</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./visualization.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">spatial data workshop materials written by Marc Weber and Michael Dumelle</div>   
+    <div class="nav-footer-left">Spatial Data Workshop Materials written by Marc Weber and Michael Dumelle</div>   
     <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>

@@ -1,14 +1,9 @@
-# Visualization and Advanced Applications {#sec-visualization_advanced_applications}
-
-
-
-Throughout this section, we ...
-
+# Visualization {#sec-visualization}
 
 
 ## Goals and Outcomes
 
-* This is goal 1.
+* Understand how to use several of the most popular libraries for plotting and visualizing spatial data inR
 * This is goal 2.
 * This is goal 3.
 
@@ -16,9 +11,14 @@ Throughout this section, we ...
 You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
 :::
 
+## mapview
 
-## Visualization
+## leaflet
 
-## Advanced Applications
+## ggplot2
 
-### Using Web Services
+## tmap
+
+It uses the same syntax as ggplot: the grammar of graphics - it supports both static and interactive modes
+
+
