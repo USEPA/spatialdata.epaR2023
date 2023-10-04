@@ -196,13 +196,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#goals-and-outcomes" id="toc-goals-and-outcomes" class="nav-link active" data-scroll-target="#goals-and-outcomes"><span class="toc-section-number">1.1</span>  Goals and Outcomes</a></li>
-  <li><a href="#spatial-data-structures-in-r" id="toc-spatial-data-structures-in-r" class="nav-link" data-scroll-target="#spatial-data-structures-in-r"><span class="toc-section-number">1.2</span>  Spatial Data Structures in R</a>
+  <li><a href="#why-r-for-spatial-analysis" id="toc-why-r-for-spatial-analysis" class="nav-link" data-scroll-target="#why-r-for-spatial-analysis"><span class="toc-section-number">1.2</span>  Why R for Spatial Analysis</a></li>
+  <li><a href="#spatial-data-structures-in-r" id="toc-spatial-data-structures-in-r" class="nav-link" data-scroll-target="#spatial-data-structures-in-r"><span class="toc-section-number">1.3</span>  Spatial Data Structures in R</a>
   <ul class="collapse">
-  <li><a href="#simple-features-and-geospatial-grids" id="toc-simple-features-and-geospatial-grids" class="nav-link" data-scroll-target="#simple-features-and-geospatial-grids"><span class="toc-section-number">1.2.1</span>  Simple features and geospatial grids</a></li>
-  <li><a href="#vector-data-model" id="toc-vector-data-model" class="nav-link" data-scroll-target="#vector-data-model"><span class="toc-section-number">1.2.2</span>  Vector Data Model</a></li>
-  <li><a href="#coordinate-reference-systems" id="toc-coordinate-reference-systems" class="nav-link" data-scroll-target="#coordinate-reference-systems"><span class="toc-section-number">1.2.3</span>  Coordinate Reference Systems</a></li>
-  <li><a href="#raster" id="toc-raster" class="nav-link" data-scroll-target="#raster"><span class="toc-section-number">1.2.4</span>  Raster</a></li>
-  <li><a href="#geographic-data-io" id="toc-geographic-data-io" class="nav-link" data-scroll-target="#geographic-data-io"><span class="toc-section-number">1.2.5</span>  Geographic Data I/O</a></li>
+  <li><a href="#background-on-data-structures" id="toc-background-on-data-structures" class="nav-link" data-scroll-target="#background-on-data-structures"><span class="toc-section-number">1.3.1</span>  Background on data structures</a></li>
+  <li><a href="#simple-features-and-geospatial-grids" id="toc-simple-features-and-geospatial-grids" class="nav-link" data-scroll-target="#simple-features-and-geospatial-grids"><span class="toc-section-number">1.3.2</span>  Simple features and geospatial grids</a></li>
+  <li><a href="#vector-data-model" id="toc-vector-data-model" class="nav-link" data-scroll-target="#vector-data-model"><span class="toc-section-number">1.3.3</span>  Vector Data Model</a></li>
+  <li><a href="#coordinate-reference-systems" id="toc-coordinate-reference-systems" class="nav-link" data-scroll-target="#coordinate-reference-systems"><span class="toc-section-number">1.3.4</span>  Coordinate Reference Systems</a></li>
+  <li><a href="#raster" id="toc-raster" class="nav-link" data-scroll-target="#raster"><span class="toc-section-number">1.3.5</span>  Raster</a></li>
+  <li><a href="#geographic-data-io" id="toc-geographic-data-io" class="nav-link" data-scroll-target="#geographic-data-io"><span class="toc-section-number">1.3.6</span>  Geographic Data I/O</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -240,8 +242,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>We’ll start by installing and loading some of the primary libraries for working with spatial data in R and examining spatial data structures in R.</p>
 </section>
-<section id="spatial-data-structures-in-r" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="spatial-data-structures-in-r"><span class="header-section-number">1.2</span> Spatial Data Structures in R</h2>
+<section id="why-r-for-spatial-analysis" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="why-r-for-spatial-analysis"><span class="header-section-number">1.2</span> Why R for Spatial Analysis</h2>
+<ul>
+<li>material from past workshop here</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cranlogs, <span class="at">quietly =</span> T)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2, <span class="at">quietly =</span> T)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate, <span class="at">quietly =</span> T)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr, <span class="at">quietly =</span> T)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> <span class="fu">cran_downloads</span>(<span class="at">from =</span> <span class="st">"2013-01-01"</span>, <span class="at">to =</span> <span class="st">"2023-10-01"</span>, <span class="at">package =</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"terra"</span>, <span class="st">"stars"</span>, <span class="st">"raster"</span>, <span class="st">"sp"</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>monthly_stats <span class="ot">&lt;-</span> stats  <span class="sc">|&gt;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">month=</span><span class="fu">floor_date</span>(date, <span class="st">"month"</span>), package)  <span class="sc">|&gt;</span>  </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">amount=</span><span class="fu">sum</span>(count))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(monthly_stats, <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>amount, <span class="at">group =</span> package, <span class="at">colour =</span> package)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_colour_brewer</span>(<span class="at">palette=</span><span class="st">"Set1"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"R Spatial Package </span><span class="sc">\n</span><span class="st"> Downloads since 2013"</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">'Year'</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">'Downloads'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="foundations_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Primary R spatial package downloads since 2012</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="spatial-data-structures-in-r" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="spatial-data-structures-in-r"><span class="header-section-number">1.3</span> Spatial Data Structures in R</h2>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -261,8 +292,14 @@ Note
 </ul>
 </div>
 </div>
-<section id="simple-features-and-geospatial-grids" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="simple-features-and-geospatial-grids"><span class="header-section-number">1.2.1</span> Simple features and geospatial grids</h3>
+<section id="background-on-data-structures" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="background-on-data-structures"><span class="header-section-number">1.3.1</span> Background on data structures</h3>
+<ul>
+<li>from R user group 2021</li>
+</ul>
+</section>
+<section id="simple-features-and-geospatial-grids" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="simple-features-and-geospatial-grids"><span class="header-section-number">1.3.2</span> Simple features and geospatial grids</h3>
 <ul>
 <li><p>*<strong>Vector</strong> data are comprised of points, lines, and polygons that represent discrete spatial entities, such as a river, watershed, or stream gauge.</p></li>
 <li><p><strong>Raster</strong> data divides spaces into rectilinear cells (pixels) to represent spatially continuous phenomena, such as elevation or the weather. The cell size (or resolution) defines the fidelity of the data.</p></li>
@@ -277,8 +314,8 @@ Note
 </div>
 </div>
 </section>
-<section id="vector-data-model" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="vector-data-model"><span class="header-section-number">1.2.2</span> Vector Data Model</h3>
+<section id="vector-data-model" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="vector-data-model"><span class="header-section-number">1.3.3</span> Vector Data Model</h3>
 <p>For <em>Vector</em> data, Simple Features (officially Simple Feature Access) is both an OGC and International Organization for Standardization (ISO) standard that specifies how (mostly) two-dimensional geometries can represent and describe objects in the real world. The Simple Features specification includes:</p>
 <ul>
 <li>a class hierarchy</li>
@@ -297,16 +334,16 @@ Note
 </div>
 </div>
 </div>
-<section id="simple-and-valid-geometries-and-ring-direction" class="level4" data-number="1.2.2.1">
-<h4 data-number="1.2.2.1" class="anchored" data-anchor-id="simple-and-valid-geometries-and-ring-direction"><span class="header-section-number">1.2.2.1</span> Simple and valid geometries and ring direction</h4>
+<section id="simple-and-valid-geometries-and-ring-direction" class="level4" data-number="1.3.3.1">
+<h4 data-number="1.3.3.1" class="anchored" data-anchor-id="simple-and-valid-geometries-and-ring-direction"><span class="header-section-number">1.3.3.1</span> Simple and valid geometries and ring direction</h4>
 <p>This breakdown of simple features follows for the most part <a href="https://r-spatial.org/book/03-Geometries.html">this section in Spatial Data Science</a> For <em>linestrings</em> to be considered <em>simple</em> they must not self-intersect:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>(ls <span class="ot">&lt;-</span> <span class="fu">st_linestring</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(ls <span class="ot">&lt;-</span> <span class="fu">st_linestring</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="foundations_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="foundations_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
@@ -490,9 +527,9 @@ Solution
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="foundations_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="foundations_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -500,14 +537,14 @@ Solution
 </div>
 </section>
 </section>
-<section id="coordinate-reference-systems" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="coordinate-reference-systems"><span class="header-section-number">1.2.3</span> Coordinate Reference Systems</h3>
+<section id="coordinate-reference-systems" class="level3" data-number="1.3.4">
+<h3 data-number="1.3.4" class="anchored" data-anchor-id="coordinate-reference-systems"><span class="header-section-number">1.3.4</span> Coordinate Reference Systems</h3>
 </section>
-<section id="raster" class="level3" data-number="1.2.4">
-<h3 data-number="1.2.4" class="anchored" data-anchor-id="raster"><span class="header-section-number">1.2.4</span> Raster</h3>
+<section id="raster" class="level3" data-number="1.3.5">
+<h3 data-number="1.3.5" class="anchored" data-anchor-id="raster"><span class="header-section-number">1.3.5</span> Raster</h3>
 </section>
-<section id="geographic-data-io" class="level3" data-number="1.2.5">
-<h3 data-number="1.2.5" class="anchored" data-anchor-id="geographic-data-io"><span class="header-section-number">1.2.5</span> Geographic Data I/O</h3>
+<section id="geographic-data-io" class="level3" data-number="1.3.6">
+<h3 data-number="1.3.6" class="anchored" data-anchor-id="geographic-data-io"><span class="header-section-number">1.3.6</span> Geographic Data I/O</h3>
 
 
 </section>

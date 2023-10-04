@@ -13,6 +13,25 @@ source("_common.R")
 
 We'll start by installing and loading some of the primary libraries for working with spatial data in R and examining spatial data structures in R.
 
+## Why R for Spatial Analysis
+- material from past workshop here
+
+```{r}
+#| message: false
+#| fig-cap: Primary R spatial package downloads since 2012
+#| code-fold: true
+library(cranlogs, quietly = T)
+library(ggplot2, quietly = T)
+library(lubridate, quietly = T)
+library(dplyr, quietly = T)
+stats <- cran_downloads(from = "2013-01-01", to = "2023-10-01", package = c("sf", "terra", "stars", "raster", "sp"))
+
+monthly_stats <- stats  |> 
+  group_by(month=floor_date(date, "month"), package)  |>  
+  summarize(amount=sum(count))
+ggplot(monthly_stats, aes(x=month, y=amount, group = package, colour = package)) + geom_line(linewidth=1) + scale_colour_brewer(palette="Set1") + ggtitle("R Spatial Package \n Downloads since 2013") + theme_minimal() + xlab('Year') + ylab('Downloads')
+```
+
 ## Spatial Data Structures in R
 
 :::{.callout-note}
@@ -23,6 +42,9 @@ A few core libraries underpin spatial libraries in R (and Python!) and in GIS so
 - [GEOS](https://libgeos.org/) --\> A Planar geometry engine for operations (measures, relations) such as calculating buffers and centroids on data with a projected CRS
 - [S2](https://s2geometry.io/) --\>  a spherical geometry engine written in C++ developed by Google and adapted in R with the [**s2**](https://r-spatial.github.io/s2/) package
 :::
+
+### Background on data structures
+- from R user group 2021
 
 ### Simple features and geospatial grids
 -   \***Vector** data are comprised of points, lines, and polygons that represent discrete spatial entities, such as a river, watershed, or stream gauge.

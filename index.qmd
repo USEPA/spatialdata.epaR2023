@@ -28,9 +28,9 @@ The packages that we use throughout this workshop are listed below. To install a
 
 ```{r}
 #| eval: false
-
 install.packages("ggplot2")
-library(ggplot2)
+install.packages("cranlogs")
+install.packages("sf")
 ```
 
 ## How to follow along with material
