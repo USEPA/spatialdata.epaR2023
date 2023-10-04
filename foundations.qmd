@@ -11,9 +11,8 @@ source("_common.R")
 * Perform some fundamental spatial operations in R.
 * Geographic I/O
 
-We'll start by installing and loading some of the primary libraries for working with spatial data in R and examining spatial data structures in R.
-
 ## Spatial Data Structures in R
+First we'll walk through spatial data structures in R and review some key components of data structures in R that inform our use of spatial data in R.
 
 :::{.callout-note}
 A few core libraries underpin spatial libraries in R (and Python!) and in GIS software applications such as QGIS and ArcPro. Spatial data structures across languages and applications are primarily organized through [OSgeo](https://www.osgeo.org) and [OGC](https://www.ogc.org)). These core libraries include:
@@ -26,6 +25,7 @@ A few core libraries underpin spatial libraries in R (and Python!) and in GIS so
 -   **NetCDF** --\> Multidimensional (XYZT) data abstraction (read, write)
 :::
 
+We'll 
 ### Simple features and geospatial grids
 -   \***Vector** data are comprised of points, lines, and polygons that represent discrete spatial entities, such as a river, watershed, or stream gauge.
 
