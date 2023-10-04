@@ -245,7 +245,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="why-r-for-spatial-analysis" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="why-r-for-spatial-analysis"><span class="header-section-number">1.2</span> Why R for Spatial Analysis</h2>
 <ul>
-<li>material from past workshop here</li>
+<li>R is:
+<ul>
+<li>lightweight</li>
+<li>open-source</li>
+<li>cross-platform</li>
+</ul></li>
+<li>Works with contributed packages - currently 19897
+<ul>
+<li>provides <em>extensibility</em></li>
+</ul></li>
+<li>Automation and recording of workflow</li>
+<li>provides <em>reproducibility</em></li>
+<li>Optimized work flow - data manipulation, analysis and visualization all in one place
+<ul>
+<li>provides <em>integration</em></li>
+</ul></li>
+<li>R does not alter underlying data - manipulation and visualization <em>in memory</em></li>
+<li>R is great for repetitive graphics</li>
+<li>R is great for integrating different aspects of analysis - spatial and statistical analysis in one environment
+<ul>
+<li>again, <em>integration</em></li>
+</ul></li>
+<li>Leverage statistical power of R (i.e.&nbsp;modeling spatial data, data visualization, statistical exploration)</li>
+<li>Can handle vector and raster data, as well as work with spatial databases and pretty much any data format spatial data comes in</li>
+<li>R’s GIS capabilities growing rapidly right now - new packages added monthly - currently about 275 spatial packages (depending on how you categorize)</li>
+</ul>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<p>Some drawbacks to using R for GIS work</p>
+<ul>
+<li>R not as good for interactive use as desktop GIS applications like ArcGIS or QGIS (i.e.&nbsp;editing features, panning, zooming, and analysis on selected subsets of features)</li>
+<li>Explicit coordinate system handling by the user
+<ul>
+<li>no on-the-fly projection support</li>
+</ul></li>
+<li>In memory analysis does not scale well with large GIS vector and tabular data</li>
+<li>Steep learning curve</li>
+<li>Up to you to find packages to do what you need - help not always great</li>
 </ul>
 <div class="cell">
 <details>
@@ -264,7 +305,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="foundations_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="foundations_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 <p></p><figcaption class="figure-caption">Primary R spatial package downloads since 2012</figcaption><p></p>
 </figure>
 </div>
@@ -343,7 +384,7 @@ Note
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="foundations_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="foundations_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
@@ -529,7 +570,7 @@ Solution
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="foundations_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="foundations_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>

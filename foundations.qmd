@@ -14,7 +14,39 @@ source("_common.R")
 We'll start by installing and loading some of the primary libraries for working with spatial data in R and examining spatial data structures in R.
 
 ## Why R for Spatial Analysis
-- material from past workshop here
+
+- R is:
+  + lightweight
+  + open-source
+  + cross-platform
+- Works with contributed packages - currently `r nrow(utils::available.packages(repos = "http://cran.us.r-project.org"))`
+  + provides *extensibility*
+- Automation and recording of workflow 
+ + provides *reproducibility*
+- Optimized work flow - data manipulation, analysis and visualization all in one place
+  + provides *integration*
+- R does not alter underlying data - manipulation and visualization *in memory*
+- R is great for repetitive graphics
+- R is great for integrating different aspects of analysis - spatial and statistical analysis in one environment
+  + again, *integration*
+- Leverage statistical power of R (i.e.  modeling spatial data, data visualization, statistical exploration)
+- Can handle vector and raster data, as well as work with spatial databases and pretty much any data format spatial data comes in
+- R's GIS capabilities growing rapidly right now - new packages added monthly - currently about 275 spatial packages (depending on how you categorize)
+```{r}
+```
+
+
+```{r}
+```
+
+Some drawbacks to using R for GIS work
+
+- R not as good for interactive use as desktop GIS applications like ArcGIS or QGIS (i.e. editing features, panning, zooming, and analysis on selected subsets of features)
+- Explicit coordinate system handling by the user
+  + no on-the-fly projection support
+- In memory analysis does not scale well with large GIS vector and tabular data
+- Steep learning curve
+- Up to you to find packages to do what you need - help not always great
 
 ```{r}
 #| message: false
