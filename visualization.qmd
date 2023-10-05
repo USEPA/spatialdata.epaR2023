@@ -7,9 +7,7 @@
 * This is goal 2.
 * This is goal 3.
 
-:::{.callout-note}
-You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
-:::
+
 
 ## mapview
 
