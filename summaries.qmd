@@ -1,0 +1,47 @@
+# R-Spatial Landscape {#sec-summaries}
+
+```{r source_r, echo = FALSE}
+source("_common.R")
+```
+
+## Goals and Outcomes
+
+* Summarize the functionality of modern **R** packages for handling spatial data.
+* Discuss the retirement of `rgdal`, `rgeos`, and `maptools` and its effect on the rest of the spatial data ecosystem in **R**.
+* Provide additional resources for handling spatial data in **R**
+
+## `sf`
+
+The `sf` **R** package [@pebesma2018sf] implements an **R**-based approach to handling spatial data based on simple features, a set of standards that specify how spatial objects are represented by computers. The simple features standards are widely implemented in spatial databases like GIS and GDAL. They have a `geometry` that describes their location on Earth using a coordinate reference system. Simple features objects in **R** are called `sf` objects and build upon **R**'s standard data frame by adding `geometry`. `sf` objects have two main components:
+
+1. A `data.frame` with feature attributes
+2. A list-column with geometries for each feature
+
+You can operate on `sf` objects just as you would a operate on a `data.frame`, and there are many tidyverse operations (e.g., `select()`, `filter()`) that work directly with `sf` objects. All `sf` functions that operate on spatial data are prefixed by `st_`, which refers to *spatial type*. The prefix makes them easy to find via tab (or command-line) completion. For example, to inspect the `sf` function's geometry as well-known text, run `st_geometry()`. 
+
+The `sf` **R** package is the modern approach to manipulating spatial data in **R** using simple features and is designed to completely supersede `sp`. For more of `sf`, [visit their website here](https://r-spatial.github.io/sf/) or [this overview here](https://r-spatial.org/book/07-Introsf.html#sec-sfintro).
+
+## `terra`
+
+The `terra` **R** package [@hijmans2023terra] is used to create, read, manipulate, and write raster data. Raster data is a spatial data structure that divides a region into rectangles called "cells" or "pixels" that can store one or more values fore each cell. Raster data structures are often called "grids", a contrast with the "vector" data used to represent points, lines, and polygons as in the `sf` package. One advantage of the `terra` package and raster data structures is that it can handle large data sets on disk that are too large to be loaded into memory.
+
+The `terra` package has support for common algebraic operations (e.g., `+`, `*`), logical operations (e.g., `>=`, `==`), and functionals (e.g., `round`, `log`) on raster cells.
+
+## `stars`
+
+## `leaflet` 
+
+## `ggplot2`
+
+## `tmap`
+
+## `mapview`
+
+## Retirement of `rgdal`, `rgeos`, and `maptools`; plan for `sp`
+
+## Open-Source Resources
+
+* [Spatial Data Science With Applications in **R**](https://r-spatial.org/book/)
+* [Geocomputation with R](https://r.geocompx.org/)
+* [R-Spatial Task View](https://cran.r-project.org/web/views/Spatial.html)
+* [R-Spatial Website](https://r-spatial.org/)
