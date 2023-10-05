@@ -1,0 +1,42 @@
+---
+title: "Spatial Data Workshop"
+subtitle: "2023 EPA R User Group Workshop"
+date: October 18, 2023
+format:
+  revealjs:
+    author: 
+      - "Marc Weber"
+      - "Michael Dumelle"
+    institute: 
+      - "EPA (USA)"
+      - "EPA (USA)"
+    footer: "Spatial Data Workshop"
+    slide-number: true
+    preview-links: true
+    transition: fade
+    theme: [default, slides.scss]
+    smaller: false
+    auto-stretch: true
+    code-link: true
+    incremental: false
+execute: 
+  echo: true
+embed-resources: true
+bibliography: references.bib
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# set width of code output
+options(width = 80)
+
+# load background packages
+library(countdown)
+library(ggplot2)
+```
+
+## Welcome!
+
+1.  Install and load R packages
