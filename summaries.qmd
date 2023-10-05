@@ -25,19 +25,21 @@ The `sf` **R** package is the modern approach to manipulating spatial data in **
 
 The `terra` **R** package [@hijmans2023terra] is used to create, read, manipulate, and write raster data. Raster data is a spatial data structure that divides a region into rectangles called "cells" or "pixels" that can store one or more values fore each cell. Raster data structures are often called "grids", a contrast with the "vector" data used to represent points, lines, and polygons as in the `sf` package. One advantage of the `terra` package and raster data structures is that it can handle large data sets on disk that are too large to be loaded into memory.
 
-The `terra` package has support for common algebraic operations (e.g., `+`, `*`), logical operations (e.g., `>=`, `==`), and functionals (e.g., `round`, `log`) on raster cells.
+Raster objects in `terra` are typically created or read in using the `rast()` function. Raster objects in `terra` support common algebraic operations (e.g., `+`, `*`), logical operations (e.g., `>=`, `==`), and functionals (e.g., `round`, `log`) on raster cells. There are several options for modifying raster objects: `crop`, which subsets a larger `terra` object; `trim`, which removes outer rows and columns with `NA` values; `extend`, which adds outer rows and columns with `NA` values, `merge`, which merges two or more raster objects into a single object; `aggregate` and `disagg` for changing the resolution (cell size) of a raster object; `wrap` for transforming to a new coordinate reference system; and more. There are also options for computing distances, summary statistics, prediction, and visualization.
 
-## `stars`
+The `terra` **R** package is the modern approach to manipulating raster data in **R** and is designed to completely supersede `raster``. For more of `terra`, [visit their website here](https://rspatial.org/pkg/index.html).
 
-## `leaflet` 
+## Other Useful Spatial Data Packages
 
-## `ggplot2`
+* `stars` for handling spatio-temporal vector and raster data ([link here](https://r-spatial.github.io/stars/))
+* `leaflet` for an **R** package that accesses leaflet, a population JavaScript library for interactive maps ([link here](https://rstudio.github.io/leaflet/))
+* `tmap` for generating thematic maps in **R**  for ([link here](https://r-tmap.github.io/tmap/))
+* `mapview` for a different approach to interacting with the leaflet Javascript library ([link here](https://github.com/r-spatial/mapview))
+* `ggplot2` for general graphics in **R** ([link here](https://ggplot2.tidyverse.org/)), with a focus on `geom_sf()` ([link here](https://ggplot2.tidyverse.org/reference/ggsf.html))
 
-## `tmap`
+## Retirement of `rgdal`, `rgeos`, and `maptools`; Plan for `sp`
 
-## `mapview`
-
-## Retirement of `rgdal`, `rgeos`, and `maptools`; plan for `sp`
+The `rgdal`, `rgeos`, and `maptools` **R** packages won't be available on CRAN after October, 2023. Preparation for these retirements has been worked on for quite some time and is one of the motivating factors in pursuing modern alternatives like `sf` and `terra`. The `sp` package will still be available from CRAN, but it won't be actively maintained, and `sf` should be used instead. To learn more about these retirements and understand how you may be affected, [visit this link here](https://geocompx.org/post/2023/rgdal-retirement/).
 
 ## Open-Source Resources
 
