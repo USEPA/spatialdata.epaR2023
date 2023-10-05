@@ -576,11 +576,9 @@ plot(iris)
 ```
 :::
 
-### Coordinate Reference Systems
-
 
 ### Raster
 
 ### Geographic Data I/O
 
-
+### Coordinate Reference Systems
