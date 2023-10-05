@@ -11,21 +11,366 @@ source("_common.R")
 * Perform some fundamental spatial operations in R.
 * Geographic I/O
 
+## Background on data structures
+
+:::{.callout-note}
+Much of this background on data structures is borrowed from Mike Johnson's [Introduction to Spatial Data Science](https://mikejohnson51.github.io/spds/) and lecture material from our [AWRA 2022 Geo Workshop](https://github.com/mhweber/AWRA2022GeoWorkshop)
+:::
+
+Before we dive into spatial libraries, it's worth a quick review of relevant data structures in R - this will be a whirlwind overview, assuming most everyone is familiar with using R already.
+
+- You, computers, and software 'understand' values in particular and different ways
+
+- Computers convert bytes --> hex --> value
+  + Humans read values
+  + Software reads Hex bytes
+  + Hardware reads Binary bytes
+
+```{r, fig.align='center', echo = FALSE, out.width="75%" }
+knitr::include_graphics("img/values.png")
+```
+
+:::{.callout-note}
+What's the difference between 10 and '10'?
+
+- **To us**: meaning
+- **To software**: how it is handled
+- **To a computer**: nothing
+
+We need human-defined (computer-guessable) data types
+:::
+
+Fundamental data types
+```{r}
+# Numeric
+typeof(1.9)
+# Integer
+typeof(1L)
+# Boolean
+typeof(TRUE)
+# Character
+typeof("Welcome")
+```
+Storing more than one value requires a structure.
+
+Values can be structured in ways such as:
+
+- vectors
+- dimensions/attributes
+- data.frames
+
+And data.frames can be operated on with functions such as:
+
+- filter
+- select
+- mutate
+- summarize
+- group_by
+
+### Vectors
+:::{.callout-note}
+'vector' has two meanings when working with GIS data and working in R!
+
+- geographic vector data (which we'll explore)
+- `vector` class (what we're talking about here)
+
+geographic vector data is a *data model*, and the `vector` class is an R class like `data.frame` and `matrix`
+:::
+
+**Vectors** come in two flavors:
+
+  1. atomic
+  2. list
+
+- atomic vectors elements must have the same **type**
+
+- lists elements can have different **types**
+
+#### Atomic vectors
+```{r}
+# Numeric
+dbl_vec = c(1.9, 2, 3.5)
+typeof(dbl_vec)
+length(dbl_vec)
+# Logical
+lg_vec = c(TRUE, FALSE, F, T)
+typeof(lg_vec)
+length(lg_vec)
+```
+
+**Coercion**
+
+- *type* is a property of a vector
+- When you try to combine different *types* they'll be *coerced* in the following fixed order:
+  + character => double => integer => logical
+- Coercion occurs automatically but generates a warning and a missing value when it fails
+
+```{r}
+c("a", 1)
+c("a", TRUE)
+c(4.5, 1L)
+c("1", 18, "GIS")
+as.numeric(c("1", 18, "GIS"))
+as.logical(c("1", 18, "GIS"))
+```
+
+*Subsetting atomic vectors*
+```{r}
+# Atomic numeric vector
+(x = c(3.4, 7, 18, 9.6))
+
+# Third Value
+x[3]
+
+# Third and Fourth value
+x[c(3,4)]
+
+# Drop the third value
+x[-3]
+
+# Keep the 1 and 2 value, but drop 3 and 4
+x[c(T,T,F,F)]
+```
+
+### Matrix
+- A matrix is 2D atomic (row, column)
+  + Same data types
+  + Same column length
+  
+This is how spatial *raster* data is structured
+
+Subsetting matrices uses row,column (i,j) syntax
+```{r}
+(x = matrix(1:9, nrow = 3))
+x[3,]
+x[,3]
+x[3,3]
+```
+
+### Array
+- Array is a 3d Atomic (row, column, slice)
+
+This is how spatial *raster* data with a time dimension is structured
+
+```{r}
+(array(c(1:12), dim = c(3,2,2)))
+```
+
+Subsetting arrays uses row, column, slice syntax (i,j,z)
+```{r}
+(x = array(1:12, dim = c(2,2,3)))
+x[1,,]
+x[,1,]
+x[,,1]
+```
+
+### Lists
+Eash list element can be any data type
+```{r}
+(my_list <- list(
+  matrix(1:4, nrow = 2), 
+  "GIS is great!", 
+  c(TRUE, FALSE, TRUE), 
+  c(2.3, 5.9)
+))
+```
+
+```{r}
+typeof(my_list)
+```
+
+Subsetting Lists
+
+- Each element of a list can be accessed with the [[ operator
+```{r}
+my_list[[1]]
+my_list[[1]][1,2]
+```
+
+### Data Frames
+- `data.frame` is built on the `list` structure in R
+- length of each atomic or list vector has to be the same
+- This gives `data.frame` objects rectangular structure so they share properties of both matrices and lists
+```{r}
+(df1 <- data.frame(name = c("Me", "Tim", "Sarah"),
+                  age  = c(53,15,80),
+                  retired = c(F,F,T)))
+typeof(df1)
+```
+
+Subsetting a `data.frame`
+```{r}
+df1[1,2]
+
+# or like a list
+df1[[2]]
+
+# or with column name operator
+df1$name
+```
+
+### Data manipulation
+- `data.frame` manipulation is all based on SQL queries
+- R abstracts the SQL logic and provides function-ized methods
+- `dplyr` in the `tidyverse` ecosystem provides the 'grammar of data manipulation` approach we'll use in this workshop
+
+Data manipulation *verbs*:
+
+- Primary:
+  + `select()`: keeps or removes variables based on names
+  + `filter()`: keeps or removes observations based on values
+_ Manipulation:
+  + `mutate()`: adds new variables that are functions of existing variables
+  + `summarise()`: reduces multiple values down to a single summary
+  + `arrange()`: changes ordering of the rows
+- Grouping:
+  + `group_by()`: combine with any or all of the above to perform manipulation 'by group'
+  
+### Pipe operator
+- The pipe operator (native R pipe operator `|>` or `magrittr` pipe operator `%>%`) provides a more concise and expressive coding experience
+- The pipe passes the object on the left hand side of the pipe into the first argument of the right hand function
+- To be  `|>`  compatible, the data.frame is ALWAYS the fist argument to `dplyr` verbs
+
+A demonstration using `dataRetrieval` package stream gage data from USGS:
+```{r}
+flows <- dataRetrieval::readNWISdv(siteNumbers = '14187200',
+                   parameterCd = "00060")  |>  
+  dataRetrieval::renameNWISColumns() 
+dplyr::glimpse(flows)
+```
+
+::: {.callout-note appearance="simple" icon="false"}
+### Question
+What is the :: after the package name and before the function in the R code above doing?  How would you find out more about it?
+:::
+
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+### Answer
+It disambiguates the function or method by selecting a definition from a particular namespace.
+
+You can get help on it the same way you get help on anything in R:
+```{r}
+#| eval: false
+?'::'
+# or
+help("::")
+```
+:::
+
+### Filter
+- `filter()` takes logical (binary) expressions and returns the rows in which all conditions are TRUE.
+
+Filter on a single condition:
+```{r}
+flows |> 
+dplyr::filter(Flow > 900) |> 
+  dplyr::glimpse()
+```
+
+Or multiple conditions:
+```{r}
+flows  |> 
+dplyr::filter(Flow > 900, Date > as.Date("2010-01-01"))  |>  
+  dplyr::glimpse()
+```
+
+### Select
+- Subset variables (columns) you want to keep or exlcude by name
+
+Just keep three columns
+```{r}
+flows |> 
+dplyr::select(Date, Flow)  |> 
+  dplyr::glimpse()
+```
+
+Exclude just one
+```{r}
+flows |> 
+dplyr::select(-Flow_cd)  |> 
+  dplyr::glimpse()
+```
+
+..And can rename while selecting
+```{r}
+flows |> 
+dplyr::select(Date, flow_cfs = Flow)  |> 
+  dplyr::glimpse()
+```
+
+### Mutate
+- `mutate()` defines and inserts new variables into a existing `data.frame`
+- `mutate()` builds new variables sequentially so you can reference earlier ones when defining later ones
+
+We can extract Year and Month as new variables from the Date variable using date time
+```{r}
+flows  |> 
+  dplyr::select(Date, Flow)  |>  
+  dplyr::filter(Date > as.Date('2010-01-01'))  |> 
+  dplyr::mutate(Year  = format(Date, "%Y"),
+         Month = format(Date, "%m"))  |>  
+  dplyr::glimpse()
+```
+
+### Summarize and Group_By
+- `summarize()` allowa you to summarize across all observations
+-  `group_by()` allows you to apply any of these manipulation verbs by group in your data
+
+```{r}
+flows |> 
+ dplyr::select(Date, Flow) |> 
+ dplyr::mutate(Year  = format(Date, "%Y"))  |> 
+ dplyr::group_by(Year) |> 
+ dplyr::summarize(meanQ = mean(Flow),
+           maxQ = max(Flow))
+```
+
+:::{.callout-note}
+You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
+:::
+
+## Why R for Spatial Analysis
+- R is:
+  + lightweight
+  + open-source
+  + cross-platform
+- Works with contributed packages - currently `r nrow(utils::available.packages(repos = "http://cran.us.r-project.org"))`
+  + provides *extensibility*
+- Automation and recording of workflow 
+ + provides *reproducibility*
+- Optimized work flow - data manipulation, analysis and visualization all in one place
+  + provides *integration*
+- R does not alter underlying data - manipulation and visualization *in memory*
+- R is great for repetitive graphics
+- R is great for integrating different aspects of analysis - spatial and statistical analysis in one environment
+  + again, *integration*
+- Leverage statistical power of R (i.e.  modeling spatial data, data visualization, statistical exploration)
+- Can handle vector and raster data, as well as work with spatial databases and pretty much any data format spatial data comes in
+- R's GIS capabilities growing rapidly right now - new packages added monthly - currently about 275 spatial packages (depending on how you categorize)
+
+Some drawbacks to using R for GIS work
+
+- R not as good for interactive use as desktop GIS applications like ArcGIS or QGIS (i.e. editing features, panning, zooming, and analysis on selected subsets of features)
+- Explicit coordinate system handling by the user
+  + no on-the-fly projection support
+- In memory analysis does not scale well with large GIS vector and tabular data
+- Steep learning curve
+- Up to you to find packages to do what you need - help not always great
+
 ## Spatial Data Structures in R
 First we'll walk through spatial data structures in R and review some key components of data structures in R that inform our use of spatial data in R.
 
 :::{.callout-note}
 A few core libraries underpin spatial libraries in R (and Python!) and in GIS software applications such as QGIS and ArcPro. Spatial data structures across languages and applications are primarily organized through [OSgeo](https://www.osgeo.org) and [OGC](https://www.ogc.org)). These core libraries include:
--   **PROJ** --\> Spatial projections, transformations
 
--   **GEOS** --\> Geometry operations (measures, relations)
-
--   **GDAL** --\> Raster and feature abstraction and processing (read, write)
-
--   **NetCDF** --\> Multidimensional (XYZT) data abstraction (read, write)
+- [GDAL](https://gdal.org/) --\> For raster and feature abstraction and process
+- [PROJ](https://proj.org/) --\> A library for coordinate transformations and projections
+- [GEOS](https://libgeos.org/) --\> A Planar geometry engine for operations (measures, relations) such as calculating buffers and centroids on data with a projected CRS
+- [S2](https://s2geometry.io/) --\>  a spherical geometry engine written in C++ developed by Google and adapted in R with the [**s2**](https://r-spatial.github.io/s2/) package
 :::
 
-We'll 
+We'll see how these core libraries are called and used in the R packages we explore throughout this workshop. 
+
 ### Simple features and geospatial grids
 -   \***Vector** data are comprised of points, lines, and polygons that represent discrete spatial entities, such as a river, watershed, or stream gauge.
 
@@ -50,6 +395,64 @@ The "simple" adjective also refers to the fact that the line or polygon geometri
 
 ```{r, fig.align='center', echo = FALSE, out.width="75%" }
 knitr::include_graphics("img/09-sf-model.png")
+```
+
+#### Points
+- A point in `sf` is composed of one coordinate pair (XY) in a specific coordinate system.
+- POINTS can have a Z or M dimensions as well but we won't delve into - 
+  + z is height, m is measure
+  + you often have to remove to perform spatial operations with `sf`
+- A POINT has no length, no area and a dimension of 0.
+
+```{r}
+# POINT defined as numeric vector
+(sf::st_dimension(sf::st_point(c(0,1))))
+```
+
+```{r}
+library(ggplot2)
+ggplot() + 
+  geom_point(aes(x = c(1,2,3), y = c(3,1,2))) + 
+  labs(x = "X", y = "Y")
+```
+
+#### Lines
+- A polyline is composed of a ordered sequence of two or more POINTs
+
+- Points in a line are called vertices/nodes and explicitly define the connection between two points.
+
+- A LINESTRING has a length, has no area and has a dimension of 1 (length)
+
+```{r}
+# LINESTRING defined by matrix
+(sf::st_dimension(sf::st_linestring(matrix(1:4, nrow = 2))))
+```
+
+```{r}
+ggplot() + 
+  geom_line(aes(x = c(1,2,3), y = c(3,1,2))) + 
+  geom_point(aes(x = c(1,2,3), y = c(3,1,2)), col = "red") + 
+  labs(x = "X", y = "Y")
+```
+
+#### Polygon
+- A POLYGON is composed of 4 or more points whose starting and ending point are the same.
+
+- A POLYGON is surface stored as a list of its exterior and interior rings.
+
+- A POLYGON has length, area, and a dimension of 2. (area)
+
+```{r}
+# POLYGON defined by LIST (interior and exterior rings)
+(sf::st_dimension(sf::st_polygon(list(matrix(c(1:4, 1,2), nrow = 3, byrow = TRUE)))))
+```
+
+```{r}
+ggplot() + 
+  geom_polygon(aes(x = c(1,2,3,1), y = c(3,1,2,3)), fill = "green", alpha = .5) + 
+  geom_line(aes(x = c(1,2,3), y = c(3,1,2))) + 
+  geom_point(aes(x = c(1,2,3), y = c(3,1,2)), col = "red") +
+  labs(x = "X", y = "Y")
 ```
 
 #### Simple and valid geometries and ring direction
@@ -138,8 +541,6 @@ See the [Geometries chapter of Spatial Data Science](https://r-spatial.org/book/
 knitr::include_graphics("img/09-sf-model.png")
 ```
 
-
-
 ::: {.callout-important icon="false"}
 ### Exercise
 
@@ -155,7 +556,6 @@ plot(iris)
 :::
 
 ### Coordinate Reference Systems
-
 
 
 ### Raster
