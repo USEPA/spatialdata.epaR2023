@@ -1,17 +1,96 @@
 # Geoprocessing {#sec-geoprocessing}
 
-
-Throughout this section, we ...
-
 ## Goals and Outcomes
 
-* This is goal 1.
+* Perform fundamental spatial operations in R.
 * This is goal 2.
 * This is goal 3.
 
-:::{.callout-note}
-You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
 :::
+#### Operations on Geometries
+
+This breakdown of simple features follows for the most part [this section in Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) 
+
+** Simple** and **valid** geometries
+- Certain conditions have to be met with simple features:
+  + For *linestrings* to be considered *simple* they must not self-intersect:
+
+```{r}
+library(sf)
+(ls <- st_linestring(rbind(c(0,0), c(1,1), c(2,2), c(0,2), c(1,1), c(2,0))))
+```
+
+```{r}
+#| message: false
+#| echo: false
+#| error: false
+plot(ls)
+```
+
+```{r}
+#| message: false
+#| echo: false
+#| error: false
+c(is_simple = st_is_simple(ls))
+```
+
+- For *polygons* several other conditions have to be met to be *simple*:
+
+  + polygon rings are closed (the lastpoint equals the first)
+  + polygon holes (inner rings) are inside their exterior ring
+  + polygon inner rings maximally touch the exterior ring in single points, not over a line
+  + a polygon ring does not repeat its own path
+  + in a multi-polygon, an external ring maximally touches another exterior ring in single points, not over a line
+
+We can break down operations on geometries for *vector* features in the following way:
+
+-   **predicates**: a logical asserting a certain property is `TRUE`
+-   **measures**: a quantity (a numeric value, possibly with measurement unit)
+-   **transformations**: newly generated geometries
+
+We can look at these operations by **what** they operate on, whether the are single geometries, pairs, or sets of geometries:
+
+-   **unary** when it's a single geometry
+-   **binary** when it's pairs of geometries
+-   **n-ary** when it's sets of geometries
+
+**Unary** predicates work to describe a property of a geometry.
+
+A list of unary predicates:
+
+| predicate   | meaning                                         |
+|-------------|-------------------------------------------------|
+| `is`        | Tests if geometry belongs to a particular class |
+| `is_simple` | Tests whether geometry is simple                |
+| `is_valid`  | Test whether geometry is valid                  |
+| `is_empty`  | Tests if geometry is empty                      |
+
+A list of binary predicates is:
+
+| predicate            | meaning                                                                                                             | inverse of   |
+|-----------------|-------------------------------------|-----------------|
+| `contains`           | None of the points of A are outside B                                                                               | `within`     |
+| `contains_properly`  | A contains B and B has no points in common with the boundary of A                                                   |              |
+| `covers`             | No points of B lie in the exterior of A                                                                             | `covered_by` |
+| `covered_by`         | Inverse of `covers`                                                                                                 |              |
+| `crosses`            | A and B have some but not all interior points in common                                                             |              |
+| `disjoint`           | A and B have no points in common                                                                                    | `intersects` |
+| `equals`             | A and B are topologically equal: node order or number of nodes may differ; identical to A contains B and A within B |              |
+| `equals_exact`       | A and B are geometrically equal, and have identical node order                                                      |              |
+| `intersects`         | A and B are not disjoint                                                                                            | `disjoint`   |
+| `is_within_distance` | A is closer to B than a given distance                                                                              |              |
+| `within`             | None of the points of B are outside A                                                                               | `contains`   |
+| `touches`            | A and B have at least one boundary point in common, but no interior points                                          |              |
+| `overlaps`           | A and B have some points in common; the dimension of these is identical to that of A and B                          |              |
+| `relate`             | Given a mask pattern, return whether A and B adhere to this pattern                                                 |              |
+
+See the [Geometries chapter of Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) for a full treatment that also covers \*\*unary and binary measures\* as well as *unary, binary and n-ary transformers*
+
+```{r, fig.align='center', echo = FALSE, out.width="75%" }
+knitr::include_graphics("img/09-sf-model.png")
+```
+
+
 
 ## Spatial Subsetting 
 
@@ -36,3 +115,110 @@ Running `st_make_valid` might not fix.
 You may need to turn off spherical geometry - `sf_use_s2(TRUE)`, run `st_make_valid`, and then turn spherical geometry back on - `sf_use_s2(FALSE)`
 See background on S2 [here](https://r-spatial.org/r/2020/06/17/s2.html) and discussion of S2 related issues [here](https://github.com/r-spatial/sf/issues/1771)
 :::
+
+
+
+
+### Raster operations
+
+#### Cropping
+We can crop our elevation raster to just the bounding box of Crater Lake - using mask, we can clip it to the actual polygon boundary
+
+Let's see what elevation and Crater Lake boundary look like prior to cropping and masking
+```{r crop, message=FALSE, warning=FALSE, error=FALSE}
+plot(elevation_tm)
+plot(CraterLake_tm, add=TRUE, col=NA, border='blue')
+```
+
+Here we use `crop` to crop the elevation raster to the bounding box of our Crater Lake polygon feature
+```{r crop2, message=FALSE, warning=FALSE, error=FALSE}
+elev_crop = crop(elevation_tm, vect(CraterLake_tm))
+plot(elev_crop)
+plot(CraterLake_tm, add=TRUE, col=NA, border='blue')
+```
+
+And finally we can use `mask` to mask the raster to just inside the polygon outline of Crater Lake National Park.  
+
+**Note** - if you have a large raster, it makes a HUGE difference to use crop first, then mask - mask is a much more computationally intensive operation so it will pay off to crop first then mask. An interesting twitter thread regarding this just the other day:
+
+```{r, echo=FALSE, out.width="150%"}
+knitr::include_graphics("images/tweet1.png")
+```
+
+```{r, echo=FALSE, out.width="150%"}
+knitr::include_graphics("images/tweet2.png")
+```
+
+
+```{r mask, message=FALSE, warning=FALSE, error=FALSE}
+elev_mask = mask(elevation_tm, vect(CraterLake_tm))
+plot(elev_mask)
+plot(CraterLake_tm, add=TRUE, col=NA, border='blue')
+```
+
+### Map Algebra
+We can divide map algebra into a couple of categories:
+
+1. Local - per-cell operations
+    a. raster calculator
+    b. replacing values
+    c. reclassifying
+    d. calculating indices
+2. Focal (neighborhood operations) - summarizing output cell value as the result of a window (such as a3 x 3 input cell block)
+Zonal operations - summarizing raster values for some zones (either another raster or a vector feature)
+Global - summarizing values over entire raster(s)
+
+#### Local Operations
+Say we want to convert our elevation raster from meters to feet:
+```{r local, message=FALSE, warning=FALSE, error=FALSE}
+elev_feet = elevation_tm * 3.28084
+elev_feet
+```
+
+Our max value is 8890, which makes sense - the high point in Crater Lake National Park is Mount Scott at 8,929'.
+
+What if we want to make elevation bins, or classify some elevations as NA with our elevation raster?
+```{r local2, message=FALSE, warning=FALSE, error=FALSE}
+reclass <- matrix(c(0, 500, 1, 500, 1000, 2, 1000, 1500, 3, 1500 , 2000, 4, 2000, 2700, 5), ncol = 3, byrow = TRUE)
+reclass
+elev_recl = classify(elevation_tm, rcl = reclass)
+plot(elevation_tm)
+plot(elev_recl)
+```
+
+```{r local3, message=FALSE, warning=FALSE, error=FALSE}
+elev_new = elevation_tm
+elev_new[elev_new > 2000] = NA
+plot(elev_new)
+```
+
+#### Focal Operations
+A simple focal window operation
+```{r focal, message=FALSE, warning=FALSE, error=FALSE}
+elev_focal_mean = focal(elevation_tm, 
+                   w = matrix(1, nrow = 25, ncol = 25), 
+                   fun = mean)
+plot(elev_focal_mean)
+```
+
+#### Global Operations
+```{r global, message=FALSE, warning=FALSE, error=FALSE}
+terra::global(elev_mask, fun="mean", na.rm=TRUE)
+terra::global(elev_mask, fun="sum", na.rm=TRUE)
+```
+
+#### Zonal Operations
+Here us demonstrate using the zonal function in terra to summarize a value raster of elevation, using an srtm.tif from `spDataLarge`, by the zones of NLCD classes using nlcd.tif raster also in the `spDataLarge` package.
+```{r zonal, message=FALSE, warning=FALSE, error=FALSE}
+srtm_path = system.file("raster/srtm.tif", package = "spDataLarge")
+srtm_path
+srtm = rast(srtm_path)
+srtm
+
+nlcd = rast(system.file("raster/nlcd2011.tif", package = "spDataLarge"))
+srtm_utm = project(srtm, nlcd, method = "bilinear")
+srtm_zonal = zonal(srtm_utm, nlcd, na.rm = TRUE, fun = "mean")
+srtm_zonal
+```
+
+

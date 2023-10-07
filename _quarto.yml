@@ -25,6 +25,8 @@ format:
     theme:
       - cosmo
     code-link: true
+    toc: true
+    toc-depth: 4
 
 
 
