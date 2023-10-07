@@ -31,7 +31,20 @@ The packages that we use throughout this workshop are listed below. To install a
 install.packages("ggplot2")
 install.packages("cranlogs")
 install.packages("sf")
+install.packages("cowplot")
+install.packages("remotes")
 install.packages("lubridate")
+install.packages("spData")
+install.packages("spDataLarge", repos = "https://nowosad.r-universe.dev")
+remotes::install_github("mhweber/Rspatialworkshop")
+remotes::install_github("mhweber/awra2020spatial")
+install.packages("rnaturalearth")
+devtools::install_github("ropensci/rnaturalearthdata")
+devtools::install_github("ropensci/rnaturalearthhires")
+install.packages("osmdata")
+install.packages("mapview")
+install.packages("tigris")
+remotes::install_github("mikejohnson51/AOI")
 ```
 
 ## How to follow along with material

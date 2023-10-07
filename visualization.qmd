@@ -19,4 +19,19 @@
 
 It uses the same syntax as ggplot: the grammar of graphics - it supports both static and interactive modes
 
+### Plotting rasters and vectors with tmap
+Bring in boundary and elevation of Crater Lake NP (datasets in `Rspatialworkshop` package) and plot with tmap
+```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE}
+library(Rspatialworkshop)
+library(tmap)
+data(CraterLake)
+raster_filepath <- system.file("extdata", "elevation.tif", package = "Rspatialworkshop")
+elevation <- rast(raster_filepath)
 
+map_crlk <- tm_shape(CraterLake) + tm_polygons(lwd = 2)
+map_crlkel = map_crlk +
+  tm_shape(elevation) + tm_raster(alpha = 0.7,palette = terrain.colors(12)) + tm_layout(legend.position = c("left","bottom"),
+          legend.width = 1)
+
+map_crlkel
+```
