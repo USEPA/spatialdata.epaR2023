@@ -44,7 +44,9 @@ devtools::install_github("ropensci/rnaturalearthhires")
 install.packages("osmdata")
 install.packages("mapview")
 install.packages("tigris")
-remotes::install_github("mikejohnson51/AOI")
+install.packages("tmap")
+install.packages("tmaptools")
+# remotes::install_github("mikejohnson51/AOI")
 ```
 
 ## How to follow along with material
