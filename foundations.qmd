@@ -633,7 +633,7 @@ Instead of making a single default map of your geometry, `plot()` in `sf` maps e
 How would you plot just the geometry?  Or just the two population variables?  Try these variations on `plot()` with `us_states`
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution
 ```{r}
 #| eval: false
@@ -696,7 +696,7 @@ myrast
 ```
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution
 ```{r}
 #| eval: false
@@ -728,7 +728,7 @@ Exploring raster objects
 4. Building on this, what is the code to pull out just our xmin value in our extent, or bounding box?
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution
 1. number columns, number rows, and extent - `terra` will fill in defaults if values aren't provided
 ```{r raster-emptyexample, message=FALSE, warning=FALSE, error=FALSE}
@@ -795,7 +795,7 @@ myrast[line, column]
 How is `terra` data storage unlike a `matrix` in R?  Try creating a `matrix` with same dimensions and values and compare with the `terra` raster you've created:
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution
 ```{r matrix_raster, message=FALSE, warning=FALSE, error=FALSE}
 m <- matrix (1:100, nrow=10, ncol=10)
@@ -866,7 +866,7 @@ A `CRS` is made up of several components:
 knitr::include_graphics("img/Ellipsoid.png")
 ```
 
-#### The ellipsoid and geoid
+### The ellipsoid and geoid
 The earth is a sphere, but more precisely, an *ellipsoid*, which is defined by two radii: 
 - semi-major axis (equatorial radius)
 - semi-minor axis (polar radius)
@@ -876,7 +876,7 @@ semimajor and semiminor axes of 6,378,137 meters and 6,356,752 meters respective
 
 More precisely than an *ellipsoid*, though, we know that earth is a *geoid* - it is not perfectly smooth - and modelling the the undulations due to changes in gravitational pull for different locations is crucial to accuracy in a GIS. This is where a *datum* comes in - a datum is built on top of the selected spheroid and can incorporate local variations in elevation. We have many datums to choose from based on location of interest - in the US we would typically choose *NAD83*
 
-#### Why you need to know about CRS working with spatial data in R:
+### Why you need to know about CRS working with spatial data in R:
 ```{r crs_fail, message=FALSE, warning=FALSE, error=FALSE}
 library(Rspatialworkshop)
 library(readr)
@@ -901,15 +901,15 @@ There is no 'on-the-fly' projection in R - you need to make sure you specify the
 
 - [projection Wizard](https://projectionwizard.org/) is also really useful, as is [epsg.io](https://epsg.io/)
 
-#### Defining your coordinate reference system
+### Defining your coordinate reference system
 A coordinate reference system for spatial data can be defined in different ways - for instance for the standard WGS84 coordinate system you could use:
 
 - Proj4
-  + `+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs `
+  + ```+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs```
 - OGC WKT
-  + `GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]`
+  + ```GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]```
 - ESRI WKT
-  +`GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]`
+  + ```GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]```
 - 'authority:code' identifier
   + `EPSG:4326`
 
@@ -920,7 +920,7 @@ The `WKT` representation of EPSG:4326 in `sf` is:
 sf::st_crs('EPSG:4326')
 ```
 
-#### Projected coordinate systems
+### Projected coordinate systems
 Typically we want to work with data that is projected. Projected coordinate systems (which are based on Cartesian coordinates) have: an origin, an x axis, a y axis, and a linear unit of measure. Going from geographic coordinates to a projected coordinate reference systems requires mathematical transformations. 
 
 Four spatial properties of projected coordinate systems that are subject to distortion are: *shape*, *area*, *distance* and *direction*. A map that preserves shape is called *conformal*; one that preserves area is called *equal-area*; one that preserves distance is called *equidistant*; and one that preserves direction is called *azimuthal* (from [https://mgimond.github.io/Spatial/coordinate-systems.html](https://mgimond.github.io/Spatial/coordinate-systems.html).
@@ -946,12 +946,13 @@ ggplot() +
   labs(title="USGS Stream Gages in the Pacific Northwest") +
   theme_bw() 
 ```
+
 :::{.callout-note}
 #### Exercise
 Re-project both the PNW state polygons and the stream gages to a different projected CRS - I suggest UTM zone 11, or perhaps Oregon Lambert, but choose your own.  Use resources I list above to find a projection and get it's specification to use in R to re-project both `sf` objects, then plot together either in base R or ggplot.
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution
 My solution:
 ```{r exercise, message=FALSE, warning=FALSE, error=FALSE}
@@ -976,8 +977,9 @@ p2 <- ggplot() +
   theme_bw() 
 plot_grid(p1, p2)
 ```
+:::
 
-#### Projecting
+### Projecting
 For spatial operations in R, raster or vector, we always need to make sure objects are in an appropriate `crs` and in the same `crs` as one another.
 
 We'll use the elevation data and a polygon feature for Crater Lake from the `Rspatialworkshop` package for this example.
@@ -993,7 +995,7 @@ elevation <- terra::rast(raster_filepath)
 1. Find the projection of both the Crater Lake spatial polygon feature and the elevation raster
 2. Are they the same? Should we project one to the other, or apply a new projection?
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution
 1. Check the CRS of each feature and test for equality
 ```{r projection2, message=FALSE, warning=FALSE, error=FALSE}
@@ -1008,8 +1010,9 @@ st_crs(CraterLake)$wkt == crs(elevation)
 :::{.callout-note}
 #### Exercise
 Find an appropriate area-preserving projection using [Projection Wizard](https://projectionwizard.org/#) or [spatialreference.org](https://spatialreference.org/) or any means you prefer and project both Crater Lake and elevation to this CRS.
+:::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution
 Here I'll apply a custom Transverse Mercator I found the WKT representation for using Projection Wizard.  Another good projection would be [UTM zone 10N](https://spatialreference.org/ref/epsg/3157/) or [UTM zone 11N](https://spatialreference.org/ref/epsg/2153/)
 ```{r projection3, message=FALSE, warning=FALSE, error=FALSE}
@@ -1018,8 +1021,9 @@ elevation_tm <- project(elevation, tranvmerc, method = "bilinear")
 crs(elevation_tm)
 CraterLake_tm <- st_transform(CraterLake,tranvmerc)
 ```
+:::
 
-###  `S2` class
+### `S2` class
 It's important to note a recent change in R spatial with spherical geometry. Since `sf` version 1.0.0, R supports spherical geometry operations by default via its interface to Google’s `S2` spherical geometry engine and the `s2` interface package. `S2` is perhaps best known as an example of a Discrete Global Grid System (DGGS). Another example of this is the [H3](https://eng.uber.com/h3/) global hexagonal hierarchical spatial index.
 
 `sf` can run with `s2` on or off and by default the S2 geometry engine is turned on:
@@ -1086,7 +1090,7 @@ plot(citylims$geometry, axes=T, main='Oregon City Limits') # plot it!
 `st_read` versus `read_sf` - throughout this section I've used `read_sf` and `st_read` - I typically use `read_sf` - why would that be a good practice?
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution 
 `read_sf` is an `sf` alternative to st_read (see [this](https://keen-swartz-3146c4.netlify.com/intro.html#read) section 1.2.2). Try reading in `citylims` data above using `read_sf` and notice difference, and check out `help(read_sf)`.  `read_sf` and `write_sf` are simply aliases for st_read and st_write with modified default arguments.  Big differences are:
 
@@ -1123,7 +1127,7 @@ glimpse(nc)
 What are a couple advantages of `geopackages` over `shapefiles`?
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse="true"}
 #### Solution 
 Some thoughts [here](https://towardsdatascience.com/why-you-need-to-use-geopackage-files-instead-of-shapefile-or-geojson-7cb24fe56416), main ones probably:
 
