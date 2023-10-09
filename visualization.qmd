@@ -21,7 +21,7 @@ It uses the same syntax as ggplot: the grammar of graphics - it supports both st
 
 ### Plotting rasters and vectors with tmap
 Bring in boundary and elevation of Crater Lake NP (datasets in `Rspatialworkshop` package) and plot with tmap
-```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE}
+```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
 library(Rspatialworkshop)
 library(tmap)
 data(CraterLake)

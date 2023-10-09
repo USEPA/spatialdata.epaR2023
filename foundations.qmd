@@ -357,6 +357,66 @@ You may click on any of the functions in this book to be directed to their respe
 - Steep learning curve
 - Up to you to find packages to do what you need - help not always great
 
+### A Couple Motivating Examples
+Here's a quick example demonstrating R’s flexibility and current strength for plotting and interactive mapping with very simple, expressive code:
+
+```{r}
+#| warning: false
+library(tmap)
+library(tmaptools)
+library(dplyr)
+
+my_town <-tmaptools::geocode_OSM("Corvallis OR USA", 
+        as.sf = TRUE)  |>  
+  glimpse()
+```
+
+::: {.callout-note appearance="simple" icon="false"}
+#### Quick Exercise
+Run and examine code chunk above and try geocoding examples you think of
+
+1. What is the double colon doing?
+2. What is the `geocode_OSM` function doing?
+3. Explain how the code runs together using the  |>  chaining operator
+4. What is `glimpse`?  How is it useful compared to the `head` function?
+:::
+
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+#### Answer 
+1. It specifies using `geocode_OSM` from the `tmaptools` package. R gives namespace preference to packages in order loaded; some packages share function names; so it's good practice to disambiguate your functions with the double-colon
+2. It is looking up a named feature in OpenStreetMap and returning the coordinates (bonus - we'll delve into more in next section - what coordinate reference system are coordinates in and how do you find out?)
+3. You would translate code using the ` |> ` operator from:
+  - do this ` |> ` do that ` |> `  do that
+  
+  To
+  
+  - do this *then* do that *then* do that
+4. Technically, it's a transposed version of `print` - columns run down page, data across like rows - it additionally gives you the number of observations and variables, and the data type of each column.  Note that glimpse omits geometry information - you would type the name of your object at the console to get full information, or use `print.sf()` or `str()`.
+  - bonus: how would you quickly learn more about `glimpse` from the console?
+:::
+
+#### Choropleth map
+The `tigris` package can be used to get census boundaries such as states and counties as vector `sf` objects in R
+```{r tmap example, fig.width=8, results='hide', message=FALSE, error=FALSE, warning=FALSE, results='hide'}
+library(tigris)
+library(sf, quietly = T)
+counties <- counties("Oregon", cb = TRUE)
+counties$area <- as.numeric(st_area(counties))
+glimpse(counties)
+
+tm_shape(counties) +
+  tm_polygons("area", 
+              style="quantile", 
+              title="Area of Oregon Counties")
+```
+
+#### Interactive mapping
+```{r mapview example, fig.width=8,message=FALSE, error=FALSE, warning=FALSE}
+library(mapview)
+mapviewOptions(fgb=FALSE)
+mapview(my_town, col="red", col.regions = "red") + mapview(counties, alpha.regions = .1)
+```
+
 ## Spatial Data Structures in R
 First we'll walk through spatial data structures in R and review some key components of data structures in R that inform our use of spatial data in R.
 
@@ -429,13 +489,26 @@ vignette(package = "sf") # see which vignettes are available
 vignette("sf1")          # open the introduction vignette
 ```
 
-Vector data in R and `sf` can be broken down into three basic `geometric` primitives:
+The `sfg` class in `sf` represents the different simple feature geometry types in R: point, linestring, polygon (and ‘multi’ equivalents such as multipoints) or geometry collection. Vector data in R and `sf` can be broken down into three basic `geometric` primitives with equivalent `sf` functions to create them:
 
-1. points
-2. polylines
-3. polygons
+1. points - `st_points()`
+2. linestrings - `st_linestring()`
+3. polygons - `st_polygon()`
 
-These primitives are the building blocks for all vector features in `sf`
+We buld up the more complex simple feature geometries with:
+- `st_multipoint()` for multipoints
+- `st_multilinestring()` for multilinestrings
+- `st_multipolygon()` for multipolygons
+- `st_geometrycollection()` for geometry collections
+
+Typically we don't build these up from scratch ourselves but it's important to understnand these building blocks since primitives are the building blocks for all vector features in `sf`
+
+::: {.callout-note appearance="simple" icon="true" collapse="true"}
+- All functions and methods in `sf` that operate on spatial data are prefixed by `st_`, which refers to spatial type.
+- This is similar to [PostGIS](http://postgis.net/)
+- This makes them `sf` functions easily discoverable by command-line completion. 
+- Simple features are also native R data, using simple data structures (S3 classes, lists, matrix, vector). 
+:::
 
 These primitives can all be broken down into set(s) of numeric x,y coordinates with a known coordinate reference system (crs).
 #### Points
@@ -945,6 +1018,22 @@ elevation_tm <- project(elevation, tranvmerc, method = "bilinear")
 crs(elevation_tm)
 CraterLake_tm <- st_transform(CraterLake,tranvmerc)
 ```
+
+###  `S2` class
+It's important to note a recent change in R spatial with spherical geometry. Since `sf` version 1.0.0, R supports spherical geometry operations by default via its interface to Google’s `S2` spherical geometry engine and the `s2` interface package. `S2` is perhaps best known as an example of a Discrete Global Grid System (DGGS). Another example of this is the [H3](https://eng.uber.com/h3/) global hexagonal hierarchical spatial index.
+
+`sf` can run with `s2` on or off and by default the S2 geometry engine is turned on:
+```{r}
+sf::sf_use_s2()
+```
+
+See the [Geocomputation with R s2 section for further details](https://r.geocompx.org/spatial-class#s2)
+
+:::{.callout-note}
+There are sometimes good reasons for turning `S2` off during an R session. See issue 1771 in sf’s GitHub repo -  the default behavior can make code that would work with S2 turned off (and with older versions of sf) fail.
+
+Situations that can cause problems include operations on polygons that are not valid according to S2’s stricter definition. If you see error message such as #> Error in s2_geography_from_wkb ... you may want to turn `s2` off and try your operation again, perhaps turning of `s2` and running a topology clean operation like `st_make_valid()`.
+:::
 
 ## Geographic Data I/O
 - There are several ways we typically get spatial data into R:
