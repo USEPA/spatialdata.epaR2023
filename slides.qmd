@@ -85,4 +85,4 @@ The views expressed in this workshop are those of the authors and do not necessa
 * Cover vectors, matrices, arrays, lists, data frames, etc.
 * Cover data frame manipulation using [tidyverse](https://www.tidyverse.org/) functions and the pipe operator (`%>%` or `|>`)
 
-## Why R for Spatial Data Analysis
+## Why R for Spatial Data Analysis?
