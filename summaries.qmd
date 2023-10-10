@@ -47,3 +47,4 @@ The `rgdal`, `rgeos`, and `maptools` **R** packages won't be available on CRAN a
 * [Geocomputation with R](https://r.geocompx.org/)
 * [R-Spatial Task View](https://cran.r-project.org/web/views/Spatial.html)
 * [R-Spatial Website](https://r-spatial.org/)
+* [R for Data Science](https://r4ds.had.co.nz/)
