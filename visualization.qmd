@@ -68,12 +68,12 @@ mult_wide |>
 A great resource for mapping with `ggplot2` is [this blog post from 2018](https://r-spatial.org/r/2018/10/25/ggplot2-sf-2.html). 
 
 ::: {.callout-note appearance="simple" icon="false"}
-### Question
-Using the example in post above, get counties for your state using `maps` package as shown in example - igonore the extra packages and some of the bells and whistles in the blog post, just try using a few of their ideas and adding a few of the ggplot parameters to make an interesting map with counties.  Feel free to try adding some cities too if you want.
+### Exercise
+Using the blog post link above, get counties for your state using `tigris` (or other!) package. Ignore the extra packages and some of the bells and whistles in the blog post, but try using a few of their ideas and adding a few of the ggplot parameters to make an interesting map using county data. You can try loading city data as well.
 :::
 
 ::: {.callout-note appearance="simple" icon="false" collapse="true"}
-#### Answer
+#### Solution
 One idea
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 # library(tmap)
@@ -126,6 +126,7 @@ Here we plot gages within Benton County:
 ```{r message=FALSE, error=FALSE, warning=FALSE,, results='hide'}
 library(Rspatialworkshop)
 library(mapview)
+mapviewOptions(fgb=FALSE)
 library(readr)
 library(sf)
 library(tigris)
@@ -137,21 +138,24 @@ gages <- read_csv(fpath,show_col_types = FALSE)
 gages_sf <- gages %>%
   st_as_sf(coords = c("LON_SITE", "LAT_SITE"), crs = 4269, remove = FALSE) 
 st_crs(gages_sf)==st_crs(benton)
-# remember spatial indexing?
+# remember spatial indexing from Geoprocessing section?
 gages_benton <- gages_sf[benton,]
 mapview(gages_benton) + benton
 ```
 
+::: {.callout-note appearance="simple" icon="false"}
 ### Exercise
 Glance through the [`mapview` basics](https://r-spatial.github.io/mapview/articles/articles/mapview_01-basics.html) and adjust legend and attributes.  Take a look at [`mapview` advanced controls](https://r-spatial.github.io/mapview/articles/articles/mapview_02-advanced.html) as well and try plotting stations and the county polygon together, this time modifying features such as thicker black outline and transparent fill for the county outline and colorizing gages by their average flow ('AVE').
+:::
 
-### Solution
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+#### Solution
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 mapview(gages_benton,zcol='AVE') + mapview(benton, alpha.regions=.07, color='black', lwd=2)
 ```
 
 ## Adding Web Map services in `mapview`
-We'll visualize data with mapview and load web map layers alongside using `mapview` and underlying `leaflet` functionality.
+We'll visualize data with `mapview` and load a web map service layers alongside using `mapview` and underlying `leaflet` functionality.
 
 First we load load an excel file containing coordinate information in a known projection and promote to an `sf` spatial data frame.
 ```{r message=FALSE, error=FALSE, warning=FALSE}
@@ -168,7 +172,7 @@ summary(stations$x)
 stations <- stations[complete.cases(stations),]
 # often spatial data in projected coordinates will have missing negative values for x values - common thing to fix:
 stations$x[stations$x > 0] <- 0 - stations$x[stations$x > 0]
-stations <- stations %>% 
+stations <- stations  |>  
   st_as_sf(coords = c("x", "y"), remove = FALSE)
 
 # in this case we know the particular Albers projection and have the information as a proj string
@@ -180,7 +184,7 @@ Basic interactive map of our spatial stations with `mapview`:
 mapview(stations)
 ```
 
-We know of web mapping services for the  National Hydrography dataset - these are stream site locations so imagine we want to visualize how closely these sites match a known rivers and stream network:
+Here we'll load a web map servcice (WMS) for the  National Hydrography dataset. We're looking at stream stations so imagine we want to visualize how closely these sites match a known rivers and stream network:
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 library(leaflet)
 # create a mapview object with our stations:
@@ -203,15 +207,15 @@ m@map <- m@map %>% addWMSTiles(group = 'NHDPlus',
 m
 ```
 
-## tmap
-
-It uses the same syntax as ggplot: the grammar of graphics - it supports both static and interactive modes
+## `tmap`
+`tmap` uses the same syntax as ggplot: the grammar of graphics - and it supports both static and interactive modes
 
 ### Plotting rasters and vectors with tmap
 Bring in boundary and elevation of Crater Lake NP (datasets in `Rspatialworkshop` package) and plot with tmap
 ```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
 library(Rspatialworkshop)
 library(tmap)
+library(terra)
 data(CraterLake)
 raster_filepath <- system.file("extdata", "elevation.tif", package = "Rspatialworkshop")
 elevation <- rast(raster_filepath)
