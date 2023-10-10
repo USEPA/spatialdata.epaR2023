@@ -6,15 +6,14 @@ Hello and welcome! The purpose of this site is to provide workshop materials for
 
 - 1:00pm - 1:45pm EDT: Introduction and Spatial Data Structures in R
 - 1:45pm - 2:15pm EDT: Vector Data Model
-- 2:15pm - 2:20pm Break
+- 2:15pm - 2:20pm EDT: Break
 - 2:20pm - 2:35pm EDT: Raster Data Model
-- 2:35pm - 2:45pm Break
-- 2:45pm - 3:15pm EDT: 
-- 3:15pm - 3:20pm Break
-- 3:20pm - 3:45pm EDT: 
-- 3:45pm - 4:15pm EDT: 
-- 4:15pm - 4:45pm EDT: 
-- 4:45pm - 5:00pm EDT:
+- 2:35pm - 2:45pm EDT: Break
+- 2:45pm - 3:15pm EDT: Coordinate Reference Systems and I / O
+- 3:15pm - 3:20pm EDT: Break
+- 3:20pm - 3:45pm EDT: Spatial Data Visualization
+- 3:45pm - 4:15pm EDT: Geoprocecessing
+- 4:15pm - 5:00pm EDT: Advanced Applications
   
 ## Author Introduction
 
