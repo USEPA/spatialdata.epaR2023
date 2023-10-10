@@ -1,6 +1,5 @@
 # Visualization {#sec-visualization}
 
-
 ## Goals and Outcomes
 
 * Gain familiarity with plotting and visualizing spatial data in R
@@ -10,12 +9,22 @@
   + `mapview`
   + `tmap`
   
+R is fantastic for making publication quality static maps, and for generating repetitive graphics through scripts;  we've already seen examples of how to make simple maps using base plotting,`ggplot`, and `tmap`. There are also several packages in R that link R code to plotting libraries developed in Javascript (or other languages) for interactive plotting and web integration.
 
-As pointed out in [Spatial Data Science](https://r-spatial.org/book/08-Plotting.html) by Edzar Pebesma and Roger Bivand, 'Every plot is a projection' so it's essential to have an understanding of coordinate reference systems and projections when visualizing spatial data in R - as they point out 'any time we visualise, in any way, the world on a flat device, we project: we convert ellipsoidal coordinates into Cartesian coordinate'.
+It can be hard to decide which mapping packages to learn and use - some nice advice from Martin Tennekes who created `tmap`:
+
+- If you know some `ggplot`, don't care about interactive maps, and don't want to spend a lot of time learning new packages, use `ggplot`
+- If you want interactive maps as flexible as possible, use `leaflet`
+- If you want to simply explore spatial objects ineractively as easily as possible, use `mapview`
+- Otherwise, use `tmap`!
+  
+Also, as pointed out in [Spatial Data Science](https://r-spatial.org/book/08-Plotting.html) by Edzar Pebesma and Roger Bivand, 'Every plot is a projection' so it's essential to have an understanding of coordinate reference systems and projections when visualizing spatial data in R - as they point out 'any time we visualise, in any way, the world on a flat device, we project: we convert ellipsoidal coordinates into Cartesian coordinate'.
 
 
 ## ggplot2
-[ggplot2](https://ggplot2.tidyverse.org/) now has support for `geom_sf` that was developed in conjunction with the development of `sf` and helps creating publication quality maps directly using `sf` objects. An introduction to this is found in [Moreno and Basille (2018)](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html). Here we'll show some of the functionality of `ggplot2` with `geom_sf` objects pulling census and American Community Survey data using the [tidycensus](https://github.com/walkerke/tidycensus) package:
+[ggplot2](https://ggplot2.tidyverse.org/) now has support for `geom_sf` that was developed in conjunction with the development of `sf` and helps creating publication quality maps directly using `sf` objects. An introduction to this is found in [Moreno and Basille (2018)](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html). 
+
+Here we'll show some of the useful functionality of `ggplot2` with `geom_sf` objects pulling census and American Community Survey data using the [tidycensus](https://github.com/walkerke/tidycensus) package:
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 #| message: false
 #| error: false
@@ -56,23 +65,29 @@ mult_wide |>
   theme_minimal_grid(12)
 ```
 
-### Exercise
-Using the example in post above, get counties for your state using `maps` package as shown in example - igonore the extra packages and some of the bells and whistles in the blog post, just try using a few of their ideas and adding a few of the ggplot parameters to make an interesting map with counties.  Feel free to try adding some cities too if you want.
+A great resource for mapping with `ggplot2` is [this blog post from 2018](https://r-spatial.org/r/2018/10/25/ggplot2-sf-2.html). 
 
-### Solution
+::: {.callout-note appearance="simple" icon="false"}
+### Question
+Using the example in post above, get counties for your state using `maps` package as shown in example - igonore the extra packages and some of the bells and whistles in the blog post, just try using a few of their ideas and adding a few of the ggplot parameters to make an interesting map with counties.  Feel free to try adding some cities too if you want.
+:::
+
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+#### Answer
 One idea
 ```{r message=FALSE, error=FALSE, warning=FALSE}
-library(tmap)
-library(tmaptools)
-library(maps)
+# library(tmap)
+# library(tmaptools)
 library(ggplot2)
+library(tigris)
+library(sf, quietly = T)
+counties <- tigris::counties("Oregon", cb = TRUE)
+counties <- counties |> 
+  sf::st_transform(2991) |> 
+  dplyr::mutate(area=as.numeric(st_area(counties)))
 
-counties <- st_as_sf(map("county", plot = FALSE, fill = TRUE))
-counties <- subset(counties, grepl("oregon", counties$ID))
-counties$area <- as.numeric(st_area(counties))
 ggplot() +
-    geom_sf(data = counties, fill = NA, color = gray(.5))  +
-    coord_sf(xlim = c(-125, -115), ylim = c(41, 47), expand = FALSE)
+    geom_sf(data = counties, fill = NA, color = gray(.5)) 
 ```
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
@@ -80,13 +95,15 @@ library(ggspatial)
 ggplot() +
     geom_sf(data = counties, aes(fill = area))  +
   scale_fill_viridis_c(trans = "sqrt", alpha = .4) +
-    coord_sf(xlim = c(-125, -115), ylim = c(41, 47), expand = FALSE) +
+    
     theme(panel.grid.major = element_line(color = gray(0.5), linetype = "dashed", 
         size = 0.5), panel.background = element_rect(fill = "aliceblue")) +
     annotation_scale(location = "bl", width_hint = 0.4) +
     annotation_north_arrow(location = "tr", which_north = "true",
         style = north_arrow_fancy_orienteering)
 ```
+:::
+
 
 ## mapview
 

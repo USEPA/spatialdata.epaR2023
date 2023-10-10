@@ -46,7 +46,8 @@ install.packages("tigris")
 install.packages("tidycensus")
 install.packages("tmap")
 install.packages("tmaptools")
-# remotes::install_github("mikejohnson51/AOI")
+remotes::install_github("mikejohnson51/AOI")
+install.packages("ggspatial")
 ```
 
 ## How to follow along with material
