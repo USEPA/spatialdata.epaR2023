@@ -6,9 +6,9 @@ source("_common.R")
 
 ## Goals and Outcomes
 
-* Understand fundamental spatial data structures and libraries in R.
+* Understand fundamental spatial data structures and libraries in **R**.
 * Become familiar with coordinate reference systems.
-* Geographic I/O
+* Geographic I/O (input/output)
 
 ## Background on data structures
 :::{.callout-note}
@@ -66,6 +66,7 @@ And data.frames can be operated on with functions such as:
 - group_by
 
 ### Vectors
+
 :::{.callout-note}
 'vector' has two meanings when working with GIS data and working in R!
 
@@ -85,6 +86,7 @@ geographic vector data is a *data model*, and the `vector` class is an R class l
 - lists elements can have different **types**
 
 ### Atomic vectors
+
 ```{r}
 # Numeric
 dbl_vec = c(1.9, 2, 3.5)
@@ -131,6 +133,7 @@ x[c(T,T,F,F)]
 ```
 
 ### Matrix
+
 - A matrix is 2D atomic (row, column)
   + Same data types
   + Same column length
@@ -146,6 +149,7 @@ x[3,3]
 ```
 
 ### Array
+
 - Array is a 3d Atomic (row, column, slice)
 
 This is how spatial *raster* data with a time dimension is structured
@@ -163,6 +167,7 @@ x[,,1]
 ```
 
 ### Lists
+
 Eash list element can be any data type
 ```{r}
 (my_list <- list(
@@ -186,6 +191,7 @@ my_list[[1]][1,2]
 ```
 
 ### Data Frames
+
 - `data.frame` is built on the `list` structure in R
 - length of each atomic or list vector has to be the same
 - This gives `data.frame` objects rectangular structure so they share properties of both matrices and lists
@@ -208,6 +214,7 @@ df1$name
 ```
 
 ### Data manipulation
+
 - `data.frame` manipulation is all based on SQL queries
 - R abstracts the SQL logic and provides function-ized methods
 - `dplyr` in the `tidyverse` ecosystem provides the 'grammar of data manipulation` approach we'll use in this workshop
@@ -225,26 +232,29 @@ _ Manipulation:
   + `group_by()`: combine with any or all of the above to perform manipulation 'by group'
   
 ### Pipe operator
+
 - The pipe operator (native R pipe operator `|>` or `magrittr` pipe operator `%>%`) provides a more concise and expressive coding experience
 - The pipe passes the object on the left hand side of the pipe into the first argument of the right hand function
 - To be  `|>`  compatible, the data.frame is ALWAYS the fist argument to `dplyr` verbs
 
 A demonstration using `dataRetrieval` package stream gage data from USGS:
 ```{r}
-flows <- dataRetrieval::readNWISdv(siteNumbers = '14187200',
-                   parameterCd = "00060")  |>  
-  dataRetrieval::renameNWISColumns() 
-dplyr::glimpse(flows)
+flows <- dataRetrieval::readNWISdv(
+  siteNumbers = '14187200',
+  parameterCd = "00060"
+)  |>  
+  dataRetrieval::renameNWISColumns() |>
+  dplyr::glimpse(flows)
 ```
 
 ::: {.callout-note appearance="simple" icon="false"}
 ### Question
-What is the :: after the package name and before the function in the R code above doing?  How would you find out more about it?
+What is the `::` after the package name and before the function in the R code above doing?  How would you find out more about it?
 :::
 
 ::: {.callout-note appearance="simple" icon="false" collapse="true"}
 ### Answer
-It disambiguates the function or method by selecting a definition from a particular namespace.
+`::` disambiguates the function or method by selecting a definition from a particular namespace.
 
 You can get help on it the same way you get help on anything in R:
 ```{r}
@@ -256,47 +266,50 @@ help("::")
 :::
 
 ### Filter
+
 - `filter()` takes logical (binary) expressions and returns the rows in which all conditions are TRUE.
 
 Filter on a single condition:
 ```{r}
 flows |> 
-dplyr::filter(Flow > 900) |> 
+  dplyr::filter(Flow > 900) |>
   dplyr::glimpse()
 ```
 
 Or multiple conditions:
 ```{r}
 flows  |> 
-dplyr::filter(Flow > 900, Date > as.Date("2010-01-01"))  |>  
+  dplyr::filter(Flow > 900, Date > as.Date("2010-01-01"))  |>
   dplyr::glimpse()
 ```
 
 ### Select
-- Subset variables (columns) you want to keep or exlcude by name
+
+- Subset variables (columns) you want to keep or exclude by name
 
 Just keep three columns
 ```{r}
 flows |> 
-dplyr::select(Date, Flow)  |> 
+  dplyr::select(Date, Flow)  |> 
   dplyr::glimpse()
 ```
 
 Exclude just one
 ```{r}
 flows |> 
-dplyr::select(-Flow_cd)  |> 
+  dplyr::select(-Flow_cd)  |> 
   dplyr::glimpse()
 ```
 
 ..And can rename while selecting
 ```{r}
 flows |> 
-dplyr::select(Date, flow_cfs = Flow)  |> 
+  dplyr::select(Date, flow_cfs = Flow)  |> 
   dplyr::glimpse()
 ```
 
 ### Mutate
+
 - `mutate()` defines and inserts new variables into a existing `data.frame`
 - `mutate()` builds new variables sequentially so you can reference earlier ones when defining later ones
 
@@ -305,13 +318,13 @@ We can extract Year and Month as new variables from the Date variable using date
 flows  |> 
   dplyr::select(Date, Flow)  |>  
   dplyr::filter(Date > as.Date('2010-01-01'))  |> 
-  dplyr::mutate(Year  = format(Date, "%Y"),
-         Month = format(Date, "%m"))  |>  
+  dplyr::mutate(Year  = format(Date, "%Y"), Month = format(Date, "%m"))  |>  
   dplyr::glimpse()
 ```
 
 ### Summarize and Group_By
-- `summarize()` allowa you to summarize across all observations
+
+- `summarize()` allows you to summarize across all observations
 -  `group_by()` allows you to apply any of these manipulation verbs by group in your data
 
 ```{r}
@@ -327,7 +340,8 @@ flows |>
 You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
 :::
 
-## Why R for Spatial Analysis
+## Why R for Spatial Data Analysis?
+
 **Advantages**
 
 - R is:
@@ -358,6 +372,7 @@ You may click on any of the functions in this book to be directed to their respe
 - Up to you to find packages to do what you need - help not always great
 
 ### A Couple Motivating Examples
+
 Here's a quick example demonstrating R’s flexibility and current strength for plotting and interactive mapping with very simple, expressive code:
 
 ```{r}

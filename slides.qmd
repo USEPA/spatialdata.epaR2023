@@ -39,4 +39,50 @@ library(ggplot2)
 
 ## Welcome!
 
-1.  Install and load R packages
+1. Please visit INSERT LINK HERE to view the workshop's accompanying workbook
+
+2.  Install and load R packages (INSERT LINK HERE TO SECTION IN WORKBOOK)
+
+3. (Optional) Download the workshop slides (instructions in the workbook's Introduction)
+
+4. Follow along and have fun!
+
+## Who Are We?
+
+Marc Weber is a geographer at the Pacific Ecological Systems Division (PESD) at the United States Environmental Protection Agency (USEPA). His work supports various aspects of the USEPA's National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States, as he helped develop and maintains the StreamCat and LakeCat datasets.  His work focuses on spatial analysis in R and Python, Geographic Information Science (GIS), aquatic ecology, remote sensing, open source science and environmental modeling.
+
+## Who Are We?
+
+Michael Dumelle is a statistician for the United States Environmental Protection Agency (USEPA). He works primarily on facilitating the survey design and analysis of USEPA's National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States. His primary research interests are in spatial statistics, survey design, environmental and ecological applications, and software development.
+
+## Disclaimer
+
+The views expressed in this workshop are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency or the U.S. National Oceanic and Atmospheric Administration. Any mention of trade names, products, or services does not imply an endorsement by the U.S. government, the U.S. Environmental Protection Agency, or the U.S. National Oceanic and Atmospheric Administration. The U.S. Environmental Protection Agency and the U.S. National Oceanic and Atmospheric Administration do not endorse any commercial products, services, or enterprises.
+
+## What Will We Cover?
+
+::: incremental
+* Foundations of spatial data
+* Visualizing spatial data
+* Geoprocessing spatial data
+* Advanced applications
+* Focus on the **R** computing language
+:::
+
+# Foundations
+
+## Goals
+
+::: goals
+1. Understand fundamental spatial data structures and libraries in **R**.
+2. Become familiar with coordinate reference systems.
+3. Geographic I/O (input/output).
+:::
+
+## Data Structures
+
+* Review data structures section in workbook
+* Cover vectors, matrices, arrays, lists, data frames, etc.
+* Cover data frame manipulation using [tidyverse](https://www.tidyverse.org/) functions and the pipe operator (`%>%` or `|>`)
+
+## Why R for Spatial Data Analysis
