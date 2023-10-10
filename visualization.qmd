@@ -104,12 +104,104 @@ ggplot() +
 ```
 :::
 
-
-## mapview
-
 ## leaflet
+[Leaflet](https://leafletjs.com/) is an extremely popular open-source javascript library for interactive web mapping, and the `leaflet` R package allows R users to create Leaflet maps from R. `Leaflet` can plot `sf` or `sp` objects, or x / y coordinates, and can plot points, lines or polygons. There are a number of [base layers you can choose from](http://leaflet-extras.github.io/leaflet-providers/preview/index.html).  It's worth spending some time exploring the excellent [Leaflet for R site](https://rstudio.github.io/leaflet/).
 
+Here we make the simplest of leaflet maps:
+```{r leaflet, message=FALSE, warning=FALSE, error=FALSE}
+library(leaflet)
 
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=-123.26720, lat=44.5810, popup="Here's my house")
+m  # Print the map
+```
+
+## `mapview`
+[Mapview](https://r-spatial.github.io/mapview/index.html) is a package designed for quick and easy interactive visualizations of spatial data - it makes use of `leaflet` but simplifies mapping functions compared to the `leaflet` package.  
+
+It's easy to layer features with `mapview` - you can supply a list of objects to `mapview` or use + syntax as with `ggplot`.
+
+Here we plot gages within Benton County:
+```{r message=FALSE, error=FALSE, warning=FALSE,, results='hide'}
+library(Rspatialworkshop)
+library(mapview)
+library(readr)
+library(sf)
+library(tigris)
+counties <- counties("Oregon", cb = TRUE)
+benton <- counties[counties$NAME=='Benton',]
+fpath <- system.file("extdata", "Gages_flowdata.csv", package="Rspatialworkshop")
+
+gages <- read_csv(fpath,show_col_types = FALSE)
+gages_sf <- gages %>%
+  st_as_sf(coords = c("LON_SITE", "LAT_SITE"), crs = 4269, remove = FALSE) 
+st_crs(gages_sf)==st_crs(benton)
+# remember spatial indexing?
+gages_benton <- gages_sf[benton,]
+mapview(gages_benton) + benton
+```
+
+### Exercise
+Glance through the [`mapview` basics](https://r-spatial.github.io/mapview/articles/articles/mapview_01-basics.html) and adjust legend and attributes.  Take a look at [`mapview` advanced controls](https://r-spatial.github.io/mapview/articles/articles/mapview_02-advanced.html) as well and try plotting stations and the county polygon together, this time modifying features such as thicker black outline and transparent fill for the county outline and colorizing gages by their average flow ('AVE').
+
+### Solution
+```{r message=FALSE, error=FALSE, warning=FALSE}
+mapview(gages_benton,zcol='AVE') + mapview(benton, alpha.regions=.07, color='black', lwd=2)
+```
+
+## Adding Web Map services in `mapview`
+We'll visualize data with mapview and load web map layers alongside using `mapview` and underlying `leaflet` functionality.
+
+First we load load an excel file containing coordinate information in a known projection and promote to an `sf` spatial data frame.
+```{r message=FALSE, error=FALSE, warning=FALSE}
+library(Rspatialworkshop)
+library(sf)
+library(dplyr)
+library(readxl)
+library(mapview)
+fpath <- system.file("extdata", "Station_Locations.xlsx", package="Rspatialworkshop")
+stations <- read_xlsx(fpath)
+glimpse(stations)
+summary(stations$x)
+# common clean up steps for spatial data - we can't use data missing coordinates so drop those records
+stations <- stations[complete.cases(stations),]
+# often spatial data in projected coordinates will have missing negative values for x values - common thing to fix:
+stations$x[stations$x > 0] <- 0 - stations$x[stations$x > 0]
+stations <- stations %>% 
+  st_as_sf(coords = c("x", "y"), remove = FALSE)
+
+# in this case we know the particular Albers projection and have the information as a proj string
+st_crs(stations) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs" 
+```
+
+Basic interactive map of our spatial stations with `mapview`:
+```{r message=FALSE, error=FALSE, warning=FALSE}
+mapview(stations)
+```
+
+We know of web mapping services for the  National Hydrography dataset - these are stream site locations so imagine we want to visualize how closely these sites match a known rivers and stream network:
+```{r message=FALSE, error=FALSE, warning=FALSE}
+library(leaflet)
+# create a mapview object with our stations:
+m <- mapview(stations, legend=FALSE)
+
+# we configure the map attribute of our mapview object - try:
+# 'attributes(m) 
+# to see those attributes
+
+#  The map attribute for mapview accepts leaflet methods - in this case we use addWMSTiles to add web map service tiles to the map
+m@map <- m@map %>% addWMSTiles(group = 'NHDPlus',
+                              "https://watersgeo.epa.gov/arcgis/services/NHDPlus_NP21/NHDSnapshot_NP21/MapServer/WmsServer?",
+                              layers  = 4,
+                              options = WMSTileOptions(format = "image/png", transparent = TRUE),
+                              attribution = "") %>% addWMSTiles(group = 'NHDPlusHR',
+                                                                "https://hydro.nationalmap.gov/arcgis/services/NHDPlus_HR/MapServer/WMSServer?",
+                                                                layers  = 9,
+                                                                options = WMSTileOptions(format = "image/png", transparent = TRUE),
+                                                                attribution = "")  %>% mapview:::mapViewLayersControl(names = c("NHDPlus","NHDPlusHR"))
+m
+```
 
 ## tmap
 
