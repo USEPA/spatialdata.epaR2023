@@ -3,17 +3,96 @@
 
 ## Goals and Outcomes
 
-* Understand how to use several of the most popular libraries for plotting and visualizing spatial data inR
-* This is goal 2.
-* This is goal 3.
+* Gain familiarity with plotting and visualizing spatial data in R
+* Work with four specific visualization and plotting libraries:
+  + `ggplot2`
+  + `leaflet`
+  + `mapview`
+  + `tmap`
+  
+
+As pointed out in [Spatial Data Science](https://r-spatial.org/book/08-Plotting.html) by Edzar Pebesma and Roger Bivand, 'Every plot is a projection' so it's essential to have an understanding of coordinate reference systems and projections when visualizing spatial data in R - as they point out 'any time we visualise, in any way, the world on a flat device, we project: we convert ellipsoidal coordinates into Cartesian coordinate'.
 
 
+## ggplot2
+[ggplot2](https://ggplot2.tidyverse.org/) now has support for `geom_sf` that was developed in conjunction with the development of `sf` and helps creating publication quality maps directly using `sf` objects. An introduction to this is found in [Moreno and Basille (2018)](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html). Here we'll show some of the functionality of `ggplot2` with `geom_sf` objects pulling census and American Community Survey data using the [tidycensus](https://github.com/walkerke/tidycensus) package:
+```{r message=FALSE, error=FALSE, warning=FALSE}
+#| message: false
+#| error: false
+#| warning: false
+library(tigris)
+library(tidycensus)
+mult_tracts <- get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE)  
+
+
+# tidy data
+mult_wide <- mult_tracts |> 
+  sf::st_transform(2153) |> #UTM 11N
+  dplyr::filter(!is.na(estimate)) |> 
+  tidyr::pivot_wider(
+    names_from = c("variable"),
+    values_from = c("estimate","moe")
+  ) |> 
+  dplyr::rename(Median_Income=estimate_B19013_001, College_Education=estimate_B16010_028,Total_Pop=estimate_B01003_001) |> 
+  dplyr::mutate(Perc_College_Ed = (College_Education / Total_Pop) * 100)
+  
+    
+# Median Income
+mult_wide |> 
+  ggplot() + geom_sf(aes(fill = Median_Income)) + 
+  scale_y_continuous() +
+  scale_fill_viridis_c(option = "mako") +
+  theme_minimal_grid(12)
+```
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+#| message: false
+#| error: false
+#| warning: false
+mult_wide |> 
+  ggplot() + geom_sf(aes(fill = Perc_College_Ed)) + 
+  scale_y_continuous() +
+  scale_fill_viridis_c(option = "mako") +
+  theme_minimal_grid(12)
+```
+
+### Exercise
+Using the example in post above, get counties for your state using `maps` package as shown in example - igonore the extra packages and some of the bells and whistles in the blog post, just try using a few of their ideas and adding a few of the ggplot parameters to make an interesting map with counties.  Feel free to try adding some cities too if you want.
+
+### Solution
+One idea
+```{r message=FALSE, error=FALSE, warning=FALSE}
+library(tmap)
+library(tmaptools)
+library(maps)
+library(ggplot2)
+
+counties <- st_as_sf(map("county", plot = FALSE, fill = TRUE))
+counties <- subset(counties, grepl("oregon", counties$ID))
+counties$area <- as.numeric(st_area(counties))
+ggplot() +
+    geom_sf(data = counties, fill = NA, color = gray(.5))  +
+    coord_sf(xlim = c(-125, -115), ylim = c(41, 47), expand = FALSE)
+```
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+library(ggspatial)
+ggplot() +
+    geom_sf(data = counties, aes(fill = area))  +
+  scale_fill_viridis_c(trans = "sqrt", alpha = .4) +
+    coord_sf(xlim = c(-125, -115), ylim = c(41, 47), expand = FALSE) +
+    theme(panel.grid.major = element_line(color = gray(0.5), linetype = "dashed", 
+        size = 0.5), panel.background = element_rect(fill = "aliceblue")) +
+    annotation_scale(location = "bl", width_hint = 0.4) +
+    annotation_north_arrow(location = "tr", which_north = "true",
+        style = north_arrow_fancy_orienteering)
+```
 
 ## mapview
 
 ## leaflet
 
-## ggplot2
+
 
 ## tmap
 
