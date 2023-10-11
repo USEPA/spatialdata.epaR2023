@@ -925,7 +925,7 @@ A `CRS` is made up of several components:
 - **Datum**: The modeled version of the shape of the earth
 - **Projection details**: If projected, the mathematical equation used to flatten objects from round surface (earth) to flat surface (paper or screen)
 
-```{r, fig.cap="Source: https://mgimond.github.io/Spatial/coordinate-systems.html", echo=FALSE, out.width="75%"}
+```{r, fig.cap="Source: https://mgimond.github.io/Spatial/chp09_0.html", echo=FALSE, out.width="75%"}
 knitr::include_graphics("img/Ellipsoid.png")
 ```
 
@@ -986,7 +986,7 @@ sf::st_crs('EPSG:4326')
 ### Projected coordinate systems
 Typically we want to work with data that is projected. Projected coordinate systems (which are based on Cartesian coordinates) have: an origin, an x axis, a y axis, and a linear unit of measure. Going from geographic coordinates to a projected coordinate reference systems requires mathematical transformations. 
 
-Four spatial properties of projected coordinate systems that are subject to distortion are: *shape*, *area*, *distance* and *direction*. A map that preserves shape is called *conformal*; one that preserves area is called *equal-area*; one that preserves distance is called *equidistant*; and one that preserves direction is called *azimuthal* (from [https://mgimond.github.io/Spatial/coordinate-systems.html](https://mgimond.github.io/Spatial/coordinate-systems.html).
+Four spatial properties of projected coordinate systems that are subject to distortion are: *shape*, *area*, *distance* and *direction*. A map that preserves shape is called *conformal*; one that preserves area is called *equal-area*; one that preserves distance is called *equidistant*; and one that preserves direction is called *azimuthal* (from [https://mgimond.github.io/Spatial/chp09_0.html](https://mgimond.github.io/Spatial/chp09_0.html).
 
 
 The takeaway from all this is you need to be aware of the `crs` for your objects in R, make sure they are projected if appropriate and in a projection that optimizes properties you are interested in, and objects you are analyzing or mapping together need to be in same `crs`.  
