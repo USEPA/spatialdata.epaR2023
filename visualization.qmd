@@ -31,6 +31,8 @@ Here we'll show some of the useful functionality of `ggplot2` with `geom_sf` obj
 #| warning: false
 library(tigris)
 library(tidycensus)
+library(ggplot2)
+library(cowplot)
 mult_tracts <- get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE)  
 
 
@@ -143,6 +145,11 @@ gages_benton <- gages_sf[benton,]
 mapview(gages_benton) + benton
 ```
 
+We can also use handy convenience packages like the [AOI](https://mikejohnson51.github.io/AOI/) package by Mike Johnson for flexible, term based geocoding to return areas of interest as `sf` objects and map them:
+```{r}
+AOI::aoi_get(list("Corvallis, OR", 10, 10)) |> mapview()
+```
+
 ::: {.callout-note appearance="simple" icon="false"}
 ### Exercise
 Glance through the [`mapview` basics](https://r-spatial.github.io/mapview/articles/articles/mapview_01-basics.html) and adjust legend and attributes.  Take a look at [`mapview` advanced controls](https://r-spatial.github.io/mapview/articles/articles/mapview_02-advanced.html) as well and try plotting stations and the county polygon together, this time modifying features such as thicker black outline and transparent fill for the county outline and colorizing gages by their average flow ('AVE').
@@ -195,20 +202,47 @@ m <- mapview(stations, legend=FALSE)
 # to see those attributes
 
 #  The map attribute for mapview accepts leaflet methods - in this case we use addWMSTiles to add web map service tiles to the map
-m@map <- m@map %>% addWMSTiles(group = 'NHDPlus',
+m@map <- m@map  |>  addWMSTiles(group = 'NHDPlus',
                               "https://watersgeo.epa.gov/arcgis/services/NHDPlus_NP21/NHDSnapshot_NP21/MapServer/WmsServer?",
                               layers  = 4,
                               options = WMSTileOptions(format = "image/png", transparent = TRUE),
-                              attribution = "") %>% addWMSTiles(group = 'NHDPlusHR',
+                              attribution = "")  |>  addWMSTiles(group = 'NHDPlusHR',
                                                                 "https://hydro.nationalmap.gov/arcgis/services/NHDPlus_HR/MapServer/WMSServer?",
                                                                 layers  = 9,
                                                                 options = WMSTileOptions(format = "image/png", transparent = TRUE),
-                                                                attribution = "")  %>% mapview:::mapViewLayersControl(names = c("NHDPlus","NHDPlusHR"))
+                                                                attribution = "")   |>  mapview:::mapViewLayersControl(names = c("NHDPlus","NHDPlusHR"))
 m
 ```
 
 ## `tmap`
-`tmap` uses the same syntax as ggplot: the grammar of graphics - and it supports both static and interactive modes
+[tamp](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) uses the same syntax as ggplot: the grammar of graphics - and it supports both static and interactive modes. Like `ggplot2`, each dataset added to a `tmap` plot can be mapped in a number of different ways such as location, color, size, etc. The [Making maps with R section of Geocomputation with R] has an excellent and in depth treatment of using `tmap`.
+
+We can explore the basics using the counties of Oregon data we've been using in previous examples and exersices.
+```{r}
+# Add fill layer to Oregon counties
+tm_shape(counties) +
+  tm_fill() 
+# Add border layer to Oregon counties
+tm_shape(counties) +
+  tm_borders() 
+# Add fill and border layers to Oregon counties
+tm_shape(counties) +
+  tm_fill() +
+  tm_borders() 
+```
+
+### Basemaps with `tmap`
+```{r}
+data(metro)
+oregon_cnties <- st_transform(counties, 4326) 
+metro |> 
+  st_transform(4326) |> 
+  st_crop(st_bbox(oregon_cnties))  -> or_metro
+tmap_mode("view")
+tm_basemap("Stamen.Watercolor") +
+tm_shape(or_metro) + tm_bubbles(size = "pop2020", col = "red") +
+tm_tiles("Stamen.TonerLabels")
+```
 
 ### Plotting rasters and vectors with tmap
 Bring in boundary and elevation of Crater Lake NP (datasets in `Rspatialworkshop` package) and plot with tmap
@@ -227,3 +261,14 @@ map_crlkel = map_crlk +
 
 map_crlkel
 ```
+
+### Faceting and We can revisit the Multnomah County Census American Community Survey (ACS) data we used in `ggplot2` example above with `tmap` to map college education and income for Multnomah County, Oregon:
+```{r}
+library(tmap)
+tm_shape(mult_wide) + tm_polygons("Median_Income")
+```
+
+```{r}
+tm_shape(mult_wide) + tm_polygons("Perc_College_Ed")
+```
+
