@@ -240,6 +240,7 @@ _ Manipulation:
 
 A demonstration using `dataRetrieval` package stream gage data from USGS:
 ```{r}
+library(dataRetrieval)
 flows <- dataRetrieval::readNWISdv(
   siteNumbers = '14187200',
   parameterCd = "00060"
@@ -720,6 +721,8 @@ summary(us_states['total_pop_15'])
 
 The geometry is **sticky**, which means that it is carried along by default!
 
+You can read `sf` objects from shapefiles using `st_read()` or `read_sf()`.
+
 ### Raster Data Model
 Raster data can be *continuous* (e.g. elevation, precipitation, atmospheric deposition) or it can be *categorical* (e.g. land use, soil type, geology type).  Raster data can also be image based rasters which can be single-band or multi-band.  You can also have a temporal component with space-time cubes.
 
@@ -753,17 +756,17 @@ Try providing a different bounding box for an area of your choosing or changing 
 
 ```{r raster-layer, message=FALSE, warning=FALSE, error=FALSE}
 library(terra)
-myrast <- rast(ncol=10, nrow = 10, xmax=-116,xmin=-126,ymin=42,ymax=46)
+myrast <- rast(ncol = 10, nrow = 10, xmax = -116, xmin = -126, ymin = 42, ymax = 46)
 myrast
 ```
 :::
 
-:::{.callout-note collapse='true}
+:::{.callout-note collapse='true'}
 #### Solution
 ```{r}
 #| eval: false
 # just an example:
-myrast <- rast(ncol=40, nrow = 40, xmax=-120,xmin=-136,ymin=52,ymax=56)
+myrast <- rast(ncol=40, nrow = 40, xmax=-120, xmin=-136, ymin=52, ymax=56)
 ```
 :::
 
@@ -975,7 +978,7 @@ A coordinate reference system for spatial data can be defined in different ways 
 - 'authority:code' identifier
   + `EPSG:4326`
 
-Proj4 used to be the standard crs identifier in R but the preferrable way is ty use the AUTHORITY:CODE method which `sf` as well as software like [QGIS](https://docs.qgis.org/3.16/en/docs/user_manual/working_with_projections/working_with_projections.html) will recognize. The AUTHORITY:CODE method is durable and easily discoverable online.
+Proj4 used to be the standard crs identifier in R but the preferable way is to use the AUTHORITY:CODE method which `sf` as well as software like [QGIS](https://docs.qgis.org/3.16/en/docs/user_manual/working_with_projections/working_with_projections.html) will recognize. The AUTHORITY:CODE method is durable and easily discoverable online.
 
 The `WKT` representation of EPSG:4326 in `sf` is:
 ```{r}
@@ -1003,8 +1006,8 @@ st_crs(gages_sf)==st_crs(pnw)
 # transform one to the other
 gages_sf <- st_transform(gages_sf, st_crs(pnw))
 ggplot() + 
-  geom_sf(data=gages_sf,  color="blue") +
-  geom_sf(data=pnw,  color="black", fill=NA) +
+  geom_sf(data = gages_sf,  color="blue") +
+  geom_sf(data = pnw,  color="black", fill=NA) +
   labs(title="USGS Stream Gages in the Pacific Northwest") +
   theme_bw() 
 ```
@@ -1094,7 +1097,7 @@ See the [Geocomputation with R s2 section for further details](https://r.geocomp
 :::{.callout-note}
 There are sometimes good reasons for turning `S2` off during an R session. See issue 1771 in sf’s GitHub repo -  the default behavior can make code that would work with S2 turned off (and with older versions of sf) fail.
 
-Situations that can cause problems include operations on polygons that are not valid according to S2’s stricter definition. If you see error message such as #> Error in s2_geography_from_wkb ... you may want to turn `s2` off and try your operation again, perhaps turning of `s2` and running a topology clean operation like `st_make_valid()`.
+Situations that can cause problems include operations on polygons that are not valid according to S2’s stricter definition. If you see error message such as `#> Error in s2_geography_from_wkb ...` you may want to turn `s2` off and try your operation again, perhaps turning of `s2` and running a topology clean operation like `st_make_valid()`.
 :::
 
 ## Geographic Data I/O
@@ -1152,11 +1155,11 @@ plot(citylims$geometry, axes=T, main='Oregon City Limits') # plot it!
 #### Solution 
 `read_sf` is an `sf` alternative to st_read (see [this](https://keen-swartz-3146c4.netlify.com/intro.html#read) section 1.2.2). Try reading in `citylims` data above using `read_sf` and notice difference, and check out `help(read_sf)`.  `read_sf` and `write_sf` are simply aliases for st_read and st_write with modified default arguments.  Big differences are:
 
-- stringsAsFactors=FALSE
-- quiet=TRUE
-- as_tibble=TRUE
+- `stringsAsFactors=FALSE`
+- `quiet=TRUE`
+- `as_tibble=TRUE`
 
-Note that stringsAsFactors = FALSE is the new default in R versions >= 4.0
+Note that `stringsAsFactors = FALSE` is the new default in R versions >= 4.0
 
 #### Geodatabases
 We use `st_read` or `read_sf` similarly for reading in an ESRI file geodatabase feature:
@@ -1280,8 +1283,8 @@ Load stock Landsat 7 .tif file that comes with package
 ```{r stars_read, message=FALSE, warning=FALSE, error=FALSE}
 library(stars)
 tif = system.file("tif/L7_ETMs.tif", package = "stars")
-read_stars(tif) %>%
-  dplyr::slice(index = 1, along = "band") %>%
+read_stars(tif) |>
+  dplyr::slice(index = 1, along = "band") |>
   plot()
 ```
 
@@ -1302,7 +1305,7 @@ In the steps below, we
 library(readr)
 library(ggplot2)
 library(Rspatialworkshop)
-gages = read_csv(system.file("extdata/Gages_flowdata.csv", package = "Rspatialworkshop"))
+gages = read.csv(system.file("extdata/Gages_flowdata.csv", package = "Rspatialworkshop"))
 
 gages_sf <- gages |> 
   st_as_sf(coords = c("LON_SITE", "LAT_SITE"), crs = 4269, remove = FALSE)  |> 
