@@ -154,12 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./geoprocessing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geoprocessing</span></a>
+  <a href="./visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualization</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  <a href="./geoprocessing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geoprocessing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -217,17 +217,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>1:00pm - 1:45pm EDT: Introduction and Spatial Data Structures in R</li>
 <li>1:45pm - 2:15pm EDT: Vector Data Model</li>
-<li>2:15pm - 2:20pm Break</li>
+<li>2:15pm - 2:20pm EDT: Break</li>
 <li>2:20pm - 2:35pm EDT: Raster Data Model</li>
-<li>2:35pm - 2:45pm Break</li>
-<li>2:45pm - 3:15pm EDT:</li>
-<li>3:15pm - 3:20pm Break</li>
-<li>3:20pm - 3:45pm EDT:</li>
-<li>3:45pm - 4:15pm EDT:</li>
-<li>4:15pm - 4:45pm EDT:</li>
-<li>4:45pm - 5:00pm EDT:</li>
+<li>2:35pm - 2:45pm EDT: Break</li>
+<li>2:45pm - 3:15pm EDT: Coordinate Reference Systems and I / O</li>
+<li>3:15pm - 3:20pm EDT: Break</li>
+<li>3:20pm - 3:45pm EDT: Spatial Data Visualization</li>
+<li>3:45pm - 4:15pm EDT: Geoprocecessing</li>
+<li>4:15pm - 5:00pm EDT: Advanced Applications</li>
 </ul></section><section id="author-introduction" class="level2"><h2 class="anchored" data-anchor-id="author-introduction">Author Introduction</h2>
-<p>Marc Weber is a geographer at the Pacific Ecological Systems Division (PESD) at the United States Environmental Protection Agency (USEPA). His work supports various aspects of the USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States, as he helped develop and maintains the StreamCat and LakeCat datasets. His work focuses on spatial analysis in R and Python, Geographic Information Science (GIS), aquatic ecology, remote sensing, open source science and environmental modeling</p>
+<p>Marc Weber is a geographer at the Pacific Ecological Systems Division (PESD) at the United States Environmental Protection Agency (USEPA). His work supports various aspects of the USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States, as he helped develop and maintains the StreamCat and LakeCat datasets. His work focuses on spatial analysis in R and Python, Geographic Information Science (GIS), aquatic ecology, remote sensing, open source science and environmental modeling.</p>
 <p>Michael Dumelle is a statistician for the United States Environmental Protection Agency (USEPA). He works primarily on facilitating the survey design and analysis of USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States. His primary research interests are in spatial statistics, survey design, environmental and ecological applications, and software development.</p>
 </section><section id="set-up" class="level2"><h2 class="anchored" data-anchor-id="set-up">Set Up</h2>
 <p>The packages that we use throughout this workshop are listed below. To install and load them, run:</p>
@@ -248,13 +247,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"osmdata"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"mapview"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tigris"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidycensus"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tmaptools"</span><span class="op">)</span></span>
-<span><span class="co"># remotes::install_github("mikejohnson51/AOI")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mikejohnson51/AOI"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ggspatial"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="how-to-follow-along-with-material" class="level2"><h2 class="anchored" data-anchor-id="how-to-follow-along-with-material">How to follow along with material</h2>
-<p>This workshop was built using <a href="https://quarto.org/">Quarto</a> and <a href="https://github.com/rstudio/bookdown">bookdown</a> and <em>rendered</em> to html. If you are familiar with using git and GitHub, you can fork and clone <a href="https://github.com/mhweber/spatialdata.epaR2023.git">this repository</a>, or simply clone directly and open the corresponding .qmd files to follow along with material in RStudio. You can also copy code snippets from the rendered book site and paste into your code files in RStudio.</p>
-<p><a href="https://quarto.org/">Quarto</a> is a multi-language, next generation version of R Markdown from RStudio, with many new features and capabilities. Like R Markdown, Quarto uses Knitr to execute R code, and it can render most existing Rmd files without modification. Like RMarkdown the benefits include:</p>
+<p>This workshop was built using <a href="https://quarto.org/">Quarto</a> and <em>rendered</em> to html. If you are familiar with using git and GitHub, you can fork and clone <a href="https://github.com/mhweber/spatialdata.epaR2023.git">this repository</a>, or simply clone directly and open the corresponding .qmd files to follow along with material in RStudio. You can also copy code snippets from the rendered book site and paste into your code files in RStudio.</p>
+<p><a href="https://quarto.org/">Quarto</a> is a multi-language, next generation version of R Markdown from RStudio, with many new features and capabilities. Like R Markdown, Quarto uses Knitr to execute R code, and it can render most existing Rmd files without modification. Like R Markdown the benefits include:</p>
 <ul>
 <li>Allows for reproducible reporting from R</li>
 <li>You write your document in markdown and embed executable code chunks using the knitr syntax</li>

@@ -219,6 +219,7 @@ m
 
 We can explore the basics using the counties of Oregon data we've been using in previous examples and exersices.
 ```{r}
+library(tmap)
 # Add fill layer to Oregon counties
 tm_shape(counties) +
   tm_fill() 

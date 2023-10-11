@@ -243,8 +243,9 @@ flows <- dataRetrieval::readNWISdv(
   siteNumbers = '14187200',
   parameterCd = "00060"
 )  |>  
-  dataRetrieval::renameNWISColumns() |>
-  dplyr::glimpse(flows)
+  dataRetrieval::renameNWISColumns()
+  
+dplyr::glimpse(flows)
 ```
 
 ::: {.callout-note appearance="simple" icon="false"}
