@@ -18,13 +18,18 @@ It can be hard to decide which mapping packages to learn and use - some nice adv
 - If you want to simply explore spatial objects ineractively as easily as possible, use `mapview`
 - Otherwise, use `tmap`!
   
-Also, as pointed out in [Spatial Data Science](https://r-spatial.org/book/08-Plotting.html) by Edzar Pebesma and Roger Bivand, 'Every plot is a projection' so it's essential to have an understanding of coordinate reference systems and projections when visualizing spatial data in R - as they point out 'any time we visualise, in any way, the world on a flat device, we project: we convert ellipsoidal coordinates into Cartesian coordinate'.
+Also, as pointed out in [Spatial Data Science](https://r-spatial.org/book/08-Plotting.html) by Edzar Pebesma and Roger Bivand, 'Every plot is a projection' so it's essential to have an understanding of coordinate reference systems and projections when visualizing spatial data in R - as they point out 'any time we visualize, in any way, the world on a flat device, we project: we convert ellipsoidal coordinates into Cartesian coordinate'.
 
 
 ## ggplot2
 [ggplot2](https://ggplot2.tidyverse.org/) now has support for `geom_sf` that was developed in conjunction with the development of `sf` and helps creating publication quality maps directly using `sf` objects. An introduction to this is found in [Moreno and Basille (2018)](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html). 
 
-Here we'll show some of the useful functionality of `ggplot2` with `geom_sf` objects pulling census and American Community Survey data using the [tidycensus](https://github.com/walkerke/tidycensus) package:
+Here we'll show some of the useful functionality of `ggplot2` with `geom_sf` objects pulling census and American Community Survey data using the [tidycensus](https://github.com/walkerke/tidycensus) package.  
+
+:::{.callout-note}
+Note that to use `tidycensus` you'll need to set your Census API key. A key can be obtained from [here](http://api.census.gov/data/key_signup.html).
+:::
+
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 #| message: false
 #| error: false
@@ -35,7 +40,6 @@ library(ggplot2)
 library(cowplot)
 mult_tracts <- get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE)  
 
-
 # tidy data
 mult_wide <- mult_tracts |> 
   sf::st_transform(2153) |> #UTM 11N
@@ -45,7 +49,8 @@ mult_wide <- mult_tracts |>
     values_from = c("estimate","moe")
   ) |> 
   dplyr::rename(Median_Income=estimate_B19013_001, College_Education=estimate_B16010_028,Total_Pop=estimate_B01003_001) |> 
-  dplyr::mutate(Perc_College_Ed = (College_Education / Total_Pop) * 100)
+  dplyr::mutate(Perc_College_Ed = (College_Education / Total_Pop) * 100) |> 
+  dplyr::filter(!is.na(Median_Income) & !is.na(Perc_College_Ed))
   
     
 # Median Income
@@ -75,7 +80,7 @@ Using the blog post link above, get counties for your state using `tigris` (or o
 :::
 
 ::: {.callout-note appearance="simple" icon="false" collapse="true"}
-#### Solution
+### Solution
 One idea
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 # library(tmap)
@@ -109,22 +114,27 @@ ggplot() +
 ## leaflet
 [Leaflet](https://leafletjs.com/) is an extremely popular open-source javascript library for interactive web mapping, and the `leaflet` R package allows R users to create Leaflet maps from R. `Leaflet` can plot `sf` or `sp` objects, or x / y coordinates, and can plot points, lines or polygons. There are a number of [base layers you can choose from](http://leaflet-extras.github.io/leaflet-providers/preview/index.html).  It's worth spending some time exploring the excellent [Leaflet for R site](https://rstudio.github.io/leaflet/).
 
-Here we make the simplest of leaflet maps:
+Here we make a simple leaflet map of our the location of the EPA Pacific Ecological Systems Division lab in Corvallis where I work with a custom popup we create:
 ```{r leaflet, message=FALSE, warning=FALSE, error=FALSE}
 library(leaflet)
+content <- paste(sep = "<br/>",
+  "<b><a href='https://www.epa.gov/greeningepa/pacific-ecological-systems-division-pesd-laboratory'>EPA Lab Corvallis</a></b>",
+  "200 S.W. 35th Street ",
+  "Corvallis, OR 97333 "
+)
 
-m <- leaflet() %>%
-  addTiles() %>%  # Add default OpenStreetMap map tiles
-  addMarkers(lng=-123.26720, lat=44.5810, popup="Here's my house")
-m  # Print the map
+leaflet()  |>  addTiles()  |> 
+  addPopups(-123.290391, 44.565548,  content,
+    options = popupOptions(closeButton = FALSE)
+  )
 ```
 
-## `mapview`
+## mapview
 [Mapview](https://r-spatial.github.io/mapview/index.html) is a package designed for quick and easy interactive visualizations of spatial data - it makes use of `leaflet` but simplifies mapping functions compared to the `leaflet` package.  
 
 It's easy to layer features with `mapview` - you can supply a list of objects to `mapview` or use + syntax as with `ggplot`.
 
-Here we plot gages within Benton County:
+Here we'll plot stream gages within Benton County:
 ```{r message=FALSE, error=FALSE, warning=FALSE,, results='hide'}
 library(Rspatialworkshop)
 library(mapview)
@@ -156,12 +166,13 @@ Glance through the [`mapview` basics](https://r-spatial.github.io/mapview/articl
 :::
 
 ::: {.callout-note appearance="simple" icon="false" collapse="true"}
-#### Solution
+### Solution
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 mapview(gages_benton,zcol='AVE') + mapview(benton, alpha.regions=.07, color='black', lwd=2)
 ```
+:::
 
-## Adding Web Map services in `mapview`
+### Adding Web Map services in `mapview`
 We'll visualize data with `mapview` and load a web map service layers alongside using `mapview` and underlying `leaflet` functionality.
 
 First we load load an excel file containing coordinate information in a known projection and promote to an `sf` spatial data frame.
@@ -214,7 +225,7 @@ m@map <- m@map  |>  addWMSTiles(group = 'NHDPlus',
 m
 ```
 
-## `tmap`
+## tmap
 [tamp](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) uses the same syntax as ggplot: the grammar of graphics - and it supports both static and interactive modes. Like `ggplot2`, each dataset added to a `tmap` plot can be mapped in a number of different ways such as location, color, size, etc. The [Making maps with R section of Geocomputation with R] has an excellent and in depth treatment of using `tmap`.
 
 We can explore the basics using the counties of Oregon data we've been using in previous examples and exersices.
@@ -245,12 +256,46 @@ tm_shape(or_metro) + tm_bubbles(size = "pop2020", col = "red") +
 tm_tiles("Stamen.TonerLabels")
 ```
 
+### Choropleths with `tmap`
+```{r}
+library(tmap)
+tm_shape(mult_wide) + tm_polygons("Median_Income")
+```
+
+```{r}
+tm_shape(mult_wide) + tm_polygons("Perc_College_Ed")
+```
+That’s a pretty basic map - we can adjust a number of settings such as: 
+
+- breaks: we can set different breaks for our map 
+- bins: we can control the number of bins
+- palette: we can change the color palette
+- layout: put the legend outside of the map, increase legend width
+
+These are just a few - let’s play with those to start with.
+```{r}
+breaks = c(0, 20, 40, 80)
+t1 <- tm_shape(mult_wide) + tm_polygons("Perc_College_Ed", breaks=breaks,palette = "BuGn") + tm_layout(legend.outside=TRUE, legend.outside.position = "right", legend.outside.size=.5)
+t2 <- tm_shape(mult_wide) + tm_polygons("Median_Income", n=3,palette = "BuGn") + tm_layout(legend.outside=TRUE, legend.outside.position = "right", legend.outside.size=.5)
+tmap_arrange(t1, t2, nrow = 2)
+```
+### Faceting
+```{r}
+# Set mode to interactive
+tmap_mode("view")
+
+# Plot it out
+tm_shape(mult_wide) + tm_polygons(c("Median_Income", "Perc_College_Ed")) + tm_facets(sync = TRUE, ncol = 2)
+```
+
 ### Plotting rasters and vectors with tmap
 Bring in boundary and elevation of Crater Lake NP (datasets in `Rspatialworkshop` package) and plot with tmap
 ```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
 library(Rspatialworkshop)
 library(tmap)
 library(terra)
+# Set mode to plot
+tmap_mode("plot")
 data(CraterLake)
 raster_filepath <- system.file("extdata", "elevation.tif", package = "Rspatialworkshop")
 elevation <- rast(raster_filepath)
@@ -263,13 +308,30 @@ map_crlkel = map_crlk +
 map_crlkel
 ```
 
-### Faceting and We can revisit the Multnomah County Census American Community Survey (ACS) data we used in `ggplot2` example above with `tmap` to map college education and income for Multnomah County, Oregon:
+::: {.callout-note appearance="simple" icon="false"}
+### Exercise
+Take a few minutes to read through [Making maps with R in Geocomputation with R](https://r.geocompx.org/adv-map#adv-map) or the [tmap GitHub pages](https://r-tmap.github.io/tmap/) and try to find a few modifications to plotting the  elevation and the Crater Lake park boundary you can come up with to make a more interesting map with `tmap`.
+:::
+
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+### Solution
 ```{r}
-library(tmap)
-tm_shape(mult_wide) + tm_polygons("Median_Income")
+tm_shape(elevation) +
+  tm_raster(title = "Elevation", 
+            style = "cont",
+            palette = "-Spectral") +
+  tm_shape(CraterLake) +
+  tm_borders(col = "black", 
+             lwd = 1)+ 
+  tm_scale_bar(breaks = c(0, 10, 20),
+               text.size = .5,
+               position = c("left", "bottom")) +
+  tm_grid(n.x = 4, n.y = 3) +
+  tm_compass(position = c("right", "top"), 
+             type = "arrow", 
+             size = 1.5)
 ```
 
-```{r}
-tm_shape(mult_wide) + tm_polygons("Perc_College_Ed")
-```
+
+:::
 
