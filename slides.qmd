@@ -218,7 +218,7 @@ knitr::include_graphics("img/09-vec-raster.jpg")
 knitr::include_graphics("img/09-sf-model.png")
 ```
 
-## The `sf` package
+## The `sf` Package
 
 * We use the `sf` package to work with spatial vector data in **R**
 * Learn more about `sf` at their website [r-spatial.github.io/sf](r-spatial.github.io/sf) and/or by running
@@ -326,6 +326,7 @@ ggplot() +
 
 * `sf` objects combine `data.frame` attributes with `POINT`, `LINESTRING`, and `POLYGON` building blocks (these are the `geometry`)
 * Also characterize dimensionality, bounding box, coordinate reference system, attribute headers
+* Read from shapefiles using `st_read()` or `read_sf()`
 
 ```{r}
 #| warning: false
@@ -354,4 +355,410 @@ knitr::include_graphics("img/sf_structure.png")
 ::: task
 So far we have explored plotting using `ggplot()`, but you can also use `sf`'s base plotting via `plot()`. Read more about plotting in `sf` by running `?plot.sf` and then make an appropriate plot of the `us_states` data.
 :::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 5)
+```
+
+## Raster Data Model
+
+* Raster data can be continuous or categorical
+* Can be image based; have a temporal component
+
+```{r}
+#| label: fig-rastermodel
+#| fig-cap: "The raster data model."
+#| fig-align: center
+#| echo: false
+#| out-width: "100%"
+
+knitr::include_graphics("img/09-sf-model.png")
+```
+
+## The `terra` Package
+
+* We use the `terra` package to work with spatial raster data in **R**
+* `terra` is the modern replacement to `raster`
+* Learn more about `terra` at their website [https://rspatial.org/](https://rspatial.org/)
+* `stars` for spatio-temporal rasters
+
+## Creating a Raster Object
+
+* Create an empty `SpatRaster` object; define rows, columns, bounding box
+```{r}
+library(terra)
+myrast <- rast(ncol = 10, nrow = 10, xmax = -116, xmin = -126, ymin = 42, ymax = 46)
+str(myrast)
+print(myrast)
+```
+
+## Your Turn
+
+::: task
+We just printed `myrast` and saw several components: `class`, `dimensions`, `resolution`, `extent`, and `coord. ref`. Explicitly return and inspect each of these pieces using `class()`, `ncell()`, `res()`, `ext()`, and `crs()`. Bonus: Return the number of raster cells using `ncell()`.
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 5)
+```
+
+## Manipulating Raster Objects
+
+* Let's add values to the raster object
+```{r}
+values(myrast) <- 1:ncell(myrast)
+```
+
+```{r}
+#| label: fig-rastplot
+#| fig-cap: "Raster plot."
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+plot(myrast)
+```
+
+## Reading a Raster Object
+
+* Lets read in a raster object from the `spDataLarge` package that contains elevation data from Zion National Park
+
+```{r}
+raster_filepath <- system.file("raster/srtm.tif", package = "spDataLarge")
+my_rast <- rast(raster_filepath)
+```
+
+```{r}
+#| label: fig-rastplotzion
+#| fig-cap: "Raster plot of elevation from Zion National Park."
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+plot(my_rast)
+```
+
+## Your Turn
+
+::: task
+The `spatRaster` object in `terra` can hold multiple layers. Read in the four bands of Landsat 8 data from Zion National Park by running
+```{r}
+landsat = system.file("raster/landsat.tif", package = "spDataLarge")
+landsat = rast(landsat)
+```
+
+The plot this raster using `plot()`.
+
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+## Spatio-Temporal Raster Objects
+
+* The `stars` package has tools for spatio-temporal raster data
+* `stars` integrates with `sf` (recall that `terra` does not)
+* Learn more at their website [https://r-spatial.github.io/stars/](https://r-spatial.github.io/stars/)
+
+## Coordinate Reference Systems 
+
+A coordinate reference system (CRS) is made up of several components
+
+1. Coordinate system: The x,y grid that defines where your data lies in space
+2. Horizontal and vertical units: The units that describe the coordinate system
+3. Datum: The modeled version of the earth's shape
+4. Projection details (if applicable): The mathematical equation used to flatten objects from round surface (earth) to flat surface (paper or screen)
+
+Properly specifying coordinate reference systems is a crucial step in handling or analyzing spatial data
+
+## The Ellipsoid and Geoid
+
+* The earth can be thought of as an ellipsoid defined by a semi-major (equatorial) axis and a semi-minor (polar) axis
+* More precisely, it is a geoid that is not perfectly smooth
+* A datum is built on top of the ellipsoid and incorporates local features
+* The most appropriate datum depends on the location of interest (in the US we typically use NAD83)
+
+## The Ellipsoid and Geoid
+
+```{r}
+#| label: fig-ellipse
+#| fig-cap: "The ellipsoid and geoid."
+#| fig-align: center
+#| echo: false
+#| out-width: "75%"
+
+knitr::include_graphics("img/Ellipsoid.png")
+```
+
+## Your Turn
+
+::: task
+There are several websites that are helpful for learning more about specific coordinate reference systems
+
+1. Spatial Reference: [https://spatialreference.org/](https://spatialreference.org/)
+2. Projection Wizard: [https://projectionwizard.org/](https://projectionwizard.org/)
+3. EPSG: [https://epsg.io/](https://epsg.io/)
+
+Spend a few minutes learning about one or more of these references by visiting their websites.
+
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 4)
+```
+
+## Specifying a CRS
+
+There are many ways to specify a CRS:
+
+1. Proj4
+    * `+proj = longlat + ellps=WGS84 ...`
+2. OGC WKT / ESRI WKT
+    * `GEOGCS["WGS 84", DATUM["WGS_1984, SPHERIOD["WGS 84 ...]]]`
+3. authority:code identifier
+    * `EPSG: 4326`
+    
+* The authority:code identifier is the modern identifier in **R**, and our preferred method
+
+## Projected Coordinate Systems
+
+* Projected coordinates have been projected to two-dimensional space according to a CRS
+* Projected coordinates have an origin, x-axis, y-axis, and unit of measure
+* Conformal projections preserve shape
+* Equal-area projections preserve area
+* Equidistant projections preserve distance
+* Azimuthal projection preserves direction
+
+
+## Projected Coordinate Systems
+
+* Here an example using vector data; see the workbook for an example using raster data
+
+```{r}
+#| label: fig-transformcrs
+#| fig-cap: "Gages and PNW data in the same projection."
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+library(Rspatialworkshop)
+data("pnw")
+# transform one to the other
+utmz11 <- 2153
+pnw <- st_transform(pnw, crs = utmz11)
+ggplot() + 
+  geom_sf(data = pnw,  color="black", fill=NA) +
+  labs(title="State Boundaries in the Pacific Northwest") +
+  theme_bw() 
+```
+
+## Your Turn
+
+::: task
+Re-project the `pnw` data to a different projected CRS. Then plot using base **R** or `ggplot2`.
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 6)
+```
+
+## A Note on `S2`
+
+* `sf` version `1.0.0` supports spherical geometry operations via its interface to Google's `S2` spherical geometry engine
+* `S2` is an example of a Discrete Global Grid System (DGGS)
+* `sf` can run with `s2` on or off and by default the S2 geometry engine is turned on:
+```{r}
+sf::sf_use_s2()
+```
+
+## Geographic Data I/O (Input/Ouptut)
+
+There are several ways to read spatial data into R
+
+1. Load spatial data from our machine or a remote source
+2. Load spatial data as part of an **R** package
+3. Load data using an API (which often makes use of an **R** package)
+4. Convert flat files with x, y coordinates to spatial data
+5. Geocoding data "by-hand" (we saw this earlier)
+
+## Vector Data I/O
+
+`sf` can read numerous file types:
+
+1. shapefiles
+2. geodatabases
+3. geopackages
+4. geojson
+5. spatial database files
+
+## Read in a Shapefile
+
+```{r}
+#| label: fig-citylims
+#| fig-cap: "Oregon City Limits"
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+filepath <- system.file("extdata/city_limits.shp", package = "Rspatialworkshop")
+citylims <- read_sf(filepath)
+plot(st_geometry(citylims), axes = T, main = "Oregon City Limits")
+```
+
+## Your Turn
+
+::: task
+Run `?read_sf()` and compare `read_sf()` to `st_read()`. Our preference is to use `read_sf()` -- why do you think that is?
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+
+## Read in a Geodatabase
+
+```{r}
+#| label: fig-stateparks
+#| fig-cap: "State Park Boundaries"
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+filepath <- system.file("extdata/StateParkBoundaries.gdb", package = "Rspatialworkshop")
+# List all feature classes in a file geodatabase
+st_layers(filepath)
+# Read the feature class
+parks <- st_read(dsn = filepath, layer="StateParkBoundaries")
+ggplot(parks) + 
+  geom_sf()
+```
+
+## Read in a Geopackage
+
+```{r}
+#| label: fig-nc
+#| fig-cap: "North Carolina Counties"
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+filepath <- system.file("gpkg/nc.gpkg", package="sf")
+nc <- read_sf(filepath)
+ggplot(nc) + 
+  geom_sf()
+```
+
+## Geopackage Advantages
+
+Why use geopackages over shapefiles?
+
+1. Geopackages avoid mult-file format of shapefiles
+2. Geopackages avoid the 2gb limit of shapefiles
+3. Geopackages are open-source and follow OGC standards
+4. Geopackages are lighter in file size than shapefiles
+5. Geopackages avoid the 10-character limit to column headers in shapefile attribute tables (stored in archaic `.dbf` files)
+
+## Other Approaches
+
+The workbook shows how to read in data using 
+
+1. Open spatial data sources
+2. **R** packages
+3. OpenStreetMap
+
+## Raster Data I/O
+
+* Read in data using `rast()`
+
+```{r}
+#| label: fig-barelev
+#| fig-cap: "Elevation Data Barplot"
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+filepath <- system.file("ex/elev.tif", package="terra")
+elev <- rast(filepath)
+barplot(elev, digits = -1, las = 2, ylab = "Frequency")
+```
+
+## Raster Data I/O
+
+```{r}
+#| label: fig-elev
+#| fig-cap: "Elevation Data"
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+plot(elev)
+```
+
+## Raster Data I/O
+
+```{r}
+#| label: fig-L7
+#| fig-cap: "Landsat 7"
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+library(stars)
+filepath <- system.file("tif/L7_ETMs.tif", package = "stars")
+L7 <- read_stars(filepath) |>
+  slice(index = 1, along = "band")
+plot(L7)
+```
+
+## Convert Flat Files to Spatial
+
+It is common for a flat file (e.g., a `.csv`) to have columns that indicate coordinates -- how do we turn this into a spatial vector object?
+
+```{r}
+#| label: fig-gagesflat
+#| fig-cap: "Stream Gages From a Flat File"
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+filepath <- system.file("extdata/Gages_flowdata.csv", package = "Rspatialworkshop")
+gages <- read.csv(filepath)
+gages_sf <- gages |>
+  st_as_sf(coords = c("LON_SITE", "LAT_SITE"), crs = 4269, remove = FALSE)
+ggplot(data = gages_sf) + 
+  geom_sf()
+```
 
