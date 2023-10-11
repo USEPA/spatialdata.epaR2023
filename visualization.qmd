@@ -34,6 +34,8 @@ Note that to use `tidycensus` you'll need to set your Census API key. A key can 
 #| message: false
 #| error: false
 #| warning: false
+#| echo: true
+#| results: hide
 library(tigris)
 library(tidycensus)
 library(ggplot2)
@@ -291,7 +293,7 @@ tm_shape(mult_wide) + tm_polygons(c("Median_Income", "Perc_College_Ed")) + tm_fa
 
 ### Plotting rasters and vectors with tmap
 Bring in boundary and elevation of Crater Lake NP (datasets in `Rspatialworkshop` package) and plot with tmap
-```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
+```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE}
 library(Rspatialworkshop)
 library(tmap)
 library(terra)

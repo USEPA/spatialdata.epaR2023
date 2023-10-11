@@ -215,21 +215,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Hello and welcome! The purpose of this site is to provide workshop materials for the Spatial Data workshop at the 2023 EPA R User Group Workshop. Slides that accompany this workshop are available for download linked here by clicking the “Download raw file” button via the ellipsis or downward arrow symbol on the right side of the screen.</p>
 <section id="workshop-agenda" class="level2"><h2 class="anchored" data-anchor-id="workshop-agenda">Workshop Agenda</h2>
 <ul>
-<li>1:00pm - 1:45pm EDT: Introduction and Spatial Data Structures in R</li>
-<li>1:45pm - 2:15pm EDT: Vector Data Model</li>
-<li>2:15pm - 2:20pm EDT: Break</li>
-<li>2:20pm - 2:35pm EDT: Raster Data Model</li>
-<li>2:35pm - 2:45pm EDT: Break</li>
-<li>2:45pm - 3:15pm EDT: Coordinate Reference Systems and I / O</li>
-<li>3:15pm - 3:20pm EDT: Break</li>
-<li>3:20pm - 3:45pm EDT: Spatial Data Visualization</li>
+<li>1:00pm - 1:35pm EDT: Introduction and Spatial Data Structures in R</li>
+<li>1:35pm - 2:05pm EDT: Vector Data Model</li>
+<li>2:05pm - 2:10pm EDT: Break</li>
+<li>2:10pm - 2:30pm EDT: Raster Data Model</li>
+<li>2:30pm - 3:15pm EDT: Coordinate Reference Systems and I / O</li>
+<li>3:15pm - 3:25pm EDT: Break</li>
+<li>3:25pm - 3:45pm EDT: Spatial Data Visualization</li>
 <li>3:45pm - 4:15pm EDT: Geoprocecessing</li>
-<li>4:15pm - 5:00pm EDT: Advanced Applications</li>
+<li>4:15pm - 4:20pm EDT: Break</li>
+<li>4:20pm - 5:00pm EDT: Advanced Applications</li>
 </ul></section><section id="author-introduction" class="level2"><h2 class="anchored" data-anchor-id="author-introduction">Author Introduction</h2>
 <p>Marc Weber is a geographer at the Pacific Ecological Systems Division (PESD) at the United States Environmental Protection Agency (USEPA). His work supports various aspects of the USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States, as he helped develop and maintains the StreamCat and LakeCat datasets. His work focuses on spatial analysis in R and Python, Geographic Information Science (GIS), aquatic ecology, remote sensing, open source science and environmental modeling.</p>
 <p>Michael Dumelle is a statistician for the United States Environmental Protection Agency (USEPA). He works primarily on facilitating the survey design and analysis of USEPA’s National Aquatic Resource Surveys (NARS), which characterize the condition of waters across the United States. His primary research interests are in spatial statistics, survey design, environmental and ecological applications, and software development.</p>
 </section><section id="set-up" class="level2"><h2 class="anchored" data-anchor-id="set-up">Set Up</h2>
-<p>The packages that we use throughout this workshop are listed below. To install and load them, run:</p>
+<p>The packages that we use throughout this workshop are listed below. To install them run:</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ggplot2"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"cranlogs"</span><span class="op">)</span></span>
@@ -251,7 +251,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tmaptools"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mikejohnson51/AOI"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ggspatial"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ggspatial"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"dataRetrieval"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"stars"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"elevatr"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="how-to-follow-along-with-material" class="level2"><h2 class="anchored" data-anchor-id="how-to-follow-along-with-material">How to follow along with material</h2>
 <p>This workshop was built using <a href="https://quarto.org/">Quarto</a> and <em>rendered</em> to html. If you are familiar with using git and GitHub, you can fork and clone <a href="https://github.com/mhweber/spatialdata.epaR2023.git">this repository</a>, or simply clone directly and open the corresponding .qmd files to follow along with material in RStudio. You can also copy code snippets from the rendered book site and paste into your code files in RStudio.</p>

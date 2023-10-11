@@ -10,6 +10,15 @@ Keep in mind as we mentioned earlier that `s` contains functions that bind to th
 ## Goals and Outcomes
 
 * Learn about fundamental spatial operations in R using spatial predicates in `sf`
+  - subsetting
+  - spatial join
+  - buffer
+  - logical set operations - union / intersection
+  - clipping
+  - st_cast and centroids
+  - other raster from geomputation?
+  - chapter 4 in geocomputation?
+  
 * Explore performing 'map algebra' type operations with raster data in R
 * Learn how to do extract and zonal operations in R
 
@@ -144,7 +153,7 @@ st_distance(gages_ft[1,], gages_ft[2,])
 ## Spatial Join 
 
 ## Dissolve 
-
+Clarify what dissolve is and it's not using st_dissolve, it's just using tidyverse operations
 ## Fixing topology errors
 - show typical fixes for topology errors
 
