@@ -1,7 +1,7 @@
 # Visualization {#sec-visualization}
+We'll explore a few of the primary libraries in R for mapping (both static and dynamic).
 
 ## Goals and Outcomes
-
 * Gain familiarity with plotting and visualizing spatial data in R
 * Work with four specific visualization and plotting libraries:
   + `ggplot2`
@@ -279,6 +279,7 @@ t1 <- tm_shape(mult_wide) + tm_polygons("Perc_College_Ed", breaks=breaks,palette
 t2 <- tm_shape(mult_wide) + tm_polygons("Median_Income", n=3,palette = "BuGn") + tm_layout(legend.outside=TRUE, legend.outside.position = "right", legend.outside.size=.5)
 tmap_arrange(t1, t2, nrow = 2)
 ```
+
 ### Faceting
 ```{r}
 # Set mode to interactive

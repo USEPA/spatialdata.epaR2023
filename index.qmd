@@ -23,8 +23,7 @@ Michael Dumelle is a statistician for the United States Environmental Protection
 
 ## Set Up
 
-The packages that we use throughout this workshop are listed below. To install and load them, run:
-
+The packages that we use throughout this workshop are listed below. To install them run:
 ```{r}
 #| eval: false
 install.packages("ggplot2")
@@ -48,6 +47,9 @@ install.packages("tmap")
 install.packages("tmaptools")
 remotes::install_github("mikejohnson51/AOI")
 install.packages("ggspatial")
+install.packages("dataRetrieval")
+install.packages("stars")
+install.packages("elevatr")
 ```
 
 ## How to follow along with material
