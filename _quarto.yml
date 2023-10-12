@@ -13,8 +13,8 @@ book:
   chapters:
     - index.qmd
     - foundations.qmd
-    - geoprocessing.qmd
     - visualization.qmd
+    - geoprocessing.qmd
     - advanced_applications.qmd
     - resources.qmd
 

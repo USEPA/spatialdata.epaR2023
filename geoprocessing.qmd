@@ -1,20 +1,33 @@
 # Geoprocessing {#sec-geoprocessing}
+We'll explore a number operations in this section that make up what most of us probably think of as typical GIS operations and how to perform them in R - operations such as clipping, subsetting, joining, dissolving, performing map algebra.
+
+Keep in mind as we mentioned earlier that `s` contains functions that bind to these three primary underlying libraries:
+
+- *GDAL* for reading and writing data
+- *GEOS* for geometrical operations
+- *PRØJ* for projection conversions and datum transformations
 
 ## Goals and Outcomes
 
-* Perform fundamental spatial operations in R.
-* This is goal 2.
-* This is goal 3.
+* Learn about fundamental spatial operations in R using spatial predicates in `sf`
+  - subsetting
+  - spatial join
+  - buffer
+  - logical set operations - union / intersection
+  - clipping
+  - st_cast and centroids
+  - other raster from geomputation?
+  - chapter 4 in geocomputation?
+  
+* Explore performing 'map algebra' type operations with raster data in R
+* Learn how to do extract and zonal operations in R
 
-:::
-#### Operations on Geometries
-
+### Operations on Geometries
 This breakdown of simple features follows for the most part [this section in Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) 
 
 ** Simple** and **valid** geometries
 - Certain conditions have to be met with simple features:
   + For *linestrings* to be considered *simple* they must not self-intersect:
-
 ```{r}
 library(sf)
 (ls <- st_linestring(rbind(c(0,0), c(1,1), c(2,2), c(0,2), c(1,1), c(2,0))))
@@ -90,6 +103,49 @@ See the [Geometries chapter of Spatial Data Science](https://r-spatial.org/book/
 knitr::include_graphics("img/09-sf-model.png")
 ```
 
+## Measures and Units
+Measures (with `sf`) make use of the underlying GEOS library, as well as the R `units` library that provides measure units for R vectors.  Once a coordinate reference system has been defined for features, we often want to ask questions of our data such as:
+
+- How long is a line or a polygon perimeter (unit)
+- What is the area of a polygon (unit^2)
+- How far apart / close together are objects from each other (unit)
+
+Some examples using county and gage datasets we've seen in previous section (with refresher again on pulling in data from a .csv file with x and y information and making it spatial):
+```{r}
+#| warning: false
+library(readr)
+library(sf)
+gages <- read_csv(system.file("extdata", "Gages_flowdata.csv", package = "awra2020spatial")) |> 
+  dplyr::select(SOURCE_FEA, STATE, LAT_SITE, LON_SITE) |> 
+  st_as_sf(coords = c("LON_SITE", "LAT_SITE"), crs = 4269)
+st_distance(gages[1,], gages[2,])
+```
+
+```{r}
+library(tigris)
+counties <- counties("Oregon", cb = TRUE)
+options(scipen=3)
+print(paste0('The total area of all counties in Oregon is: ',sum(st_area(counties))))
+```
+
+::: {.callout-note appearance="simple" icon="false"}
+### Exercise
+How did `st_distance` know to return the distance between our 2 gages in meters?  What if we want that distance in feet?  Or kilometers?  Or our total area in Oregon in km2?  There are a couple approaches: 
+
+- you could set a projection that uses the units you want reported
+- you could simply look up the conversion factor and apply it manually
+- you can make use of the `units` library to explicitly set your units for the data
+:::
+
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+### Solution
+- Setting the projection for the desired units
+```{r}
+gages_ft <- st_transform(gages, 2994)
+st_distance(gages_ft[1,], gages_ft[2,])
+```
+
+:::
 
 
 ## Spatial Subsetting 
@@ -97,9 +153,7 @@ knitr::include_graphics("img/09-sf-model.png")
 ## Spatial Join 
 
 ## Dissolve 
-
-## Extract and Zonal Statistics 
-
+Clarify what dissolve is and it's not using st_dissolve, it's just using tidyverse operations
 ## Fixing topology errors
 - show typical fixes for topology errors
 
@@ -115,6 +169,10 @@ Running `st_make_valid` might not fix.
 You may need to turn off spherical geometry - `sf_use_s2(TRUE)`, run `st_make_valid`, and then turn spherical geometry back on - `sf_use_s2(FALSE)`
 See background on S2 [here](https://r-spatial.org/r/2020/06/17/s2.html) and discussion of S2 related issues [here](https://github.com/r-spatial/sf/issues/1771)
 :::
+
+## Extract and Zonal Statistics 
+
+
 
 
 ### Raster operations

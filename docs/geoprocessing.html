@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.2.269">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Spatial Data Workshop - 2&nbsp; Geoprocessing</title>
+<title>Spatial Data Workshop - 3&nbsp; Geoprocessing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,8 +89,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./visualization.html" rel="next">
-<link href="./foundations.html" rel="prev">
+<link href="./advanced_applications.html" rel="next">
+<link href="./visualization.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -123,7 +123,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geoprocessing</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geoprocessing</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -154,12 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./geoprocessing.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geoprocessing</span></a>
+  <a href="./visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualization</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  <a href="./geoprocessing.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geoprocessing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -178,27 +178,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#goals-and-outcomes" id="toc-goals-and-outcomes" class="nav-link active" data-scroll-target="#goals-and-outcomes"><span class="toc-section-number">2.1</span>  Goals and Outcomes</a></li>
-  <li><a href="#spatial-subsetting" id="toc-spatial-subsetting" class="nav-link" data-scroll-target="#spatial-subsetting"><span class="toc-section-number">2.2</span>  Spatial Subsetting</a></li>
-  <li><a href="#spatial-join" id="toc-spatial-join" class="nav-link" data-scroll-target="#spatial-join"><span class="toc-section-number">2.3</span>  Spatial Join</a></li>
-  <li><a href="#dissolve" id="toc-dissolve" class="nav-link" data-scroll-target="#dissolve"><span class="toc-section-number">2.4</span>  Dissolve</a></li>
-  <li><a href="#extract-and-zonal-statistics" id="toc-extract-and-zonal-statistics" class="nav-link" data-scroll-target="#extract-and-zonal-statistics"><span class="toc-section-number">2.5</span>  Extract and Zonal Statistics</a></li>
+<li>
+<a href="#goals-and-outcomes" id="toc-goals-and-outcomes" class="nav-link active" data-scroll-target="#goals-and-outcomes"><span class="toc-section-number">3.1</span>  Goals and Outcomes</a>
+  <ul>
+<li><a href="#operations-on-geometries" id="toc-operations-on-geometries" class="nav-link" data-scroll-target="#operations-on-geometries"><span class="toc-section-number">3.1.1</span>  Operations on Geometries</a></li>
+  </ul>
+</li>
+  <li><a href="#measures-and-units" id="toc-measures-and-units" class="nav-link" data-scroll-target="#measures-and-units"><span class="toc-section-number">3.2</span>  Measures and Units</a></li>
+  <li><a href="#spatial-subsetting" id="toc-spatial-subsetting" class="nav-link" data-scroll-target="#spatial-subsetting"><span class="toc-section-number">3.3</span>  Spatial Subsetting</a></li>
+  <li><a href="#spatial-join" id="toc-spatial-join" class="nav-link" data-scroll-target="#spatial-join"><span class="toc-section-number">3.4</span>  Spatial Join</a></li>
+  <li><a href="#dissolve" id="toc-dissolve" class="nav-link" data-scroll-target="#dissolve"><span class="toc-section-number">3.5</span>  Dissolve</a></li>
   <li>
-<a href="#fixing-topology-errors" id="toc-fixing-topology-errors" class="nav-link" data-scroll-target="#fixing-topology-errors"><span class="toc-section-number">2.6</span>  Fixing topology errors</a>
+<a href="#extract-and-zonal-statistics" id="toc-extract-and-zonal-statistics" class="nav-link" data-scroll-target="#extract-and-zonal-statistics"><span class="toc-section-number">3.6</span>  Extract and Zonal Statistics</a>
   <ul>
 <li>
-<a href="#raster-operations" id="toc-raster-operations" class="nav-link" data-scroll-target="#raster-operations"><span class="toc-section-number">2.6.1</span>  Raster operations</a>
+<a href="#raster-operations" id="toc-raster-operations" class="nav-link" data-scroll-target="#raster-operations"><span class="toc-section-number">3.6.1</span>  Raster operations</a>
   <ul class="collapse">
-<li><a href="#cropping" id="toc-cropping" class="nav-link" data-scroll-target="#cropping"><span class="toc-section-number">2.6.1.1</span>  Cropping</a></li>
+<li><a href="#cropping" id="toc-cropping" class="nav-link" data-scroll-target="#cropping"><span class="toc-section-number">3.6.1.1</span>  Cropping</a></li>
   </ul>
 </li>
   <li>
-<a href="#map-algebra" id="toc-map-algebra" class="nav-link" data-scroll-target="#map-algebra"><span class="toc-section-number">2.6.2</span>  Map Algebra</a>
+<a href="#map-algebra" id="toc-map-algebra" class="nav-link" data-scroll-target="#map-algebra"><span class="toc-section-number">3.6.2</span>  Map Algebra</a>
   <ul class="collapse">
-<li><a href="#local-operations" id="toc-local-operations" class="nav-link" data-scroll-target="#local-operations"><span class="toc-section-number">2.6.2.1</span>  Local Operations</a></li>
-  <li><a href="#focal-operations" id="toc-focal-operations" class="nav-link" data-scroll-target="#focal-operations"><span class="toc-section-number">2.6.2.2</span>  Focal Operations</a></li>
-  <li><a href="#global-operations" id="toc-global-operations" class="nav-link" data-scroll-target="#global-operations"><span class="toc-section-number">2.6.2.3</span>  Global Operations</a></li>
-  <li><a href="#zonal-operations" id="toc-zonal-operations" class="nav-link" data-scroll-target="#zonal-operations"><span class="toc-section-number">2.6.2.4</span>  Zonal Operations</a></li>
+<li><a href="#local-operations" id="toc-local-operations" class="nav-link" data-scroll-target="#local-operations"><span class="toc-section-number">3.6.2.1</span>  Local Operations</a></li>
+  <li><a href="#focal-operations" id="toc-focal-operations" class="nav-link" data-scroll-target="#focal-operations"><span class="toc-section-number">3.6.2.2</span>  Focal Operations</a></li>
+  <li><a href="#global-operations" id="toc-global-operations" class="nav-link" data-scroll-target="#global-operations"><span class="toc-section-number">3.6.2.3</span>  Global Operations</a></li>
+  <li><a href="#zonal-operations" id="toc-zonal-operations" class="nav-link" data-scroll-target="#zonal-operations"><span class="toc-section-number">3.6.2.4</span>  Zonal Operations</a></li>
   </ul>
 </li>
   </ul>
@@ -207,7 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title"><span id="sec-geoprocessing" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geoprocessing</span></span></h1>
+<h1 class="title"><span id="sec-geoprocessing" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geoprocessing</span></span></h1>
 </div>
 
 
@@ -220,14 +225,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><section id="goals-and-outcomes" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="goals-and-outcomes">
-<span class="header-section-number">2.1</span> Goals and Outcomes</h2>
+</header><p>We’ll explore a number operations in this section that make up what most of us probably think of as typical GIS operations and how to perform them in R - operations such as clipping, subsetting, joining, dissolving, performing map algebra.</p>
+<p>Keep in mind as we mentioned earlier that <code>s</code> contains functions that bind to these three primary underlying libraries:</p>
 <ul>
-<li>Perform fundamental spatial operations in R.</li>
-<li>This is goal 2.</li>
-<li>This is goal 3.</li>
+<li>
+<em>GDAL</em> for reading and writing data</li>
+<li>
+<em>GEOS</em> for geometrical operations</li>
+<li>
+<em>PRØJ</em> for projection conversions and datum transformations</li>
 </ul>
-<p>::: #### Operations on Geometries</p>
+<section id="goals-and-outcomes" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="goals-and-outcomes">
+<span class="header-section-number">3.1</span> Goals and Outcomes</h2>
+<ul>
+<li>Learn about fundamental spatial operations in R using spatial predicates in <code>sf</code>
+<ul>
+<li>subsetting</li>
+<li>spatial join</li>
+<li>buffer</li>
+<li>logical set operations - union / intersection</li>
+<li>clipping</li>
+<li>st_cast and centroids</li>
+<li>other raster from geomputation?</li>
+<li>chapter 4 in geocomputation?</li>
+</ul>
+</li>
+<li>Explore performing ‘map algebra’ type operations with raster data in R</li>
+<li>Learn how to do extract and zonal operations in R</li>
+</ul>
+<section id="operations-on-geometries" class="level3" data-number="3.1.1"><h3 data-number="3.1.1" class="anchored" data-anchor-id="operations-on-geometries">
+<span class="header-section-number">3.1.1</span> Operations on Geometries</h3>
 <p>This breakdown of simple features follows for the most part <a href="https://r-spatial.org/book/03-Geometries.html">this section in Spatial Data Science</a></p>
 <p>** Simple** and <strong>valid</strong> geometries - Certain conditions have to be met with simple features: + For <em>linestrings</em> to be considered <em>simple</em> they must not self-intersect:</p>
 <div class="cell">
@@ -406,19 +433,406 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-</section><section id="spatial-subsetting" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="spatial-subsetting">
-<span class="header-section-number">2.2</span> Spatial Subsetting</h2>
-</section><section id="spatial-join" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="spatial-join">
-<span class="header-section-number">2.3</span> Spatial Join</h2>
-</section><section id="dissolve" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="dissolve">
-<span class="header-section-number">2.4</span> Dissolve</h2>
-</section><section id="extract-and-zonal-statistics" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="extract-and-zonal-statistics">
-<span class="header-section-number">2.5</span> Extract and Zonal Statistics</h2>
-</section><section id="fixing-topology-errors" class="level2" data-number="2.6"><h2 data-number="2.6" class="anchored" data-anchor-id="fixing-topology-errors">
-<span class="header-section-number">2.6</span> Fixing topology errors</h2>
+</section></section><section id="measures-and-units" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="measures-and-units">
+<span class="header-section-number">3.2</span> Measures and Units</h2>
+<p>Measures (with <code>sf</code>) make use of the underlying GEOS library, as well as the R <code>units</code> library that provides measure units for R vectors. Once a coordinate reference system has been defined for features, we often want to ask questions of our data such as:</p>
 <ul>
-<li>show typical fixes for topology errors</li>
+<li>How long is a line or a polygon perimeter (unit)</li>
+<li>What is the area of a polygon (unit^2)</li>
+<li>How far apart / close together are objects from each other (unit)</li>
 </ul>
+<p>Some examples using county and gage datasets we’ve seen in previous section (with refresher again on pulling in data from a .csv file with x and y information and making it spatial):</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span></span>
+<span><span class="va">gages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Gages_flowdata.csv"</span>, package <span class="op">=</span> <span class="st">"awra2020spatial"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SOURCE_FEA</span>, <span class="va">STATE</span>, <span class="va">LAT_SITE</span>, <span class="va">LON_SITE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"LON_SITE"</span>, <span class="st">"LAT_SITE"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4269</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html">st_distance</a></span><span class="op">(</span><span class="va">gages</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, <span class="va">gages</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Units: [m]
+         [,1]
+[1,] 58822.95</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/walkerke/tigris">tigris</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tigris' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>To enable caching of data, set `options(tigris_use_cache = TRUE)`
+in your R script or .Rprofile.</code></pre>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counties</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tigris/man/counties.html">counties</a></span><span class="op">(</span><span class="st">"Oregon"</span>, cb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Retrieving data for the year 2021</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |                                                                      |   1%
+  |                                                                            
+  |=                                                                     |   1%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |==                                                                    |   2%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |===                                                                   |   5%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=====                                                                 |   8%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |=======                                                               |   9%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |=========                                                             |  12%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |===========                                                           |  15%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |=============                                                         |  19%
+  |                                                                            
+  |==============                                                        |  19%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |===============                                                       |  21%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  22%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |================                                                      |  24%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |=================                                                     |  25%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |==================                                                    |  26%
+  |                                                                            
+  |===================                                                   |  26%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |===================                                                   |  28%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=====================                                                 |  31%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |========================                                              |  34%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |=========================                                             |  36%
+  |                                                                            
+  |==========================                                            |  36%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |==========================                                            |  38%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |============================                                          |  41%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |==============================                                        |  42%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |===============================                                       |  45%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |=================================                                     |  48%
+  |                                                                            
+  |==================================                                    |  48%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |===================================                                   |  49%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |===================================                                   |  51%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |====================================                                  |  52%
+  |                                                                            
+  |=====================================                                 |  52%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |=====================================                                 |  54%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |========================================                              |  58%
+  |                                                                            
+  |=========================================                             |  58%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  59%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==========================================                            |  61%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |============================================                          |  62%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |=============================================                         |  64%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |================================================                      |  68%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=================================================                     |  69%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |=================================================                     |  71%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |===================================================                   |  72%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |====================================================                  |  74%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |=====================================================                 |  75%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |======================================================                |  78%
+  |                                                                            
+  |=======================================================               |  78%
+  |                                                                            
+  |=======================================================               |  79%
+  |                                                                            
+  |========================================================              |  79%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |========================================================              |  81%
+  |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |===========================================================           |  85%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  86%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |=============================================================         |  88%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |==============================================================        |  89%
+  |                                                                            
+  |===============================================================       |  89%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |===============================================================       |  91%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |=================================================================     |  92%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |===================================================================   |  95%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |====================================================================  |  98%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================|  99%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>scipen<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'The total area of all counties in Oregon is: '</span>,<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html">st_area</a></span><span class="op">(</span><span class="va">counties</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "The total area of all counties in Oregon is: 250841031869.001"</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How did <code>st_distance</code> know to return the distance between our 2 gages in meters? What if we want that distance in feet? Or kilometers? Or our total area in Oregon in km2? There are a couple approaches:</p>
+<ul>
+<li>you could set a projection that uses the units you want reported</li>
+<li>you could simply look up the conversion factor and apply it manually</li>
+<li>you can make use of the <code>units</code> library to explicitly set your units for the data</li>
+</ul>
+</div>
+</div>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Setting the projection for the desired units</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gages_ft</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span><span class="va">gages</span>, <span class="fl">2994</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html">st_distance</a></span><span class="op">(</span><span class="va">gages_ft</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, <span class="va">gages_ft</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Units: [foot]
+         [,1]
+[1,] 193550.5</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="spatial-subsetting" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="spatial-subsetting">
+<span class="header-section-number">3.3</span> Spatial Subsetting</h2>
+</section><section id="spatial-join" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="spatial-join">
+<span class="header-section-number">3.4</span> Spatial Join</h2>
+</section><section id="dissolve" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="dissolve">
+<span class="header-section-number">3.5</span> Dissolve</h2>
+<p>Clarify what dissolve is and it’s not using st_dissolve, it’s just using tidyverse operations ## Fixing topology errors - show typical fixes for topology errors</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -436,19 +850,21 @@ Note
 <p>You may need to turn off spherical geometry - <code>sf_use_s2(TRUE)</code>, run <code>st_make_valid</code>, and then turn spherical geometry back on - <code>sf_use_s2(FALSE)</code> See background on S2 <a href="https://r-spatial.org/r/2020/06/17/s2.html">here</a> and discussion of S2 related issues <a href="https://github.com/r-spatial/sf/issues/1771">here</a></p>
 </div>
 </div>
-<section id="raster-operations" class="level3" data-number="2.6.1"><h3 data-number="2.6.1" class="anchored" data-anchor-id="raster-operations">
-<span class="header-section-number">2.6.1</span> Raster operations</h3>
-<section id="cropping" class="level4" data-number="2.6.1.1"><h4 data-number="2.6.1.1" class="anchored" data-anchor-id="cropping">
-<span class="header-section-number">2.6.1.1</span> Cropping</h4>
+</section><section id="extract-and-zonal-statistics" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="extract-and-zonal-statistics">
+<span class="header-section-number">3.6</span> Extract and Zonal Statistics</h2>
+<section id="raster-operations" class="level3" data-number="3.6.1"><h3 data-number="3.6.1" class="anchored" data-anchor-id="raster-operations">
+<span class="header-section-number">3.6.1</span> Raster operations</h3>
+<section id="cropping" class="level4" data-number="3.6.1.1"><h4 data-number="3.6.1.1" class="anchored" data-anchor-id="cropping">
+<span class="header-section-number">3.6.1.1</span> Cropping</h4>
 <p>We can crop our elevation raster to just the bounding box of Crater Lake - using mask, we can clip it to the actual polygon boundary</p>
 <p>Let’s see what elevation and Crater Lake boundary look like prior to cropping and masking</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elevation_tm</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elevation_tm</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">CraterLake_tm</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="cn">NA</span>, border<span class="op">=</span><span class="st">'blue'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here we use <code>crop</code> to crop the elevation raster to the bounding box of our Crater Lake polygon feature</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_crop</span> <span class="op">=</span> <span class="fu">crop</span><span class="op">(</span><span class="va">elevation_tm</span>, <span class="fu">vect</span><span class="op">(</span><span class="va">CraterLake_tm</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_crop</span> <span class="op">=</span> <span class="fu">crop</span><span class="op">(</span><span class="va">elevation_tm</span>, <span class="fu">vect</span><span class="op">(</span><span class="va">CraterLake_tm</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elev_crop</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">CraterLake_tm</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="cn">NA</span>, border<span class="op">=</span><span class="st">'blue'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -465,12 +881,12 @@ Note
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_mask</span> <span class="op">=</span> <span class="fu">mask</span><span class="op">(</span><span class="va">elevation_tm</span>, <span class="fu">vect</span><span class="op">(</span><span class="va">CraterLake_tm</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_mask</span> <span class="op">=</span> <span class="fu">mask</span><span class="op">(</span><span class="va">elevation_tm</span>, <span class="fu">vect</span><span class="op">(</span><span class="va">CraterLake_tm</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elev_mask</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">CraterLake_tm</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="cn">NA</span>, border<span class="op">=</span><span class="st">'blue'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="map-algebra" class="level3" data-number="2.6.2"><h3 data-number="2.6.2" class="anchored" data-anchor-id="map-algebra">
-<span class="header-section-number">2.6.2</span> Map Algebra</h3>
+</section></section><section id="map-algebra" class="level3" data-number="3.6.2"><h3 data-number="3.6.2" class="anchored" data-anchor-id="map-algebra">
+<span class="header-section-number">3.6.2</span> Map Algebra</h3>
 <p>We can divide map algebra into a couple of categories:</p>
 <ol type="1">
 <li>Local - per-cell operations
@@ -483,47 +899,47 @@ Note
 </li>
 <li>Focal (neighborhood operations) - summarizing output cell value as the result of a window (such as a3 x 3 input cell block) Zonal operations - summarizing raster values for some zones (either another raster or a vector feature) Global - summarizing values over entire raster(s)</li>
 </ol>
-<section id="local-operations" class="level4" data-number="2.6.2.1"><h4 data-number="2.6.2.1" class="anchored" data-anchor-id="local-operations">
-<span class="header-section-number">2.6.2.1</span> Local Operations</h4>
+<section id="local-operations" class="level4" data-number="3.6.2.1"><h4 data-number="3.6.2.1" class="anchored" data-anchor-id="local-operations">
+<span class="header-section-number">3.6.2.1</span> Local Operations</h4>
 <p>Say we want to convert our elevation raster from meters to feet:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_feet</span> <span class="op">=</span> <span class="va">elevation_tm</span> <span class="op">*</span> <span class="fl">3.28084</span></span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_feet</span> <span class="op">=</span> <span class="va">elevation_tm</span> <span class="op">*</span> <span class="fl">3.28084</span></span>
 <span><span class="va">elev_feet</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our max value is 8890, which makes sense - the high point in Crater Lake National Park is Mount Scott at 8,929’.</p>
 <p>What if we want to make elevation bins, or classify some elevations as NA with our elevation raster?</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reclass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">500</span>, <span class="fl">1</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">2</span>, <span class="fl">1000</span>, <span class="fl">1500</span>, <span class="fl">3</span>, <span class="fl">1500</span> , <span class="fl">2000</span>, <span class="fl">4</span>, <span class="fl">2000</span>, <span class="fl">2700</span>, <span class="fl">5</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reclass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">500</span>, <span class="fl">1</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">2</span>, <span class="fl">1000</span>, <span class="fl">1500</span>, <span class="fl">3</span>, <span class="fl">1500</span> , <span class="fl">2000</span>, <span class="fl">4</span>, <span class="fl">2000</span>, <span class="fl">2700</span>, <span class="fl">5</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">reclass</span></span>
 <span><span class="va">elev_recl</span> <span class="op">=</span> <span class="fu">classify</span><span class="op">(</span><span class="va">elevation_tm</span>, rcl <span class="op">=</span> <span class="va">reclass</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elevation_tm</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elev_recl</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_new</span> <span class="op">=</span> <span class="va">elevation_tm</span></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_new</span> <span class="op">=</span> <span class="va">elevation_tm</span></span>
 <span><span class="va">elev_new</span><span class="op">[</span><span class="va">elev_new</span> <span class="op">&gt;</span> <span class="fl">2000</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elev_new</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="focal-operations" class="level4" data-number="2.6.2.2"><h4 data-number="2.6.2.2" class="anchored" data-anchor-id="focal-operations">
-<span class="header-section-number">2.6.2.2</span> Focal Operations</h4>
+</section><section id="focal-operations" class="level4" data-number="3.6.2.2"><h4 data-number="3.6.2.2" class="anchored" data-anchor-id="focal-operations">
+<span class="header-section-number">3.6.2.2</span> Focal Operations</h4>
 <p>A simple focal window operation</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_focal_mean</span> <span class="op">=</span> <span class="fu">focal</span><span class="op">(</span><span class="va">elevation_tm</span>, </span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elev_focal_mean</span> <span class="op">=</span> <span class="fu">focal</span><span class="op">(</span><span class="va">elevation_tm</span>, </span>
 <span>                   w <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">25</span>, ncol <span class="op">=</span> <span class="fl">25</span><span class="op">)</span>, </span>
 <span>                   fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">elev_focal_mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="global-operations" class="level4" data-number="2.6.2.3"><h4 data-number="2.6.2.3" class="anchored" data-anchor-id="global-operations">
-<span class="header-section-number">2.6.2.3</span> Global Operations</h4>
+</section><section id="global-operations" class="level4" data-number="3.6.2.3"><h4 data-number="3.6.2.3" class="anchored" data-anchor-id="global-operations">
+<span class="header-section-number">3.6.2.3</span> Global Operations</h4>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/global.html">global</a></span><span class="op">(</span><span class="va">elev_mask</span>, fun<span class="op">=</span><span class="st">"mean"</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/global.html">global</a></span><span class="op">(</span><span class="va">elev_mask</span>, fun<span class="op">=</span><span class="st">"mean"</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/global.html">global</a></span><span class="op">(</span><span class="va">elev_mask</span>, fun<span class="op">=</span><span class="st">"sum"</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="zonal-operations" class="level4" data-number="2.6.2.4"><h4 data-number="2.6.2.4" class="anchored" data-anchor-id="zonal-operations">
-<span class="header-section-number">2.6.2.4</span> Zonal Operations</h4>
+</section><section id="zonal-operations" class="level4" data-number="3.6.2.4"><h4 data-number="3.6.2.4" class="anchored" data-anchor-id="zonal-operations">
+<span class="header-section-number">3.6.2.4</span> Zonal Operations</h4>
 <p>Here us demonstrate using the zonal function in terra to summarize a value raster of elevation, using an srtm.tif from <code>spDataLarge</code>, by the zones of NLCD classes using nlcd.tif raster also in the <code>spDataLarge</code> package.</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">srtm_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"raster/srtm.tif"</span>, package <span class="op">=</span> <span class="st">"spDataLarge"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">srtm_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"raster/srtm.tif"</span>, package <span class="op">=</span> <span class="st">"spDataLarge"</span><span class="op">)</span></span>
 <span><span class="va">srtm_path</span></span>
 <span><span class="va">srtm</span> <span class="op">=</span> <span class="fu">rast</span><span class="op">(</span><span class="va">srtm_path</span><span class="op">)</span></span>
 <span><span class="va">srtm</span></span>
@@ -668,13 +1084,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./foundations.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations</span></span>
+      <a href="./visualization.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualization</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./visualization.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./advanced_applications.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced Applications</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

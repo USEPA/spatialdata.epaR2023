@@ -4,17 +4,16 @@ Hello and welcome! The purpose of this site is to provide workshop materials for
 
 ## Workshop Agenda
 
-- 1:00pm - 1:45pm EDT: Introduction and Spatial Data Structures in R
-- 1:45pm - 2:15pm EDT: Vector Data Model
-- 2:15pm - 2:20pm Break
-- 2:20pm - 2:35pm EDT: Raster Data Model
-- 2:35pm - 2:45pm Break
-- 2:45pm - 3:15pm EDT: 
-- 3:15pm - 3:20pm Break
-- 3:20pm - 3:45pm EDT: 
-- 3:45pm - 4:15pm EDT: 
-- 4:15pm - 4:45pm EDT: 
-- 4:45pm - 5:00pm EDT:
+- 1:00pm - 1:35pm EDT: Introduction and Spatial Data Structures in R
+- 1:35pm - 2:05pm EDT: Vector Data Model
+- 2:05pm - 2:10pm EDT: Break
+- 2:10pm - 2:30pm EDT: Raster Data Model
+- 2:30pm - 3:15pm EDT: Coordinate Reference Systems and I / O
+- 3:15pm - 3:25pm EDT: Break
+- 3:25pm - 3:45pm EDT: Spatial Data Visualization
+- 3:45pm - 4:15pm EDT: Geoprocecessing
+- 4:15pm - 4:20pm EDT: Break
+- 4:20pm - 5:00pm EDT: Advanced Applications
   
 ## Author Introduction
 
@@ -24,8 +23,7 @@ Michael Dumelle is a statistician for the United States Environmental Protection
 
 ## Set Up
 
-The packages that we use throughout this workshop are listed below. To install and load them, run:
-
+The packages that we use throughout this workshop are listed below. To install them run:
 ```{r}
 #| eval: false
 install.packages("ggplot2")
@@ -44,9 +42,14 @@ devtools::install_github("ropensci/rnaturalearthhires")
 install.packages("osmdata")
 install.packages("mapview")
 install.packages("tigris")
+install.packages("tidycensus")
 install.packages("tmap")
 install.packages("tmaptools")
-# remotes::install_github("mikejohnson51/AOI")
+remotes::install_github("mikejohnson51/AOI")
+install.packages("ggspatial")
+install.packages("dataRetrieval")
+install.packages("stars")
+install.packages("elevatr")
 ```
 
 ## How to follow along with material
