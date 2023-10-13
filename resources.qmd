@@ -5,6 +5,7 @@
 * [**Geocomputation with R**](https://geocompr.robinlovelace.net/)
 * [**R Spatial Task View**](https://cran.r-project.org/web/views/Spatial.html)
 * [**Modern Geospatial Data Analysis with R by Zev Ross**](http://files.zevross.com/workshops/spatial/slides/html/0-deck-list.html)
+[**Spatial Statistics for Data Science: Theory and Practice with R](https://www.paulamoraga.com/book-spatial/index.html)
 * [**SIGR2021 Summer School**](https://nowosad.github.io/SIGR2021/)
 * [**Spatial Data Science - Pebesma and Bivand**](https://keen-swartz-3146c4.netlify.com/)
 * [**Spatial Data Science Course- Prof. Adam Wilson**](http://adamwilson.us/SpatialDataScience/index.html)
@@ -51,5 +52,5 @@
 * [**Advanced R by Hadley Wickham**](http://adv-r.had.co.nz/)
 
 
-::: {#refs}
-:::
+## Previous R Spatial Workshops
+

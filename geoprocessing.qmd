@@ -1,7 +1,7 @@
 # Geoprocessing {#sec-geoprocessing}
 We'll explore a number operations in this section that make up what most of us probably think of as typical GIS operations and how to perform them in R - operations such as clipping, subsetting, joining, dissolving, performing map algebra.
 
-Keep in mind as we mentioned earlier that `s` contains functions that bind to these three primary underlying libraries:
+Keep in mind as we mentioned earlier that `sf` contains functions that bind to these three primary underlying libraries:
 
 - *GDAL* for reading and writing data
 - *GEOS* for geometrical operations
@@ -9,20 +9,20 @@ Keep in mind as we mentioned earlier that `s` contains functions that bind to th
 
 ## Goals and Outcomes
 
-* Learn about fundamental spatial operations in R using spatial predicates in `sf`
+* Learn about fundamental spatial operations in R using spatial predicates in `sf` for:
   - subsetting
   - spatial join
   - buffer
   - logical set operations - union / intersection
   - clipping
-  - st_cast and centroids
+  - generating centroids and 'casting' to other geometry types
   - other raster from geomputation?
   - chapter 4 in geocomputation?
   
 * Explore performing 'map algebra' type operations with raster data in R
 * Learn how to do extract and zonal operations in R
 
-### Operations on Geometries
+## Operations on Geometries
 This breakdown of simple features follows for the most part [this section in Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) 
 
 ** Simple** and **valid** geometries
@@ -122,6 +122,8 @@ st_distance(gages[1,], gages[2,])
 ```
 
 ```{r}
+#| echo: true
+#| results: hide
 library(tigris)
 counties <- counties("Oregon", cb = TRUE)
 options(scipen=3)
@@ -144,14 +146,99 @@ How did `st_distance` know to return the distance between our 2 gages in meters?
 gages_ft <- st_transform(gages, 2994)
 st_distance(gages_ft[1,], gages_ft[2,])
 ```
-
 :::
 
-
 ## Spatial Subsetting 
+Spatial subsetting is analogous to attribute subsetting - with `sf` objects, we can use square bracket (`[]`) notation to take a spatial object and return a new object that contains **only** the features that **relate in space** to another spatial object (i.e. are within, intersect, are within distance of, are spatially disjoint, etc.).
+
+We use the simple syntax of `x[y,]` to perform a spatial subset with the default operation of 'intersects': `x[y,]` is identical to `x[y, , op=st_intersects]`.  We could also provide a different spatial predicate such as `x[y, , op = st_disjoint]`.
+
+Let's run through a couple examples.
+
+First we can demonstrate some very simple spatial subsetting examples using a particular county (polygon) in Oregon and Oregon cities (points).  
+
+```{r}
+library(AOI)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+or_cities <- read_sf(system.file("extdata/cities.shp", package = "Rspatialworkshop"))
+MultCnt<- aoi_get(state = "OR", county= "Multnomah") |> 
+  st_transform(st_crs(or_cities)) # project counties to cities
+mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(or_cities)
+```
+
+Spatially subset cities **within** Multnomah County:
+```{r}
+mult_cities <- or_cities[MultCnt,]
+# or
+mult_cities <- or_cities[MultCnt, , op=st_intersects]
+mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(mult_cities)
+```
+
+::: {.callout-note appearance="simple" icon="false"}
+### Exercise
+Given our explanation above of using different spatial predicates in subsetting operations (e.g. st_disjoint, st_contains,  st_is_within_distance) try:
+
+ - selecting and mapping cities *outside* of Multnomah county
+ - selecting and mapping cities *within 50 kilometers* of Multnomah county (or whatever distance you like)
+ - using an attribute selection to select a city (or several cities) by name somewhere else in the state.  Using these cities, how would we select and map just the county the *contains* this city / cities? Hint: we'll need to pull in *all* counties of Oregon by modifying `AOI_get()`
+:::
+
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+### Solution
+Outside Multnomah county:
+```{r}
+out_mult_cities <- or_cities[MultCnt, , op=st_disjoint]
+mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(out_mult_cities)
+```
+
+Cities within 50km of Multnomah county:
+```{r}
+close_mult_cities <- or_cities[MultCnt, , op=st_is_within_distance,dist=50000]
+mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(close_mult_cities)
+```
+
+County that contains selected cities:
+```{r}
+counties <- aoi_get(state='Oregon', county='all') |> 
+  st_transform(st_crs(or_cities))
+my_cities <- or_cities |> 
+  dplyr::filter(CITY %in% c('ASHLAND','BURNS','HOOD RIVER'))
+sel_counties <- counties[my_cities, , op=st_contains]
+mapview(sel_counties, alpha.regions=.07, color='black', lwd=2) + mapview(my_cities)
+```
+:::
 
 ## Spatial Join 
+Often we want to **join** information from one spatial dataset to another based on a spatial relationship rather than attribute relationships - joining attribute data should be a familiar concept to everyone and many of the principles are the same. `st_join` will add new columns from from a source spatial dataset to the target spatial dataset.  
 
+By default `st_join` performs a **left join** (all rows in the target including rows with no match in the source data) - but you can also do an **inner join** by setting `left=FALSE`. 
+
+We can demonstrate the most basic spatial join using our Oregon counties and cities data - here we simply get the county name for every city based on what county each city lands in.
+```{r}
+cty_cnty <- st_join(or_cities, counties['name'])
+dplyr::glimpse(cty_cnty)
+```
+
+This is equivalent to:
+```{r}
+cty_cnty <- st_join(or_cities, counties['name'], .predicate=st_intersects)
+dplyr::glimpse(cty_cnty)
+```
+
+::: {.callout-note appearance="simple" icon="false"}
+### Exercise
+Often we want to find what features are within a certain specified distance of other features, or what features are closest to a set of features.  `st_join` can answer these questions by supplying the `st_is_within_distance`
+:::
+
+::: {.callout-note appearance="simple" icon="false" collapse="true"}
+### Solution
+- Setting the projection for the desired units
+```{r}
+gages_ft <- st_transform(gages, 2994)
+st_distance(gages_ft[1,], gages_ft[2,])
+```
+:::
 ## Dissolve 
 Clarify what dissolve is and it's not using st_dissolve, it's just using tidyverse operations
 ## Fixing topology errors

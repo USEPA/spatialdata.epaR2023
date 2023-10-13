@@ -137,7 +137,12 @@ leaflet()  |>  addTiles()  |>
 It's easy to layer features with `mapview` - you can supply a list of objects to `mapview` or use + syntax as with `ggplot`.
 
 Here we'll plot stream gages within Benton County:
-```{r message=FALSE, error=FALSE, warning=FALSE,, results='hide'}
+```{r}
+#| echo: true
+#| results: hide
+#| error: false
+#| message: false
+#| warning: false
 library(Rspatialworkshop)
 library(mapview)
 mapviewOptions(fgb=FALSE)
