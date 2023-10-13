@@ -26,6 +26,8 @@ Michael Dumelle is a statistician for the United States Environmental Protection
 The packages that we use throughout this workshop are listed below. To install them run:
 ```{r}
 #| eval: false
+install.packages("devtools")
+install.packages("remotes")
 install.packages("ggplot2")
 install.packages("cranlogs")
 install.packages("sf")
