@@ -124,7 +124,9 @@ st_distance(gages[1,], gages[2,])
 ```{r}
 #| echo: true
 #| results: hide
+#| warning: false
 library(tigris)
+library(sf)
 counties <- counties("Oregon", cb = TRUE)
 options(scipen=3)
 print(paste0('The total area of all counties in Oregon is: ',sum(st_area(counties))))
@@ -158,8 +160,11 @@ Let's run through a couple examples.
 First we can demonstrate some very simple spatial subsetting examples using a particular county (polygon) in Oregon and Oregon cities (points).  
 
 ```{r}
+#| warning: false
+#| message: false
 library(AOI)
 library(mapview)
+library(sf)
 mapviewOptions(fgb=FALSE)
 or_cities <- read_sf(system.file("extdata/cities.shp", package = "Rspatialworkshop"))
 MultCnt<- aoi_get(state = "OR", county= "Multnomah") |> 
@@ -239,8 +244,55 @@ gages_ft <- st_transform(gages, 2994)
 st_distance(gages_ft[1,], gages_ft[2,])
 ```
 :::
-## Dissolve 
-Clarify what dissolve is and it's not using st_dissolve, it's just using tidyverse operations
+
+## Buffer and Dissolve 
+Typical GIS operations are to create buffers around features (points, lines or polygons) and to dissolve polygon boundaries based on a common attribute - here we show how to do these common GIS tasks in an R workflow.
+
+We'll demonstrate dissolving using both tidyverse functions in conjuntion with simple features as well as using the `st_union()` function in `sf`.
+
+Let's use our Oregon cities and counties data again for this.
+
+First we'll demonstrate buffering which is a simpler operation using `st_buffer` with a suplied distance.
+
+First we pick our largest cities and buffer them by some arbitrary distance - we'll say 20 miles (note below we convert fee to miles).
+```{r}
+library(sf)
+library(dplyr)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+# Filter for metro areas
+metros <- or_cities |> 
+  dplyr::filter(CITY %in% c('PORTLAND','SALEM','EUGENE','CORVALLIS','BEND','MEDFORD'))
+# Buffer larger cities
+metro_areas <- metros |> 
+  st_buffer(105600)
+mapview(metro_areas)
+```
+
+Next we show both methods to dissolve, categorizing Oregon counties as urban or rural and dissolving on these categories.
+```{r}
+library(sf)
+# urban area
+counties <- st_transform(counties, st_crs(metro_areas)) # crs same
+
+urban_counties <- counties[metro_areas, ,op=st_intersects] # subsetting
+
+urban <- urban_counties |>  # Dissolve
+  st_union() |> # unite geometries
+  st_sf() |> # promote geometry back to data frame
+  dplyr::mutate(urban=TRUE) # assign urban
+
+# rural area
+# here we use tidyverse method to dissolve
+rural <- counties |> 
+  dplyr::filter(!name %in% urban_counties$name) |> 
+  dplyr::group_by(state_abbr) |> # just group by state - all the same
+  dplyr::mutate(AREA= geometry |> st_area()) |> 
+  dplyr::summarise(AREA = sum(AREA)) # this is the cool part!
+
+mapview(urban, col.region='red') + mapview(rural)
+```
+
 ## Fixing topology errors
 - show typical fixes for topology errors
 
