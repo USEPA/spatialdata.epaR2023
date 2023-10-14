@@ -52,6 +52,7 @@ install.packages("ggspatial")
 install.packages("dataRetrieval")
 install.packages("stars")
 install.packages("elevatr")
+install.packages("nhdplusTools")
 ```
 
 ## How to follow along with material
