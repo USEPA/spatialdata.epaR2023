@@ -26,7 +26,7 @@ Before we dive into spatial libraries, it's worth a quick review of relevant dat
   + Hardware reads Binary bytes
 
 ```{r, fig.align='center', echo = FALSE, out.width="75%" }
-knitr::include_graphics("img/values.PNG")
+knitr::include_graphics("img/values.png")
 ```
 
 :::{.callout-note}
