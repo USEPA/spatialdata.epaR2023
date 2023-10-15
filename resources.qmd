@@ -1,9 +1,50 @@
 # Resources {.unnumbered}
 
+## Goals and Outcomes
+
+* Summarize the functionality of modern **R** packages for handling spatial data.
+* Discuss the retirement of `rgdal`, `rgeos`, and `maptools` and its effect on the rest of the spatial data ecosystem in **R**.
+* Provide additional resources for handling spatial data in **R**
+
+## `sf`
+
+The `sf` **R** package [@pebesma2018sf] implements an **R**-based approach to handling spatial data based on simple features, a set of standards that specify how spatial objects are represented by computers. The simple features standards are widely implemented in spatial databases like GIS and GDAL. They have a `geometry` that describes their location on Earth using a coordinate reference system. Simple features objects in **R** are called `sf` objects and build upon **R**'s standard data frame by adding `geometry`. `sf` objects have two main components:
+
+1. A `data.frame` with feature attributes
+2. A list-column with geometries for each feature
+
+You can operate on `sf` objects just as you would a operate on a `data.frame`, and there are many tidyverse operations (e.g., `select()`, `filter()`) that work directly with `sf` objects. All `sf` functions that operate on spatial data are prefixed by `st_`, which refers to *spatial type*. The prefix makes them easy to find via tab (or command-line) completion. For example, to inspect the `sf` function's geometry as well-known text, run `st_geometry()`. 
+
+The `sf` **R** package is the modern approach to manipulating spatial data in **R** using simple features and is designed to completely supersede `sp`. For more of `sf`, [visit their website here](https://r-spatial.github.io/sf/) or [this overview here](https://r-spatial.org/book/07-Introsf.html#sec-sfintro).
+
+## `terra`
+
+The `terra` **R** package [@hijmans2023terra] is used to create, read, manipulate, and write raster data. Raster data is a spatial data structure that divides a region into rectangles called "cells" or "pixels" that can store one or more values fore each cell. Raster data structures are often called "grids", a contrast with the "vector" data used to represent points, lines, and polygons as in the `sf` package. One advantage of the `terra` package and raster data structures is that it can handle large data sets on disk that are too large to be loaded into memory.
+
+Raster objects in `terra` are typically created or read in using the `rast()` function. Raster objects in `terra` support common algebraic operations (e.g., `+`, `*`), logical operations (e.g., `>=`, `==`), and functionals (e.g., `round`, `log`) on raster cells. There are several options for modifying raster objects: `crop`, which subsets a larger `terra` object; `trim`, which removes outer rows and columns with `NA` values; `extend`, which adds outer rows and columns with `NA` values, `merge`, which merges two or more raster objects into a single object; `aggregate` and `disagg` for changing the resolution (cell size) of a raster object; `wrap` for transforming to a new coordinate reference system; and more. There are also options for computing distances, summary statistics, prediction, and visualization.
+
+The `terra` **R** package is the modern approach to manipulating raster data in **R** and is designed to completely supersede `raster``. For more of `terra`, [visit their website here](https://rspatial.org/pkg/index.html).
+
+## Other Useful Spatial Data Packages
+
+* `stars` for handling spatio-temporal vector and raster data ([link here](https://r-spatial.github.io/stars/))
+* `leaflet` for an **R** package that accesses leaflet, a population JavaScript library for interactive maps ([link here](https://rstudio.github.io/leaflet/))
+* `tmap` for generating thematic maps in **R**  for ([link here](https://r-tmap.github.io/tmap/))
+* `mapview` for a different approach to interacting with the leaflet Javascript library ([link here](https://github.com/r-spatial/mapview))
+* `ggplot2` for general graphics in **R** ([link here](https://ggplot2.tidyverse.org/)), with a focus on `geom_sf()` ([link here](https://ggplot2.tidyverse.org/reference/ggsf.html))
+
+## Retirement of `rgdal`, `rgeos`, and `maptools`; Plan for `sp`
+
+The `rgdal`, `rgeos`, and `maptools` **R** packages won't be available on CRAN after October, 2023. Preparation for these retirements has been worked on for quite some time and is one of the motivating factors in pursuing modern alternatives like `sf` and `terra`. The `sp` package will still be available from CRAN, but it won't be actively maintained, and `sf` should be used instead. To learn more about these retirements and understand how you may be affected, [visit this link here](https://geocompx.org/post/2023/rgdal-retirement/).
+
+
 ## R Spatial Resources
-* [R Spatial - **Spatial Data Science with R**](http://rspatial.org/spatial/)
-* [**Geocomputation with R**](https://geocompr.robinlovelace.net/)
-* [**R Spatial Task View**](https://cran.r-project.org/web/views/Spatial.html)
+
+* [**Spatial Data Science With Applications in R**](https://r-spatial.org/book/)
+* [**R Spatial - Spatial Data Science with R**](http://rspatial.org/spatial/)
+* [**Geocomputation with R**](https://r.geocompx.org/)
+* [R-Spatial Task View](https://cran.r-project.org/web/views/Spatial.html)
+* [R-Spatial Website](https://r-spatial.org/)
 * [**Modern Geospatial Data Analysis with R by Zev Ross**](http://files.zevross.com/workshops/spatial/slides/html/0-deck-list.html)
 [**Spatial Statistics for Data Science: Theory and Practice with R](https://www.paulamoraga.com/book-spatial/index.html)
 * [**SIGR2021 Summer School**](https://nowosad.github.io/SIGR2021/)
@@ -50,6 +91,7 @@
 ## General R Resources
 * [**Google R Style Guide**](https://google.github.io/styleguide/Rguide.xml)
 * [**Advanced R by Hadley Wickham**](http://adv-r.had.co.nz/)
+* [**R for Data Science**](https://r4ds.had.co.nz/)
 
 
 ## Previous R Spatial Workshops

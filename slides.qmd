@@ -39,11 +39,11 @@ library(ggplot2)
 
 ## Welcome!
 
-1. Please visit INSERT LINK HERE to view the workshop's accompanying workbook
+1. Please visit [this link](https://usepa.github.io/spatialdata.epaR2023/) to view the workshop's accompanying workbook
 
-2.  Install and load R packages (INSERT LINK HERE TO SECTION IN WORKBOOK)
+2.  Install and load R packages by visiting [this link](https://usepa.github.io/spatialdata.epaR2023/#set-up)
 
-3. (Optional) Download the workshop slides (instructions in the workbook's Introduction)
+3. (Optional) Download the workshop slides (instructions in the workbook's "Welcome" page)
 
 4. Follow along and have fun!
 
@@ -66,6 +66,22 @@ The views expressed in this workshop are those of the authors and do not necessa
 * Geoprocessing spatial data
 * Advanced applications
 * Focus on the **R** computing language
+
+## Today's Agenda
+
+- 1:00pm - 1:35pm EDT: Introduction and Spatial Data Structures in R
+- 1:35pm - 2:05pm EDT: Vector Data Model
+- 2:05pm - 2:10pm EDT: Break
+- 2:10pm - 2:30pm EDT: Raster Data Model
+- 2:30pm - 3:15pm EDT: Coordinate Reference Systems and I / O
+- 3:15pm - 3:25pm EDT: Break
+
+## Today's Agenda
+
+- 3:25pm - 3:45pm EDT: Spatial Data Visualization
+- 3:45pm - 4:15pm EDT: Geoprocecessing
+- 4:15pm - 4:20pm EDT: Break
+- 4:20pm - 5:00pm EDT: Advanced Applications
 
 # Foundations
 
@@ -127,6 +143,15 @@ glimpse(my_town)
 countdown(minutes = 5)
 ```
 
+## Our Turn
+
+::: task2
+1. `::` lets you clarify from which package a function is called (e.g., `tmaptools::geocodeOSM()`)
+2. `geocode_OSM()` looks up a named feature in OpenStreetMap and returns the coordinates
+3. Do this `|>` then that
+4. `glimpse()` glimpses at a data frame
+:::
+
 ## A Choropleth Map
 
 * A choropleth map is a map that connects statistical summaries to geographic characteristics
@@ -168,12 +193,23 @@ mapview(my_town, col="red", col.regions = "red") +
 
 ```{r}
 #| echo: false
-#| results: hide
 #| message: false
 #| warning: false
 
 library(mapview)
 countdown(minutes = 4)
+```
+
+## Our Turn
+
+```{r}
+#| label: fig-mytowncounties
+#| fig-cap: "Corvallis among distribution of Oregon counties."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/mytown_counties.jpg")
 ```
 
 ## Spatial Data Structures
@@ -191,6 +227,8 @@ countdown(minutes = 4)
 * Vector data are comprised of points, lines, and polygons that represent discrete spatial entities (e.g., river, wtaershed, stream gauge)
 * Raster data divide space into small rectangles (pixels) that represent spatially continuous phenomena like elevation or precipitation
 
+## Types of Spatial Data
+
 ```{r}
 #| label: fig-vectorraster
 #| fig-cap: "Vector and raster data."
@@ -207,6 +245,8 @@ knitr::include_graphics("img/09-vec-raster.jpg")
 * Vector data are described using simple features
 * Simple features is a standard way to specify how two-dimensional geometries are represented, stored in and retrieved from databases, and which geometric operations can be performed
 * Provides framework for extending spatial `POINTS` to `LINES` and `POLYGONS`
+
+## Types of Spatial Data
 
 ```{r}
 #| label: fig-sfmodel
@@ -362,10 +402,27 @@ So far we have explored plotting using `ggplot()`, but you can also use `sf`'s b
 countdown(minutes = 5)
 ```
 
+## Our Turn
+
+::: task2
+Running `plot()` in `sf` plots all variables; common to subset
+:::
+
+```{r}
+#| label: fig-usarea
+#| fig-cap: "Area by state in the US."
+#| output-location: slide
+
+plot(us_states["AREA"])
+```
+
+
 ## Raster Data Model
 
 * Raster data can be continuous or categorical
 * Can be image based; have a temporal component
+
+## Raster Data Model
 
 ```{r}
 #| label: fig-rastermodel
@@ -374,7 +431,7 @@ countdown(minutes = 5)
 #| echo: false
 #| out-width: "100%"
 
-knitr::include_graphics("img/09-sf-model.png")
+knitr::include_graphics("img/raster_data_model.jpg")
 ```
 
 ## The `terra` Package
@@ -404,6 +461,17 @@ We just printed `myrast` and saw several components: `class`, `dimensions`, `res
 #| echo: false
 
 countdown(minutes = 5)
+```
+
+## Our Turn
+
+```{r}
+class(myrast)
+ncell(myrast)
+res(myrast)
+ext(myrast)
+crs(myrast)
+ncell(myrast)
 ```
 
 ## Manipulating Raster Objects
@@ -451,11 +519,11 @@ plot(my_rast)
 ::: task
 The `spatRaster` object in `terra` can hold multiple layers. Read in the four bands of Landsat 8 data from Zion National Park by running
 ```{r}
-landsat = system.file("raster/landsat.tif", package = "spDataLarge")
-landsat = rast(landsat)
+landsat <- system.file("raster/landsat.tif", package = "spDataLarge")
+landsat <- rast(landsat)
 ```
 
-The plot this raster using `plot()`.
+Then plot this raster using `plot()`.
 
 :::
 
@@ -464,6 +532,20 @@ The plot this raster using `plot()`.
 
 countdown(minutes = 3)
 ```
+
+## Our Turn
+
+```{r}
+#| label: fig-rastplotzion8
+#| fig-cap: "Raster plot of Landsat 8 data from Zion National Park."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+plot(landsat)
+```
+
 
 ## Spatio-Temporal Raster Objects
 
@@ -528,11 +610,9 @@ There are many ways to specify a CRS:
     * `+proj = longlat + ellps=WGS84 ...`
 2. OGC WKT / ESRI WKT
     * `GEOGCS["WGS 84", DATUM["WGS_1984, SPHERIOD["WGS 84 ...]]]`
-3. authority:code identifier
+3. authority:code identifier (modern/preferred)
     * `EPSG: 4326`
     
-* The authority:code identifier is the modern identifier in **R**, and our preferred method
-
 ## Projected Coordinate Systems
 
 * Projected coordinates have been projected to two-dimensional space according to a CRS
@@ -549,7 +629,7 @@ There are many ways to specify a CRS:
 
 ```{r}
 #| label: fig-transformcrs
-#| fig-cap: "Gages and PNW data in the same projection."
+#| fig-cap: "PNW State Boundaries."
 #| output-location: slide
 #| fig-width: 8
 #| results: hide
@@ -576,7 +656,18 @@ Re-project the `pnw` data to a different projected CRS. Then plot using base **R
 ```{r}
 #| echo: false
 
-countdown(minutes = 6)
+countdown(minutes = 4)
+```
+
+## Our Turn
+
+::: task2
+ Project to NAD83
+:::
+
+```{r}
+pnw2 <- st_transform(pnw, crs = 5070)
+plot(st_geometry(pnw2))
 ```
 
 ## A Note on `S2`
@@ -585,6 +676,8 @@ countdown(minutes = 6)
 * `S2` is an example of a Discrete Global Grid System (DGGS)
 * `sf` can run with `s2` on or off and by default the S2 geometry engine is turned on:
 ```{r}
+#| eval: false
+
 sf::sf_use_s2()
 ```
 
@@ -636,6 +729,17 @@ Run `?read_sf()` and compare `read_sf()` to `st_read()`. Our preference is to us
 countdown(minutes = 3)
 ```
 
+## Our Turn
+
+::: task2
+ 
+`read_sf()` calls `st_read()` with defaults chosen:
+ 
+- `stringsAsFactors = FALSE`
+- `quiet = TRUE`
+- `as_tibble = TRUE`
+ 
+:::
 
 ## Read in a Geodatabase
 
