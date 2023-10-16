@@ -1,21 +1,20 @@
 # Advanced Applications {#sec-advanced_applications}
-
-
-
-Throughout this section, we ...
-
-
+We'll explore a few 'advanced' applications in this section, exploring the use of web services, exploring some means of using STAC resources in R, using R extensions, and some spatial modeling libraries
 
 ## Goals and Outcomes
-
-* This is goal 1.
-* This is goal 2.
-* This is goal 3.
+* Gain familiarity with using web services for several applications in R
+* Learn about using STAC resources in R
+* Know about several extensions for integrating with other GIS software and tools in R
+* Gain some familiarity with spatial modeling libraries
 
 :::{.callout-note}
 You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
 :::
 
-## Advanced Applications
+## Using Web Services
 
-### Using Web Services
+## STAC
+
+## Extensions
+
+## Spatial Modeling

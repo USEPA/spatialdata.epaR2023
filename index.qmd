@@ -55,6 +55,7 @@ install.packages("elevatr")
 install.packages("nhdplusTools")
 install.packages("terra")
 install.packages("raster")
+install.packages("climateR")
 ```
 
 ## How to follow along with material
