@@ -36,6 +36,7 @@ Note that to use `tidycensus` you'll need to set your Census API key. A key can 
 #| warning: false
 #| echo: true
 #| results: hide
+
 library(tigris)
 library(tidycensus)
 library(ggplot2)
@@ -84,7 +85,13 @@ Using the blog post link above, get counties for your state using `tigris` (or o
 ::: {.callout-note appearance="simple" icon="false" collapse="true"}
 ### Solution
 One idea
-```{r message=FALSE, error=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| error: false
+#| warning: false
+#| echo: true
+#| results: hide
+
 # library(tmap)
 # library(tmaptools)
 library(ggplot2)

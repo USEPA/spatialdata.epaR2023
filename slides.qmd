@@ -866,3 +866,227 @@ ggplot(data = gages_sf) +
   geom_sf()
 ```
 
+# Visualization
+
+## Some Advice
+
+Some advice from Martin Tennekes:
+
+- If you know some `ggplot`, don't care about interactive maps, and don't want to spend a lot of time learning new packages, use `ggplot`
+- If you want interactive maps as flexible as possible, use `leaflet`
+- If you want to simply explore spatial objects ineractively as easily as possible, use `mapview`
+- Otherwise, use `tmap`!
+
+Projections are important!
+
+## `ggplot2`
+
+`ggplot2` now supports `geom_sf()`, developed alongside `sf` for pulication quality figures that easily incorporate projections
+
+```{r}
+library(tidycensus)
+library(cowplot)
+mult_tracts <- get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE) 
+
+# tidy data
+mult_wide <- mult_tracts |> 
+  sf::st_transform(2153) |> #UTM 11N
+  dplyr::filter(!is.na(estimate)) |> 
+  tidyr::pivot_wider(
+    names_from = c("variable"),
+    values_from = c("estimate","moe")
+  ) |> 
+  dplyr::rename(Median_Income=estimate_B19013_001, College_Education=estimate_B16010_028,Total_Pop=estimate_B01003_001) |> 
+  dplyr::mutate(Perc_College_Ed = (College_Education / Total_Pop) * 100) |> 
+  dplyr::filter(!is.na(Median_Income) & !is.na(Perc_College_Ed))
+```
+
+## `ggplot2`
+
+```{r}
+#| label: fig-medianmc
+#| fig-cap: "Median income in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+mult_wide |> 
+  ggplot() + 
+  geom_sf(aes(fill = Median_Income)) + 
+  scale_y_continuous() +
+  scale_fill_viridis_c(option = "mako") +
+  theme_minimal_grid(12)
+```
+
+
+## `ggplot2`
+
+```{r}
+#| label: fig-collegemc
+#| fig-cap: "Percent college degree in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+mult_wide |> 
+  ggplot() +
+  geom_sf(aes(fill = Perc_College_Ed)) + 
+  scale_y_continuous() +
+  scale_fill_viridis_c(option = "mako") +
+  theme_minimal_grid(12)
+```
+
+## Your Turn
+
+::: task 
+ Visualize the counties in your state after an appropriate projection. You can access county data for your state (for us, Oregon) by running
+:::
+ 
+```{r}
+your_state <- "Oregon"
+counties <- tigris::counties("Oregon", cb = TRUE)
+```
+
+```{r}
+#| echo: false
+
+countdown(minutes = 4)
+```
+
+## Our Turn
+
+```{r}
+#| label: fig-orcounties
+#| fig-cap: "Oregon Counties."
+#| results: hide
+#| message: false
+#| warning: false
+
+counties |>
+  st_transform(2991) |>
+  ggplot() + 
+  geom_sf(data = counties, fill = NA, color = gray(.5))
+```
+
+## `leaflet`
+
+Javascript based
+
+```{r}
+#| eval: false
+library(leaflet)
+content <- paste(sep = "<br/>",
+  "<b><a href='https://www.epa.gov/greeningepa/pacific-ecological-systems-division-pesd-laboratory'>EPA Lab Corvallis</a></b>",
+  "200 S.W. 35th Street ",
+  "Corvallis, OR 97333 "
+)
+
+leaflet()  |>
+  addTiles()  |> 
+  addPopups(-123.290391, 44.565548,  content,
+    options = popupOptions(closeButton = FALSE)
+  )
+```
+
+## `leaflet`
+
+```{r}
+#| label: fig-epalap
+#| fig-cap: "Corvallis EPA Lab."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/epa_lab.jpg")
+```
+
+## Your Turn
+
+::: task
+Explore some additional `leaflet` features at [https://rstudio.github.io/leaflet/](https://rstudio.github.io/leaflet/). Does anything seem particularly useful for your workflow?
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+## `mapview`
+
+```{r}
+#| eval: false
+AOI::aoi_get(list("Corvallis, OR", 10, 10)) |>
+  mapview()
+```
+
+## `mapview`
+
+Uses leaflet
+
+```{r}
+#| label: fig-corvbb
+#| fig-cap: "Corvallis bounding box."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/corvallis_bb.jpg")
+```
+
+## `tmap`
+
+Uses `ggplot2`-inspired syntax and is specifically designed for visualizing spatial data
+
+```{r}
+#| label: fig-oregoncountiestmap
+#| fig-cap: "Oregon counties."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+# Add fill and border layers to Oregon counties
+tm_shape(counties) +
+  tm_fill() +
+  tm_borders() 
+```
+
+## `tmap`
+
+```{r}
+#| label: fig-oregoncountiestmap2
+#| fig-cap: "Median income in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+# Add fill and border layers to Oregon counties
+tm_shape(mult_wide) +
+  tm_polygons("Median_Income")
+```
+
+## Your Turn
+
+::: task
+Use `tmap` to visualize the percentage of residents with a college degree. Change the number of breaks using `n` and the color palette using `palette`.
+:::
+
+## Our Turn
+
+```{r}
+#| label: fig-oregoncountiestmap3
+#| fig-cap: "Percent college degree in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+# Add fill and border layers to Oregon counties
+tm_shape(mult_wide) +
+  tm_polygons("Perc_College_Ed", n = 2, palette = "BuGn")
+```
+
