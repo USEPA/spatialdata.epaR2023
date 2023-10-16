@@ -1160,11 +1160,12 @@ plot(citylims$geometry, axes=T, main='Oregon City Limits') # plot it!
 #### Solution 
 `read_sf` is an `sf` alternative to st_read (see [this](https://keen-swartz-3146c4.netlify.com/intro.html#read) section 1.2.2). Try reading in `citylims` data above using `read_sf` and notice difference, and check out `help(read_sf)`.  `read_sf` and `write_sf` are simply aliases for st_read and st_write with modified default arguments.  Big differences are:
 
-- `stringsAsFactors=FALSE`
-- `quiet=TRUE`
-- `as_tibble=TRUE`
+- `stringsAsFactors = FALSE`
+- `quiet = TRUE`
+- `as_tibble = TRUE`
 
 Note that `stringsAsFactors = FALSE` is the new default in R versions >= 4.0
+:::
 
 #### Geodatabases
 We use `st_read` or `read_sf` similarly for reading in an ESRI file geodatabase feature:
