@@ -262,7 +262,8 @@ metro |>
 tmap_mode("view")
 tm_basemap("Stamen.Watercolor") +
 tm_shape(or_metro) + tm_bubbles(size = "pop2020", col = "red") +
-tm_tiles("Stamen.TonerLabels")
+tm_tiles(paste0("http://services.arcgisonline.com/arcgis/rest/services/Canvas/",
+    "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"), group = "Labels")
 ```
 
 ### Choropleths with `tmap`
