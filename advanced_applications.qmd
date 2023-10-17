@@ -53,6 +53,7 @@ Notice we pulled in some stream gages within the **bounding box** of our basin b
 ```{r}
 #| warning: false
 gages <- sf::st_intersection(gages, basin)
+mapview(SouthSantiam) + mapview(basin) + mapview(gages)
 ```
 
 Now we'll grab stream flow data for our watershed with `dataRetrieval`:
@@ -119,6 +120,8 @@ mapview(elev)
 Here we'll just show an example of using OpenDAP via Mike Johnson's [OpenDAP Catalog](https://mikejohnson51.github.io/opendap.catalog/) and [ClimateR](https://mikejohnson51.github.io/climateR/) packages.
 
 ```{r}
+#| warning: false
+
 library(opendap.catalog)
 library(climateR)
 
@@ -131,16 +134,29 @@ We can search for resources of interest:
 opendap.catalog::search("monthly swe")
 ```
 
+And we can load and plot snow water equivalent for our watershed:
+```{r}
+
+```
+
 Here we'll just show extracting a particular resource (in this case PRISM data) using `climateR` and we'll go back to using our counties in Oregon data from earlier.
 ```{r}
 library(AOI)
 library(climateR)
+library(ggplot2)
+library(terra)
 counties <- aoi_get(state='Oregon', county='all')
 precip <- getPRISM(counties,
                varname = "ppt",
                startDate = "2020-01-01",
                endDate  = "2020-02-28",
                timeRes="monthly")
+precip <- terra::rast(precip)
+
+names(precip)
+plot(precip)
+ggplot() +
+  geom_spatraster(data=precip, aes(fill=ppt_2020-01-01))
 ```
 
 ## Zonal Statistics and Categorical Summaries
