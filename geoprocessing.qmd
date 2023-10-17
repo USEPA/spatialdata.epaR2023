@@ -16,8 +16,10 @@ Keep in mind as we mentioned earlier that `sf` contains functions that bind to t
   - logical set operations - union / intersection
   - clipping
   - generating centroids and 'casting' to other geometry types
-  - other raster from geomputation?
-  - chapter 4 in geocomputation?
+  - raster operations
+    + map algebra
+    + cropping and masking
+    + zonal operations
   
 * Explore performing 'map algebra' type operations with raster data in R
 * Learn how to do extract and zonal operations in R
@@ -25,7 +27,8 @@ Keep in mind as we mentioned earlier that `sf` contains functions that bind to t
 ## Operations on Geometries
 This breakdown of simple features follows for the most part [this section in Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) 
 
-** Simple** and **valid** geometries
+**Simple** and **valid** geometries
+
 - Certain conditions have to be met with simple features:
   + For *linestrings* to be considered *simple* they must not self-intersect:
 ```{r}
@@ -97,11 +100,40 @@ A list of binary predicates is:
 | `overlaps`           | A and B have some points in common; the dimension of these is identical to that of A and B                          |              |
 | `relate`             | Given a mask pattern, return whether A and B adhere to this pattern                                                 |              |
 
-See the [Geometries chapter of Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) for a full treatment that also covers \*\*unary and binary measures\* as well as *unary, binary and n-ary transformers*
+See the [Geometries chapter of Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) for a full treatment that also covers *unary and binary measures* as well as *unary, binary and n-ary transformers*
 
 ```{r, fig.align='center', echo = FALSE, out.width="75%" }
 knitr::include_graphics("img/09-sf-model.png")
 ```
+
+For those who are interested in a deeper understanding of spatial predicates and operating on geometric relationships in R or elsewhere it's worth taking some time exploring the Dimensionally Extended Nine-Intersection Model (DE-9IM) - a *topological* model (and a standard) that describes the relationship between any two geometries in two-dimensional space.
+
+Spatial features have one of the four **dimension** values:
+
+- 0 for points
+- 1 for lines or linear features
+- 2 for polygons or polygon features
+- F or false for empty geometries
+
+The DE-9IM matrix provides a way to classify geometry relations using the set {0,1,2,F} or `{T,F}`.
+
+The DE-9IM matrix is based on a 3x3 intersection matrix testing the following relations:
+
+- II, IE, IB
+- BI, BE, BB
+- EI, EE, EB
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/de9im3.jpg")
+```
+
+With a `{T,F}` matrix using the I,B, E space, there are 512 possible relations that can be grouped into binary classification schemes.
+
+About 10 of these **spatial predicates** have common names such as **intersects**, **touches**, **within**, **contains**.  These are the *binary predicates* we've listed in previous table.
+
+See the [Binary predicates and DE-9IM section in Spatial Data Science](https://r-spatial.org/book/03-Geometries.html#sec-de9im) as well as succinct overview in [slides for a previous workshop by Mike Johnson](https://mhweber.github.io/AWRA2022GeoWorkshop/session3#49)
+
+
 
 ## Measures and Units
 Measures (with `sf`) make use of the underlying GEOS library, as well as the R `units` library that provides measure units for R vectors.  Once a coordinate reference system has been defined for features, we often want to ask questions of our data such as:
@@ -256,6 +288,7 @@ First we'll demonstrate buffering which is a simpler operation using `st_buffer`
 
 We pick our largest cities and buffer them by some arbitrary distance - we'll say 20 miles (note below we convert feet to miles).
 ```{r}
+#| warning: false
 library(sf) |> suppressPackageStartupMessages()
 library(dplyr)
 library(mapview)
@@ -514,7 +547,7 @@ terra::global(elev_mask, fun="mean", na.rm=TRUE)
 terra::global(elev_mask, fun="sum", na.rm=TRUE)
 ```
 
-#### Zonal Operations
+### Zonal Operations
 Here we demonstrate using the zonal function in `terra` to summarize a value raster of elevation, using an srtm.tif from `spDataLarge`, by the zones of NLCD classes using nlcd.tif raster also in the `spDataLarge` package.  We'll expand more on zonal statistics including for categorical data in the final section of the workshop.
 ```{r zonal, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
 library(raster)
