@@ -866,3 +866,397 @@ ggplot(data = gages_sf) +
   geom_sf()
 ```
 
+# Visualization
+
+## Some Advice
+
+Some advice from Martin Tennekes:
+
+- If you know some `ggplot`, don't care about interactive maps, and don't want to spend a lot of time learning new packages, use `ggplot`
+- If you want interactive maps as flexible as possible, use `leaflet`
+- If you want to simply explore spatial objects ineractively as easily as possible, use `mapview`
+- Otherwise, use `tmap`!
+
+Projections are important!
+
+## `ggplot2`
+
+`ggplot2` now supports `geom_sf()`, developed alongside `sf` for pulication quality figures that easily incorporate projections
+
+```{r}
+library(tidycensus)
+library(cowplot)
+mult_tracts <- get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE) 
+
+# tidy data
+mult_wide <- mult_tracts |> 
+  sf::st_transform(2153) |> #UTM 11N
+  dplyr::filter(!is.na(estimate)) |> 
+  tidyr::pivot_wider(
+    names_from = c("variable"),
+    values_from = c("estimate","moe")
+  ) |> 
+  dplyr::rename(Median_Income=estimate_B19013_001, College_Education=estimate_B16010_028,Total_Pop=estimate_B01003_001) |> 
+  dplyr::mutate(Perc_College_Ed = (College_Education / Total_Pop) * 100) |> 
+  dplyr::filter(!is.na(Median_Income) & !is.na(Perc_College_Ed))
+```
+
+## `ggplot2`
+
+```{r}
+#| label: fig-medianmc
+#| fig-cap: "Median income in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+mult_wide |> 
+  ggplot() + 
+  geom_sf(aes(fill = Median_Income)) + 
+  scale_y_continuous() +
+  scale_fill_viridis_c(option = "mako") +
+  theme_minimal_grid(12)
+```
+
+
+## `ggplot2`
+
+```{r}
+#| label: fig-collegemc
+#| fig-cap: "Percent college degree in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+mult_wide |> 
+  ggplot() +
+  geom_sf(aes(fill = Perc_College_Ed)) + 
+  scale_y_continuous() +
+  scale_fill_viridis_c(option = "mako") +
+  theme_minimal_grid(12)
+```
+
+## Your Turn
+
+::: task 
+ Visualize the counties in your state after an appropriate projection. You can access county data for your state (for us, Oregon) by running
+:::
+ 
+```{r}
+your_state <- "Oregon"
+counties <- tigris::counties("Oregon", cb = TRUE)
+```
+
+```{r}
+#| echo: false
+
+countdown(minutes = 4)
+```
+
+## Our Turn
+
+```{r}
+#| label: fig-orcounties
+#| fig-cap: "Oregon Counties."
+#| results: hide
+#| message: false
+#| warning: false
+
+counties |>
+  st_transform(2991) |>
+  ggplot() + 
+  geom_sf(data = counties, fill = NA, color = gray(.5))
+```
+
+## `leaflet`
+
+Javascript based
+
+```{r}
+#| eval: false
+library(leaflet)
+content <- paste(sep = "<br/>",
+  "<b><a href='https://www.epa.gov/greeningepa/pacific-ecological-systems-division-pesd-laboratory'>EPA Lab Corvallis</a></b>",
+  "200 S.W. 35th Street ",
+  "Corvallis, OR 97333 "
+)
+
+leaflet()  |>
+  addTiles()  |> 
+  addPopups(-123.290391, 44.565548,  content,
+    options = popupOptions(closeButton = FALSE)
+  )
+```
+
+## `leaflet`
+
+```{r}
+#| label: fig-epalap
+#| fig-cap: "Corvallis EPA Lab."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/epa_lab.jpg")
+```
+
+## Your Turn
+
+::: task
+Explore some additional `leaflet` features at [https://rstudio.github.io/leaflet/](https://rstudio.github.io/leaflet/). Does anything seem particularly useful for your workflow?
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+## `mapview`
+
+```{r}
+#| eval: false
+AOI::aoi_get(list("Corvallis, OR", 10, 10)) |>
+  mapview()
+```
+
+## `mapview`
+
+Uses leaflet
+
+```{r}
+#| label: fig-corvbb
+#| fig-cap: "Corvallis bounding box."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/corvallis_bb.jpg")
+```
+
+## `tmap`
+
+Uses `ggplot2`-inspired syntax and is specifically designed for visualizing spatial data
+
+```{r}
+#| label: fig-oregoncountiestmap
+#| fig-cap: "Oregon counties."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+# Add fill and border layers to Oregon counties
+tm_shape(counties) +
+  tm_fill() +
+  tm_borders() 
+```
+
+## `tmap`
+
+```{r}
+#| label: fig-oregoncountiestmap2
+#| fig-cap: "Median income in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+# Add fill and border layers to Oregon counties
+tm_shape(mult_wide) +
+  tm_polygons("Median_Income")
+```
+
+## Your Turn
+
+::: task
+Use `tmap` to visualize the percentage of residents with a college degree. Change the number of breaks using `n` and the color palette using `palette`.
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+## Our Turn
+
+```{r}
+#| label: fig-oregoncountiestmap3
+#| fig-cap: "Percent college degree in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+# Add fill and border layers to Oregon counties
+tm_shape(mult_wide) +
+  tm_polygons("Perc_College_Ed", n = 2, palette = "BuGn")
+```
+
+## Your Turn
+
+::: task
+Use `tmap` to visualize the median income and the percentage of residents with a college degree using a two-column facet. 
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+## Our Turn
+
+```{r}
+#| label: fig-oregoncountiestmap4
+#| fig-cap: "Median income and percent college degree in Multnomah County."
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+# Add fill and border layers to Oregon counties
+tm_shape(mult_wide) +
+  tm_polygons(c("Median_Income", "Perc_College_Ed")) +
+  tm_facets(sync = TRUE, ncol = 2)
+```
+
+
+## `tmap`
+
+```{r}
+#| label: fig-crater
+#| fig-cap: "Crater Lake elevation."
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+data(CraterLake)
+filepath <- system.file("extdata", "elevation.tif", package = "Rspatialworkshop")
+elevation <- rast(filepath)
+
+tm_shape(CraterLake) +
+  tm_polygons(lwd = 2) +
+  tm_shape(elevation) + 
+  tm_raster(alpha = 0.7,palette = terrain.colors(12)) +
+  tm_layout(legend.position = c("left", "bottom"), legend.width = 1)
+```
+
+# Geoprocessing
+
+## Libraries
+
+Recall that `sf` has functions to access three primary underlying geospatial libraries:
+
+1. `GDAL`: For reading and writing data
+2. `GEOS`: For geometrical operations
+3. `PROJ` for projection conversions and datum transformations
+
+We leverage `sf` and these libraries to perform subsetting, joins, buffering, unions, intersections, clipping, and more
+
+## Simple Features
+
+* `LINESTRING`s are simple if they don't self-intersect
+* `POLYGON`s are simple if their rings are closed, holes are self-contained, and rings don't repeat their own path
+
+## Predicates
+
+* A predicate asserts whether a property is `TRUE`
+* A predicate is unary if it describes the property of a (single) geometry
+    * `is`, `is_simple`, `is_valid()`, `is_empty()`, etc.
+* A predicate is binary if it describes the property of two geometries
+    * `contains()`, `equals()`, `intersects()`, `touches()`, `within()`, etc.
+    
+## Measures and Units
+
+Leverage GEOS to answer questions like:
+
+* How long is a line or polygon perimeter?
+* What is the area of a polygon?
+* What is the distance between two objects?
+
+## Calculating Distances
+
+* Using `st_area()`
+```{r}
+counties_area <- sum(st_area(counties))
+paste0("The total area of all counties in Oregon is ", round(counties_area), " square meters.")
+```
+
+* Between stream gages
+```{r}
+st_distance(gages_sf[1,], gages_sf[2,])
+```
+
+## Your Turn
+
+::: task
+We just calculated the distances between two stream gages in square meters. What if we wanted distance in different units? You can:
+ 
+ * Set a projection that uses the proper units
+ * Use the `units` **R** package to explicitly set units on a vector
+ * Apply the conversion factor manually
+ 
+Use one of these approaches to return the same stream gage distance using different units
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 4)
+```
+
+## Our Turn
+
+```{r}
+# setting projection
+gages_ft <- st_transform(gages_sf, 2994)
+st_distance(gages_ft[1,], gages_ft[2,])
+```
+
+## Spatial Subsetting
+
+* Use subset notation (`[]`) to take a spatial object and return a new spatial object that contains only the features that relate in space to another spatial object
+
+```{r}
+#| eval: false
+
+library(AOI)
+filepath <- system.file("extdata/cities.shp", package = "Rspatialworkshop")
+or_cities <- read_sf(filepath)
+mult_cnty <- aoi_get(state = "OR", county= "Multnomah") |> 
+  st_transform(st_crs(or_cities))
+mult_cities <- or_cities[mult_cnty, , op = st_intersects]
+mapview(mult_cnty, alpha.regions=.07, color='black', lwd=2) +
+  mapview(mult_cities)
+```
+
+## Spatial Subsetting
+
+```{r}
+#| echo: false
+
+library(AOI)
+filepath <- system.file("extdata/cities.shp", package = "Rspatialworkshop")
+or_cities <- read_sf(filepath)
+mult_cnty <- aoi_get(state = "OR", county= "Multnomah") |> 
+  st_transform(st_crs(or_cities))
+mult_cities <- or_cities[mult_cnty, , op = st_intersects]
+```
+
+
+```{r}
+#| label: fig-multcities
+#| fig-cap: "Cities in Multnomah County."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/mult_cities.jpg")
+```
+

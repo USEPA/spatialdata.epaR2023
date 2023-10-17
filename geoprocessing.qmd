@@ -199,17 +199,17 @@ library(mapview)
 library(sf) |> suppressPackageStartupMessages()
 mapviewOptions(fgb=FALSE)
 or_cities <- read_sf(system.file("extdata/cities.shp", package = "Rspatialworkshop"))
-MultCnt<- aoi_get(state = "OR", county= "Multnomah") |> 
+mult_cnty<- aoi_get(state = "OR", county= "Multnomah") |> 
   st_transform(st_crs(or_cities)) # project counties to cities
-mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(or_cities)
+mapview(mult_cnty, alpha.regions=.07, color='black', lwd=2) + mapview(or_cities)
 ```
 
 Spatially subset cities **within** Multnomah County:
 ```{r}
-mult_cities <- or_cities[MultCnt,]
+mult_cities <- or_cities[mult_cnty,]
 # or
-mult_cities <- or_cities[MultCnt, , op=st_intersects]
-mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(mult_cities)
+mult_cities <- or_cities[mult_cnty, , op=st_intersects]
+mapview(mult_cnty, alpha.regions=.07, color='black', lwd=2) + mapview(mult_cities)
 ```
 
 ::: {.callout-note appearance="simple" icon="false"}
@@ -225,14 +225,14 @@ Given our explanation above of using different spatial predicates in subsetting 
 ### Solution
 Outside Multnomah county:
 ```{r}
-out_mult_cities <- or_cities[MultCnt, , op=st_disjoint]
-mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(out_mult_cities)
+out_mult_cities <- or_cities[mult_cnty, , op=st_disjoint]
+mapview(mult_cnty, alpha.regions=.07, color='black', lwd=2) + mapview(out_mult_cities)
 ```
 
 Cities within 50km of Multnomah county:
 ```{r}
-close_mult_cities <- or_cities[MultCnt, , op=st_is_within_distance,dist=50000]
-mapview(MultCnt, alpha.regions=.07, color='black', lwd=2) + mapview(close_mult_cities)
+close_mult_cities <- or_cities[mult_cnty, , op=st_is_within_distance,dist=50000]
+mapview(mult_cnty, alpha.regions=.07, color='black', lwd=2) + mapview(close_mult_cities)
 ```
 
 County that contains selected cities:
