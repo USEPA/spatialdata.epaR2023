@@ -814,9 +814,6 @@ crs(myrast)
 ext(myrast)
 # just grab xmin
 ext(myrast)[1]
-# we can see that extent is actually a c++ object in the ptr slot of our spatRaster object
-# names(myrast@ptr)
-myrast$lyr.1@pnt$extent
 ```
 :::
 
@@ -832,11 +829,9 @@ myrast
 An important point to make here is that objects in the `terra` package (and previously in `raster`) can be either in memory or on disk - note the value for our `spatRaster` r of 'source'.  If this were a large raster on disk, the value would be the path to the file on disk.
 
 ```{r inmemory, message=FALSE, warning=FALSE, error=FALSE}
-myrast$lyr.1@pnt$inMemory
+sources(myrast) # "" means the raster is in memory; otherwise a path to a file
 hasValues(myrast)
-myrast$lyr.1@pnt$nlyr() # we just have one layer in our object
-# or
-nlyr(myrast)
+nlyr(myrast) # we just have one layer in our object
 ```
 
 `terra` also provides plot method for it's classes:

@@ -19,6 +19,8 @@ We previously saw an example of getting an area of interest using Mike Johnson's
 
 Here we'll demonstrate leveraging the same service through the `nhdplusTools` package in combination with the `AOI` package to quickly pull in spatial data for analysis via web services and combine with gage data from the `dataRetrieval` package.
 
+You can read a concise background on using web services in R [here](https://mhweber.github.io/ICRW8_Geospatial_Workshop/Slides.html#web-services)
+
 ```{r}
 library(AOI)
 library(nhdplusTools)
@@ -80,7 +82,7 @@ To use the NLDI you supply a starting feature which can be a:
 
 You can see what is available with:
 ```{r}
-DT::datatable(get_nldi_sources())
+dataRetrieval::get_nldi_sources()
 ```
 :::
 
@@ -134,12 +136,8 @@ We can search for resources of interest:
 opendap.catalog::search("monthly swe")
 ```
 
-And we can load and plot snow water equivalent for our watershed:
-```{r}
 
-```
-
-Here we'll just show extracting a particular resource (in this case PRISM data) using `climateR` and we'll go back to using our counties in Oregon data from earlier.
+And we can extract a particular resource (in this case PRISM climate data) using `climateR` - we'll go back to using our counties in Oregon data from earlier.
 ```{r}
 library(AOI)
 library(climateR)
@@ -149,34 +147,54 @@ counties <- aoi_get(state='Oregon', county='all')
 precip <- getPRISM(counties,
                varname = "ppt",
                startDate = "2020-01-01",
-               endDate  = "2020-02-28",
+               endDate  = "2020-03-30",
                timeRes="monthly")
 precip <- terra::rast(precip)
 
 names(precip)
 plot(precip)
-ggplot() +
-  geom_spatraster(data=precip, aes(fill=ppt_2020-01-01))
 ```
 
-## Zonal Statistics and Categorical Summaries
+## Zonal Statistics
+We can easily run zonal statistics for counties of Oregon using the `zonal` package with our precipitation data we extracted for Oregon from PRISM:
+```{r}
+library(zonal)
+library(terra)
+library(ggplot2)
+library(cowplot)
+counties <- sf::st_transform(counties, crs(precip))
+county_precip <- zonal::execute_zonal(precip, counties, ID='name',fun='mean')
+
+# Rename monthly precip
+names(county_precip)[16:17] <- c('ppt_2020-01-31','ppt_2020-03-01')
+a <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-01-01`))
+b <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-01-31`))
+c <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-03-01`))
+d <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-04-01`))
+plot_grid(a,b,c,d)
+```
 
 ## Extensions
-## RQGIS
+### RQGIS
 There's a bit of overhead to install QGIS and configure RQGIS - I use QGIS but have not set up RQGIS myself, I recommend reading the description in [Geocomputation with R](https://geocompr.robinlovelace.net/gis.html#rqgis)
 
-## R-ArcGIS bridge
+### R-ArcGIS bridge
 See [this description](https://www.esri.com/en-us/arcgis/products/r-arcgis-bridge/get-started) describing how to link your R install to the R-ArcGIS bridge
 
-## Accessing Python toolbox using reticulate
-I use this all the time! I highly recommend this approach if you want to integrate python workflows and libraries (including arcpy) with R workflows within reproducible R markdown files.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=TRUE}
+### Accessing Python toolbox using reticulate
+I highly recommend this approach if you want to integrate python workflows and libraries (including arcpy) with R workflows within reproducible R quarto or markdown files.
+```{r}
+#| eval: false
 library(reticulate)
-use_condaenv("StreamCat")
 ```
 
 We can immediately start playing with python within a code block designated as python
 ```{python}
+#| eval: false
 import pandas as pd
 
 print('hello python')
@@ -188,6 +206,7 @@ print(some_dict.keys())
 
 Load our gage data in Python...
 ```{python}
+#| eval: false
 import pandas as pd
 gages = pd.read_csv('C:/Users/mweber/GitProjects/Rspatialworkshop/inst/extdata/Gages_flowdata.csv')
 gages.head()
@@ -195,9 +214,10 @@ gages['STATE'].unique()
 PNW_gages = gages[gages['STATE'].isin(['OR','WA','ID'])]
 ```
 
-### Access Python objects directly from R
+#### Access Python objects directly from R
 Now work with the pandas data directly within R
 ```{r}
+#| eval: false
 library(sf)
 library(ggplot2)
 
@@ -206,9 +226,10 @@ gages <- st_transform(gages, crs=5070) #5070 is Albers system in metres
 ggplot(gages) + geom_sf()
 ```
 
-### And share spatial results from Python
+And share spatial results from Python
 You can work with spatial tools in Python and share results with R!
-```{python, eval=FALSE}
+```{python}
+#| eval: false
 from rasterstats import zonal_stats
 clnp = 'C:/Users/mweber/Temp/CraterLake_tm.shp'
 elev = 'C:/Users/mweber/Temp/elevation_tm.tif'
@@ -217,17 +238,19 @@ park_elev = zonal_stats(clnp, elev, all_touched=True,geojson_out=True, stats="co
 geostats = gp.GeoDataFrame.from_features(park_elev)
 ```
 
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 zonal <- py$geostats
 ```
 
-## R Whitebox Tools
+### R Whitebox Tools
 We won't go into here but worth mentioning as a rich set of tools you can access in R - [whiteboxR](https://giswqs.github.io/whiteboxR/)
 
-## rgee
+### rgee
 Here I'm just running the demo code in the ReadMe for the `rgee` package as a proof of concept of cool things you can do being able to leverage Earth Engine directly in R.  Note that there is overhead in getting this all set up.
 
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 library(reticulate)
 library(rgee)
 ee_Initialize()
@@ -235,7 +258,8 @@ ee_Initialize()
 ```
 
 Function to create a time band containing image date as years since 1991.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 createTimeBand <-function(img) {
   year <- ee$Date(img$get('system:time_start'))$get('year')$subtract(1991L)
   ee$Image(year)$byte()$addBands(img)
@@ -243,7 +267,8 @@ createTimeBand <-function(img) {
 ```
 
 Using Earth Engine syntax, we 'Map' the time band creation helper over the night-time lights collection.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 collection <- ee$
   ImageCollection('NOAA/DMSP-OLS/NIGHTTIME_LIGHTS')$
   select('stable_lights')$
@@ -251,7 +276,8 @@ collection <- ee$
 ```
 
 We compute a linear fit over the series of values at each pixel, visualizing the y-intercept in green, and positive/negative slopes as red/blue.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 col_reduce <- collection$reduce(ee$Reducer$linearFit())
 col_reduce <- col_reduce$addBands(
   col_reduce$select('scale'))
@@ -259,7 +285,8 @@ ee_print(col_reduce)
 ```
 
 We make an interactive visualization - pretty cool!
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 Map$setCenter(9.08203, 47.39835, 3)
 Map$addLayer(
   eeObject = col_reduce,
@@ -271,4 +298,5 @@ Map$addLayer(
   name = "stable lights trend"
 )
 ```
+
 ## Spatial Modeling

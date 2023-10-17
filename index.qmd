@@ -59,7 +59,6 @@ remotes::install_github("mikejohnson51/climateR")
 remotes::install_github("USEPA/StreamCatTools", build_vignettes=FALSE)
 remotes::install_github("mikejohnson51/opendap.catalog")
 remotes::install_github("mikejohnson51/zonal")
-install.packages("DT")
 ```
 
 ## How to follow along with material
