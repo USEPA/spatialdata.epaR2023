@@ -12,8 +12,138 @@ You may click on any of the functions in this book to be directed to their respe
 :::
 
 ## Using Web Services
+### Hydrology data with `nhdplusTools` and `dataRetrieval`
+Working with spatial data in R has been enhanced recently with packages that provide *web-based subsetting services*.  We'll walk through examples of several with a hydrological focus.
 
-## STAC
+We previously saw an example of getting an area of interest using Mike Johnson's handy `AOI` package, and we saw an example of getting hydrology data using the `dataRetrieval` package which leverages the underlying [Network-Linked Data Index (NLDI) service](https://waterdata.usgs.gov/blog/nldi-intro/).  
+
+Here we'll demonstrate leveraging the same service through the `nhdplusTools` package in combination with the `AOI` package to quickly pull in spatial data for analysis via web services and combine with gage data from the `dataRetrieval` package.
+
+```{r}
+library(AOI)
+library(nhdplusTools)
+library(dataRetrieval)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+corvallis <- get_nhdplus(aoi_get("Corvallis, OR"), realization = "all")
+# get stream gages too
+corvallis$gages <- nhdplusTools::get_nwis(aoi_get("Corvallis, OR"))
+mapview(corvallis)
+```
+
+Pretty cool.  All that data in a one-liner!
+
+Next we'll go back to the South Santiam basin we derived in the geoprocessing section and we'll grab all the gage data in the basin.  We'll get stream flow data for the gages using `dataRetrieval`  flow data in `dataRetrieval` is accessed with code '00060' which can be found with `dataRetrieval::parameterCdFile`.  See the [dataRetrieval package website](https://doi-usgs.github.io/dataRetrieval/) for documentation and tutorials.
+
+```{r}
+library(dataRetrieval)
+library(nhdplusTools)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+nldi_feature <- list(featureSource = "nwissite", 
+                     featureID = "USGS-14187200")
+SouthSantiam <- navigate_nldi(nldi_feature,  mode = "upstreamTributaries", distance_km=100)
+basin <- nhdplusTools::get_nldi_basin(nldi_feature = nldi_feature)
+
+gages <- nhdplusTools::get_nwis(basin)
+mapview(SouthSantiam) + mapview(basin) + mapview(gages)
+```
+
+Notice we pulled in some stream gages within the **bounding box** of our basin but not within the watershed - let's fix that with `st_intersection`:
+```{r}
+#| warning: false
+gages <- sf::st_intersection(gages, basin)
+```
+
+Now we'll grab stream flow data for our watershed with `dataRetrieval`:
+```{r}
+library(ggplot2)
+flows = dataRetrieval::readNWISdv(site = gages$site_no, parameterCd = "00060") |> 
+  renameNWISColumns()
+
+ggplot(data = flows) + 
+  geom_line(aes(x = Date, y = Flow)) + 
+  facet_wrap('site_no')
+```
+
+It looks like only 5 of our nwis sites had flow data for which we've plotted streamflow information for all the years available.
+
+::: {.callout-note appearance="simple"}
+We've shown the client functionality for The [Network-Linked Data Index (NLDI)](https://waterdata.usgs.gov/blog/nldi-intro/)  using both `nhdplusTools` and `dataRetrieval`; either works similarly.  The NLDI can index spatial and river network-linked data and navigate the river network to allow discovery of indexed information.
+
+To use the NLDI you supply a starting feature which can be a:
+- NHDPlus COMID
+- NWIS ID
+- WQP ID
+- several other feature identifiers
+
+You can see what is available with:
+```{r}
+DT::datatable(get_nldi_sources())
+```
+:::
+
+### Watershed data with `StreamCatTools`
+[StreamCatTools](https://usepa.github.io/StreamCatTools/) is an R package I've written that provides a client for the API for the [StreamCat dataset](https://www.epa.gov/national-aquatic-resource-surveys/streamcat-dataset), a comprehensive set of watershed data for the [NHDPlus](https://www.epa.gov/waterdata/nhdplus-national-hydrography-dataset-plus). 
+
+We can easily pull in watershed data from StreamCat for our basin with `StreamCatTools`:
+```{r}
+library(StreamCatTools)
+library(tmap)
+comids <- SouthSantiam$UT_flowlines$nhdplus_comid
+# we need a simple comma separated list for StreamCat
+comids <- paste(comids,collapse=",",sep="")
+
+df <- StreamCatTools::sc_get_data(metric='MSST_2014', aoi='other', comid=comids)
+
+flowlines <- SouthSantiam$UT_flowlines
+flowlines$MSST_2014 <- df$MSST_2014[match(flowlines$nhdplus_comid, df$COMID)]
+# drop any NAs
+flowlines <- flowlines |> dplyr::filter(!is.na(flowlines$MSST_2014))
+
+tm_shape(flowlines) + tm_lines("MSST_2014", title.col ="Mean Summer Stream\nTemperature (deg C) 2014") 
+```
+
+### Elevation as a service
+Thanks to our own Jeff Hollister we have the handy [elevatr](https://cran.r-project.org/web/packages/elevatr/vignettes/introduction_to_elevatr.html) package for retrieving elevation data as a service for user provided points or areas - we can easily return elevation for our South Santiam basin we've created using elevation web services with `elevatr`:
+```{r}
+library(mapview)
+mapviewOptions(fgb=FALSE)
+elev <- elevatr::get_elev_raster(basin, z = 9)
+mapview(elev)
+```
+
+### OpenDAP and STAC
+[OPeNDAP](https://opendap.org/) allows us to access geographic or temporal slices of massive datasets over HTTP via web services. STAC similarly is a specification that allows us to access geospatial assets via web services. Using STAC you can access a massive trove of resources on Microsoft Planetary Computer via the `rstac` package as in [examples here](https://planetarycomputer.microsoft.com/docs/quickstarts/reading-stac-r/).
+
+Here we'll just show an example of using OpenDAP via Mike Johnson's [OpenDAP Catalog](https://mikejohnson51.github.io/opendap.catalog/) and [ClimateR](https://mikejohnson51.github.io/climateR/) packages.
+
+```{r}
+library(opendap.catalog)
+library(climateR)
+
+# See what is available - a LOT! As in 14,691 resources available via web services!!
+dplyr::glimpse(opendap.catalog::params)
+```
+
+We can search for resources of interest:
+```{r}
+opendap.catalog::search("monthly swe")
+```
+
+Here we'll just show extracting a particular resource (in this case PRISM data) using `climateR` and we'll go back to using our counties in Oregon data from earlier.
+```{r}
+library(AOI)
+library(climateR)
+counties <- aoi_get(state='Oregon', county='all')
+precip <- getPRISM(counties,
+               varname = "ppt",
+               startDate = "2020-01-01",
+               endDate  = "2020-02-28",
+               timeRes="monthly")
+```
+
+## Zonal Statistics and Categorical Summaries
 
 ## Extensions
 

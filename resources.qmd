@@ -95,4 +95,9 @@ The `rgdal`, `rgeos`, and `maptools` **R** packages won't be available on CRAN a
 
 
 ## Previous R Spatial Workshops
+* ['Working with Geospatial Hydrologic Data for Watershed Analyses in R and Python Using Web Services' Workshop for the International Conference on the Watersheds](https://mhweber.github.io/ICRW8_Geospatial_Workshop/Slides.html)
+* [AWRA 2022 Geospatial R and Python Workshop](https://github.com/mhweber/AWRA2022GeoWorkshop)
+* [EPA R User Group Spatial Workshop 2021](https://mhweber.github.io/R-User-Group-Spatial-Workshop-2021/)
+* [AWRA 2020 Spatial Analysis in R Workshop](https://mhweber.github.io/AWRA_2020_R_Spatial/)
+* [AWRA 2018 Geospatial R Workshop](https://mhweber.github.io/AWRA_GIS_R_Workshop/)
 
