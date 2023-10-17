@@ -10,6 +10,32 @@ source("_common.R")
 * Become familiar with coordinate reference systems.
 * Geographic I/O (input/output)
 
+Throughout this section we'll use the following packages:
+```{r}
+#| warning: false
+library(dataRetrieval)
+library(tmap)
+library(tmaptools)
+library(dplyr)
+library(tigris)
+library(sf)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+library(ggplot2)
+library(spData)
+library(terra)
+library(stars)
+library(Rspatialworkshop)
+library(readr)
+library(cowplot)
+library(knitr)
+library(dplyr)
+library(rnaturalearth)
+library(osmdata)
+library(terra)
+library(stars)
+```
+
 ## Background on data structures
 
 :::{.callout-note}
@@ -240,7 +266,6 @@ _ Manipulation:
 
 A demonstration using `dataRetrieval` package stream gage data from USGS:
 ```{r}
-library(dataRetrieval)
 flows <- dataRetrieval::readNWISdv(
   siteNumbers = '14187200',
   parameterCd = "00060"
@@ -380,10 +405,6 @@ Here's a quick example demonstrating R’s flexibility and current strength for 
 
 ```{r}
 #| warning: false
-library(tmap)
-library(tmaptools)
-library(dplyr)
-
 # find my town!
 my_town <-tmaptools::geocode_OSM("Corvallis OR USA", as.sf = TRUE)
 glimpse(my_town)
@@ -422,9 +443,6 @@ The `tigris` package can be used to get census boundaries such as states and cou
 #| results: hide
 #| message: false
 #| warning: false
-
-library(tigris)
-library(sf)
 counties <- counties("Oregon", cb = TRUE)
 counties$area <- as.numeric(st_area(counties))
 glimpse(counties)
@@ -440,10 +458,6 @@ tm_shape(counties) +
 #| fig-width: 8
 #| results: hide
 #| message: false
-#| warning: false
-
-library(mapview)
-mapviewOptions(fgb=FALSE)
 mapview(my_town, col="red", col.regions = "red") +
   mapview(counties, alpha.regions = .1)
 ```
@@ -497,11 +511,10 @@ The "simple" adjective also refers to the fact that the line or polygon geometri
 knitr::include_graphics("img/09-sf-model.png")
 ```
 
-We'll load the `sf` library to load the classes and functions for working with spatial vector data and to explore how `sf` handles vector spatial data in R:
+Here we'll load the `sf` library to load the classes and functions for working with spatial vector data and to explore how `sf` handles vector spatial data in R:
 
 ```{r}
 #| warning: true
-
 library(sf)          
 ```
 
@@ -570,7 +583,6 @@ sf_point <- st_sfc(pt1, pt2, pt3)
 ```
 
 ```{r}
-library(ggplot2)
 ggplot(sf_point) + 
   geom_sf(color = "red") +
   labs(x = "X", y = "Y")  
@@ -645,7 +657,6 @@ Building up from basic points, lines and strings, simple feature objects are sto
 
 Let's look at an example spatial data set that comes in the `spData` package, `us_states`:
 ```{r}
-library(spData)
 data("us_states")
 class(us_states)
 names(us_states)
@@ -756,7 +767,6 @@ Run the code steps below to familiarize yourself with constructing a `RasterLaye
 Try providing a different bounding box for an area of your choosing or changing the dimensions and view result (by simply typing `myrast` in the console).
 
 ```{r raster-layer, message=FALSE, warning=FALSE, error=FALSE}
-library(terra)
 myrast <- rast(ncol = 10, nrow = 10, xmax = -116, xmin = -126, ymin = 42, ymax = 46)
 myrast
 ```
@@ -891,7 +901,6 @@ plot(landsat)
 
 Basic example shown in [stars vignette](https://r-spatial.github.io/stars/articles/stars1.html) - reading in the 30m bands of a Landsat-7 image that comes with the `stars` package:
 ```{r stars_1, message=FALSE, warning=FALSE, error=FALSE}
-library(stars)
 tif = system.file("tif/L7_ETMs.tif", package = "stars")
 ls7 = read_stars(tif)
 plot(ls7, axes = TRUE)
@@ -939,9 +948,6 @@ More precisely than an *ellipsoid*, though, we know that earth is a *geoid* - it
 
 ### Why you need to know about CRS working with spatial data in R:
 ```{r crs_fail, message=FALSE, warning=FALSE, error=FALSE}
-library(Rspatialworkshop)
-library(readr)
-library(sf)
 data(pnw)
 
 gages = read_csv(system.file("extdata/Gages_flowdata.csv", package = "Rspatialworkshop"),show_col_types = FALSE)
@@ -992,8 +998,6 @@ The takeaway from all this is you need to be aware of the `crs` for your objects
 Going back to our original example, we can transform `crs` of objects to work with them together:
 
 ```{r crs_fix, message=FALSE, warning=FALSE, error=FALSE}
-library(ggplot2)
-library(sf)
 # Check our coordinate reference systems
 st_crs(gages_sf)
 st_crs(pnw)
@@ -1017,7 +1021,6 @@ Re-project both the PNW state polygons and the stream gages to a different proje
 #### Solution
 My solution:
 ```{r exercise, message=FALSE, warning=FALSE, error=FALSE}
-library(cowplot)
 # first I save the previous plot so we can view it alongside our update:
 p1 <-ggplot() + 
   geom_sf(data=gages_sf,  color="blue") +
@@ -1045,7 +1048,6 @@ For spatial operations in R, raster or vector, we always need to make sure objec
 
 We'll use the elevation data and a polygon feature for Crater Lake from the `Rspatialworkshop` package for this example.
 ```{r projection, message=FALSE, warning=FALSE, error=FALSE}
-library(Rspatialworkshop)
 data(CraterLake)
 raster_filepath <- system.file("extdata", "elevation.tif", package = "Rspatialworkshop")
 elevation <- terra::rast(raster_filepath)
@@ -1116,8 +1118,6 @@ For reading and writing vector and raster data in R, the several main packages w
  
 We can quickly discover supported I/O vector formats either via `sf` or `rgdal`:
 ```{r message=FALSE, warning=FALSE, error=FALSE}
-library(knitr)
-library(sf)
 print(paste0('There are ',st_drivers("vector")  |>  nrow(), ' vector drivers available using st_read or read_sf'))
 kable(head(st_drivers(what='vector'),n=5))
 ```
@@ -1165,7 +1165,6 @@ Note that `stringsAsFactors = FALSE` is the new default in R versions >= 4.0
 #### Geodatabases
 We use `st_read` or `read_sf` similarly for reading in an ESRI file geodatabase feature:
 ```{r geodatabase_read, message=FALSE, warning=FALSE, error=FALSE}
-library(ggplot2)
 # List all feature classes in a file geodatabase
 st_layers(system.file("extdata/StateParkBoundaries.gdb", package = "Rspatialworkshop"))
 fgdb = system.file("extdata/StateParkBoundaries.gdb", package = "Rspatialworkshop")
@@ -1179,7 +1178,6 @@ Another spatial file format is the geopackage. Let's try a quick read and write 
 
 
 ```{r geopackage_read, message=FALSE, warning=FALSE, error=FALSE}
-library(dplyr)
 nc <- system.file("gpkg/nc.gpkg", package="sf")  |>  read_sf() # reads in
 glimpse(nc)
 ```
@@ -1225,8 +1223,6 @@ knitr::kable(datapackages, caption = "Example R packages for spatial data retrie
 
 Below is an example of pulling in US states using the `rnaturalearth` package - note that the default is to pull in data as `sp` objects and we coerce to `sf`.  Also take a look at the chained operation using dplyr.  Try changing the filter or a parameter in ggplot.
 ```{r naturalearth, , message=FALSE, warning=FALSE, error=FALSE}
-library(rnaturalearth)
-library(dplyr)
 states <- ne_states(country = 'United States of America')
 states_sf <- st_as_sf(states)
 states_sf  |>  
@@ -1239,9 +1235,6 @@ The [osmdata](https://github.com/ropensci/osmdata) package is a fantastic resour
 
 First we'll find available tags to get foot paths to plot
 ```{r osmdata1 , message=FALSE, warning=FALSE, error=FALSE}
-library(osmdata)
-library(mapview)
-mapviewOptions(fgb=FALSE)
 head(available_tags("highway")) # get rid of head when you run - just used to truncate output
 ```
 
@@ -1269,7 +1262,6 @@ Take a minute and try pulling in data of your own for your own area and plotting
 ### `terra` package
 Load stock elevation .tif file that comes with package
 ```{r terra_hist, message=FALSE, warning=FALSE, error=FALSE}
-library(terra)
 f <- system.file("ex/elev.tif", package="terra")
 elev <- rast(f)
 barplot(elev, digits=-1, las=2, ylab="Frequency")
@@ -1282,7 +1274,6 @@ plot(elev)
 ### `stars` package
 Load stock Landsat 7 .tif file that comes with package
 ```{r stars_read, message=FALSE, warning=FALSE, error=FALSE}
-library(stars)
 tif = system.file("tif/L7_ETMs.tif", package = "stars")
 read_stars(tif) |>
   dplyr::slice(index = 1, along = "band") |>
@@ -1303,9 +1294,6 @@ In the steps below, we
   4. Plotting our gages as spatial features with `ggplot2` using `geom_sf`.
   
 ```{r vector_drivers, message=FALSE, warning=FALSE, error=FALSE}
-library(readr)
-library(ggplot2)
-library(Rspatialworkshop)
 gages = read.csv(system.file("extdata/Gages_flowdata.csv", package = "Rspatialworkshop"))
 
 gages_sf <- gages |> 

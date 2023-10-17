@@ -24,6 +24,22 @@ Keep in mind as we mentioned earlier that `sf` contains functions that bind to t
 * Explore performing 'map algebra' type operations with raster data in R
 * Learn how to do extract and zonal operations in R
 
+Throughout this section we'll use the following packages:
+```{r}
+#| warning: false
+library(sf)
+library(readr)
+library(tigris)
+library(AOI)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+library(dplyr)
+library(tmap)
+library(Rspatialworkshop)
+library(terra)
+library(raster)
+```
+
 ## Operations on Geometries
 This breakdown of simple features follows for the most part [this section in Spatial Data Science](https://r-spatial.org/book/03-Geometries.html) 
 
@@ -32,7 +48,6 @@ This breakdown of simple features follows for the most part [this section in Spa
 - Certain conditions have to be met with simple features:
   + For *linestrings* to be considered *simple* they must not self-intersect:
 ```{r}
-library(sf) |> suppressPackageStartupMessages()
 (ls <- st_linestring(rbind(c(0,0), c(1,1), c(2,2), c(0,2), c(1,1), c(2,0))))
 ```
 
@@ -145,8 +160,6 @@ Measures (with `sf`) make use of the underlying GEOS library, as well as the R `
 Some examples using county and gage datasets we've seen in previous section (with refresher again on pulling in data from a .csv file with x and y information and making it spatial):
 ```{r}
 #| warning: false
-library(readr)
-library(sf) |> suppressPackageStartupMessages()
 gages <- read_csv(system.file("extdata", "Gages_flowdata.csv", package = "awra2020spatial")) |> 
   dplyr::select(SOURCE_FEA, STATE, LAT_SITE, LON_SITE) |> 
   st_as_sf(coords = c("LON_SITE", "LAT_SITE"), crs = 4269)
@@ -157,8 +170,6 @@ st_distance(gages[1,], gages[2,])
 #| echo: true
 #| results: hide
 #| warning: false
-library(tigris)
-library(sf) |> suppressPackageStartupMessages()
 counties <- counties("Oregon", cb = TRUE)
 options(scipen=3)
 print(paste0('The total area of all counties in Oregon is: ',sum(st_area(counties))))
@@ -194,10 +205,6 @@ First we can demonstrate some very simple spatial subsetting examples using a pa
 ```{r}
 #| warning: false
 #| message: false
-library(AOI)
-library(mapview)
-library(sf) |> suppressPackageStartupMessages()
-mapviewOptions(fgb=FALSE)
 or_cities <- read_sf(system.file("extdata/cities.shp", package = "Rspatialworkshop"))
 MultCnt<- aoi_get(state = "OR", county= "Multnomah") |> 
   st_transform(st_crs(or_cities)) # project counties to cities
@@ -289,10 +296,6 @@ First we'll demonstrate buffering which is a simpler operation using `st_buffer`
 We pick our largest cities and buffer them by some arbitrary distance - we'll say 20 miles (note below we convert feet to miles).
 ```{r}
 #| warning: false
-library(sf) |> suppressPackageStartupMessages()
-library(dplyr)
-library(mapview)
-mapviewOptions(fgb=FALSE)
 # Filter for metro areas
 metros <- or_cities |> 
   dplyr::filter(CITY %in% c('PORTLAND','SALEM','EUGENE','CORVALLIS','BEND','MEDFORD'))
@@ -304,7 +307,6 @@ mapview(metro_areas)
 
 Next we show both methods to dissolve, categorizing Oregon counties as urban or rural and dissolving on these categories.
 ```{r}
-library(sf) |> suppressPackageStartupMessages()
 # urban area
 counties <- st_transform(counties, st_crs(metro_areas)) # crs same
 
@@ -397,7 +399,6 @@ We can extract the centroid of features a couple different ways - typically we a
 
 We'll use our county data and bring in some river flow line data using the `dataRetrieval` package as well to demonstrate with linear features.
 ```{r}
-library(tmap)
 SouthSantiam <- dataRetrieval::findNLDI(nwis = "14187200", nav = "UT", find = "flowlines", distance_km=10)
   
 SouthSantiam <- SouthSantiam$UT_flowlines
@@ -442,9 +443,6 @@ We'll start with an elevation raster and Crater Lake boundary and project both t
 #| message: false
 #| error: false
 #| warning: false
-library(Rspatialworkshop)
-library(terra)  |> suppressPackageStartupMessages()
-library(sf)  |> suppressPackageStartupMessages()
 data(CraterLake)
 raster_filepath <- system.file("extdata", "elevation.tif", package = "Rspatialworkshop")
 elevation <- rast(raster_filepath)
@@ -550,7 +548,6 @@ terra::global(elev_mask, fun="sum", na.rm=TRUE)
 ### Zonal Operations
 Here we demonstrate using the zonal function in `terra` to summarize a value raster of elevation, using an srtm.tif from `spDataLarge`, by the zones of NLCD classes using nlcd.tif raster also in the `spDataLarge` package.  We'll expand more on zonal statistics including for categorical data in the final section of the workshop.
 ```{r zonal, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
-library(raster)
 srtm_path = system.file("raster/srtm.tif", package = "spDataLarge")
 srtm_path
 srtm = rast(srtm_path)

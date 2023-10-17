@@ -7,9 +7,23 @@ We'll explore a few 'advanced' applications in this section, exploring the use o
 * Know about several extensions for integrating with other GIS software and tools in R
 * Gain some familiarity with spatial modeling libraries
 
-:::{.callout-note}
-You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
-:::
+Throughout this section we'll use the following packages:
+```{r}
+#| warning: false
+library(AOI)
+library(nhdplusTools)
+library(dataRetrieval)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+library(ggplot2)
+library(StreamCatTools)
+library(tmap)
+library(opendap.catalog)
+library(climateR)
+library(terra)
+library(zonal)
+library(cowplot)
+```
 
 ## Using Web Services
 ### Hydrology data with `nhdplusTools` and `dataRetrieval`
@@ -22,11 +36,6 @@ Here we'll demonstrate leveraging the same service through the `nhdplusTools` pa
 You can read a concise background on using web services in R [here](https://mhweber.github.io/ICRW8_Geospatial_Workshop/Slides.html#web-services)
 
 ```{r}
-library(AOI)
-library(nhdplusTools)
-library(dataRetrieval)
-library(mapview)
-mapviewOptions(fgb=FALSE)
 corvallis <- get_nhdplus(aoi_get("Corvallis, OR"), realization = "all")
 # get stream gages too
 corvallis$gages <- nhdplusTools::get_nwis(aoi_get("Corvallis, OR"))
@@ -38,10 +47,6 @@ Pretty cool.  All that data in a one-liner!
 Next we'll go back to the South Santiam basin we derived in the geoprocessing section and we'll grab all the gage data in the basin.  We'll get stream flow data for the gages using `dataRetrieval`  flow data in `dataRetrieval` is accessed with code '00060' which can be found with `dataRetrieval::parameterCdFile`.  See the [dataRetrieval package website](https://doi-usgs.github.io/dataRetrieval/) for documentation and tutorials.
 
 ```{r}
-library(dataRetrieval)
-library(nhdplusTools)
-library(mapview)
-mapviewOptions(fgb=FALSE)
 nldi_feature <- list(featureSource = "nwissite", 
                      featureID = "USGS-14187200")
 SouthSantiam <- navigate_nldi(nldi_feature,  mode = "upstreamTributaries", distance_km=100)
@@ -60,7 +65,6 @@ mapview(SouthSantiam) + mapview(basin) + mapview(gages)
 
 Now we'll grab stream flow data for our watershed with `dataRetrieval`:
 ```{r}
-library(ggplot2)
 flows = dataRetrieval::readNWISdv(site = gages$site_no, parameterCd = "00060") |> 
   renameNWISColumns()
 
@@ -91,8 +95,6 @@ dataRetrieval::get_nldi_sources()
 
 We can easily pull in watershed data from StreamCat for our basin with `StreamCatTools`:
 ```{r}
-library(StreamCatTools)
-library(tmap)
 comids <- SouthSantiam$UT_flowlines$nhdplus_comid
 # we need a simple comma separated list for StreamCat
 comids <- paste(comids,collapse=",",sep="")
@@ -110,8 +112,6 @@ tm_shape(flowlines) + tm_lines("MSST_2014", title.col ="Mean Summer Stream\nTemp
 ### Elevation as a service
 Thanks to our own Jeff Hollister we have the handy [elevatr](https://cran.r-project.org/web/packages/elevatr/vignettes/introduction_to_elevatr.html) package for retrieving elevation data as a service for user provided points or areas - we can easily return elevation for our South Santiam basin we've created using elevation web services with `elevatr`:
 ```{r}
-library(mapview)
-mapviewOptions(fgb=FALSE)
 elev <- elevatr::get_elev_raster(basin, z = 9)
 mapview(elev)
 ```
@@ -123,10 +123,6 @@ Here we'll just show an example of using OpenDAP via Mike Johnson's [OpenDAP Cat
 
 ```{r}
 #| warning: false
-
-library(opendap.catalog)
-library(climateR)
-
 # See what is available - a LOT! As in 14,691 resources available via web services!!
 dplyr::glimpse(opendap.catalog::params)
 ```
@@ -139,10 +135,6 @@ opendap.catalog::search("monthly swe")
 
 And we can extract a particular resource (in this case PRISM climate data) using `climateR` - we'll go back to using our counties in Oregon data from earlier.
 ```{r}
-library(AOI)
-library(climateR)
-library(ggplot2)
-library(terra)
 counties <- aoi_get(state='Oregon', county='all')
 precip <- getPRISM(counties,
                varname = "ppt",
@@ -158,10 +150,6 @@ plot(precip)
 ## Zonal Statistics
 We can easily run zonal statistics for counties of Oregon using the `zonal` package with our precipitation data we extracted for Oregon from PRISM:
 ```{r}
-library(zonal)
-library(terra)
-library(ggplot2)
-library(cowplot)
 counties <- sf::st_transform(counties, crs(precip))
 county_precip <- zonal::execute_zonal(precip, counties, ID='name',fun='mean')
 
@@ -218,9 +206,6 @@ PNW_gages = gages[gages['STATE'].isin(['OR','WA','ID'])]
 Now work with the pandas data directly within R
 ```{r}
 #| eval: false
-library(sf)
-library(ggplot2)
-
 gages <- st_as_sf(py$PNW_gages,coords = c('LON_SITE','LAT_SITE'),crs = 4269) 
 gages <- st_transform(gages, crs=5070) #5070 is Albers system in metres
 ggplot(gages) + geom_sf()

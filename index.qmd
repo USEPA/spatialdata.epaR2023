@@ -71,6 +71,10 @@ This workshop was built using [Quarto](https://quarto.org/) and *rendered* to ht
 - You can update your document at any time by re-knitting the code chunks and convert your document to a number of formats (i.e. html, pdf, word documents)
 - We assume everyone in the workshop is familiar with using RStudio
 
+:::{.callout-note}
+You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
+:::
+
 ## Disclaimer
 
 The views expressed in this manuscript are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any mention of trade names, products, or services does not imply an endorsement by the U.S. government or the U.S. Environmental Protection Agency. The U.S. Environmental Protection Agency does not endorse any commercial products, services, or enterprises.
