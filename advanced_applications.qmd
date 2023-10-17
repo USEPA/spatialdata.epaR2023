@@ -162,5 +162,113 @@ ggplot() +
 ## Zonal Statistics and Categorical Summaries
 
 ## Extensions
+## RQGIS
+There's a bit of overhead to install QGIS and configure RQGIS - I use QGIS but have not set up RQGIS myself, I recommend reading the description in [Geocomputation with R](https://geocompr.robinlovelace.net/gis.html#rqgis)
 
+## R-ArcGIS bridge
+See [this description](https://www.esri.com/en-us/arcgis/products/r-arcgis-bridge/get-started) describing how to link your R install to the R-ArcGIS bridge
+
+## Accessing Python toolbox using reticulate
+I use this all the time! I highly recommend this approach if you want to integrate python workflows and libraries (including arcpy) with R workflows within reproducible R markdown files.
+```{r warning=FALSE, error=FALSE, message=FALSE, eval=TRUE}
+library(reticulate)
+use_condaenv("StreamCat")
+```
+
+We can immediately start playing with python within a code block designated as python
+```{python}
+import pandas as pd
+
+print('hello python')
+
+some_dict = {'a':1, 'b':2, 'c':3}
+
+print(some_dict.keys())
+```
+
+Load our gage data in Python...
+```{python}
+import pandas as pd
+gages = pd.read_csv('C:/Users/mweber/GitProjects/Rspatialworkshop/inst/extdata/Gages_flowdata.csv')
+gages.head()
+gages['STATE'].unique()
+PNW_gages = gages[gages['STATE'].isin(['OR','WA','ID'])]
+```
+
+### Access Python objects directly from R
+Now work with the pandas data directly within R
+```{r}
+library(sf)
+library(ggplot2)
+
+gages <- st_as_sf(py$PNW_gages,coords = c('LON_SITE','LAT_SITE'),crs = 4269) 
+gages <- st_transform(gages, crs=5070) #5070 is Albers system in metres
+ggplot(gages) + geom_sf()
+```
+
+### And share spatial results from Python
+You can work with spatial tools in Python and share results with R!
+```{python, eval=FALSE}
+from rasterstats import zonal_stats
+clnp = 'C:/Users/mweber/Temp/CraterLake_tm.shp'
+elev = 'C:/Users/mweber/Temp/elevation_tm.tif'
+
+park_elev = zonal_stats(clnp, elev, all_touched=True,geojson_out=True, stats="count mean sum nodata")
+geostats = gp.GeoDataFrame.from_features(park_elev)
+```
+
+```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+zonal <- py$geostats
+```
+
+## R Whitebox Tools
+We won't go into here but worth mentioning as a rich set of tools you can access in R - [whiteboxR](https://giswqs.github.io/whiteboxR/)
+
+## rgee
+Here I'm just running the demo code in the ReadMe for the `rgee` package as a proof of concept of cool things you can do being able to leverage Earth Engine directly in R.  Note that there is overhead in getting this all set up.
+
+```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+library(reticulate)
+library(rgee)
+ee_Initialize()
+# gm <- import("geemap")
+```
+
+Function to create a time band containing image date as years since 1991.
+```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+createTimeBand <-function(img) {
+  year <- ee$Date(img$get('system:time_start'))$get('year')$subtract(1991L)
+  ee$Image(year)$byte()$addBands(img)
+}
+```
+
+Using Earth Engine syntax, we 'Map' the time band creation helper over the night-time lights collection.
+```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+collection <- ee$
+  ImageCollection('NOAA/DMSP-OLS/NIGHTTIME_LIGHTS')$
+  select('stable_lights')$
+  map(createTimeBand)
+```
+
+We compute a linear fit over the series of values at each pixel, visualizing the y-intercept in green, and positive/negative slopes as red/blue.
+```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+col_reduce <- collection$reduce(ee$Reducer$linearFit())
+col_reduce <- col_reduce$addBands(
+  col_reduce$select('scale'))
+ee_print(col_reduce)
+```
+
+We make an interactive visualization - pretty cool!
+```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+Map$setCenter(9.08203, 47.39835, 3)
+Map$addLayer(
+  eeObject = col_reduce,
+  visParams = list(
+    bands = c("scale", "offset", "scale"),
+    min = 0,
+    max = c(0.18, 20, -0.18)
+  ),
+  name = "stable lights trend"
+)
+```
 ## Spatial Modeling
