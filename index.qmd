@@ -59,7 +59,6 @@ remotes::install_github("mikejohnson51/climateR")
 remotes::install_github("USEPA/StreamCatTools", build_vignettes=FALSE)
 remotes::install_github("mikejohnson51/opendap.catalog")
 remotes::install_github("mikejohnson51/zonal")
-install.packages("DT")
 ```
 
 ## How to follow along with material
@@ -71,6 +70,10 @@ This workshop was built using [Quarto](https://quarto.org/) and *rendered* to ht
 - You write your document in markdown and embed executable code chunks using the knitr syntax
 - You can update your document at any time by re-knitting the code chunks and convert your document to a number of formats (i.e. html, pdf, word documents)
 - We assume everyone in the workshop is familiar with using RStudio
+
+:::{.callout-note}
+You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
+:::
 
 ## Disclaimer
 

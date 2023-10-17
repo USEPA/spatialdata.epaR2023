@@ -8,7 +8,27 @@ We'll explore a few of the primary libraries in R for mapping (both static and d
   + `leaflet`
   + `mapview`
   + `tmap`
-  
+
+Throughout this section we'll use the following packages:
+```{r}
+#| warning: false
+library(tigris)
+library(tidycensus)
+library(ggplot2)
+library(cowplot)
+library(tmap)
+library(tmaptools)
+library(sf)
+library(ggspatial)
+library(leaflet)
+library(Rspatialworkshop)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+library(readr)
+library(dplyr)
+library(readxl)
+library(terra)
+```
 R is fantastic for making publication quality static maps, and for generating repetitive graphics through scripts;  we've already seen examples of how to make simple maps using base plotting,`ggplot`, and `tmap`. There are also several packages in R that link R code to plotting libraries developed in Javascript (or other languages) for interactive plotting and web integration.
 
 It can be hard to decide which mapping packages to learn and use - some nice advice from Martin Tennekes who created `tmap`:
@@ -37,11 +57,7 @@ Note that to use `tidycensus` you'll need to set your Census API key. A key can 
 #| echo: true
 #| results: hide
 
-library(tigris)
-library(tidycensus)
-library(ggplot2)
-library(cowplot)
-mult_tracts <- get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE)  
+mult_tracts <- tidycensus::get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE)  
 
 # tidy data
 mult_wide <- mult_tracts |> 
@@ -91,12 +107,6 @@ One idea
 #| warning: false
 #| echo: true
 #| results: hide
-
-# library(tmap)
-# library(tmaptools)
-library(ggplot2)
-library(tigris)
-library(sf, quietly = T)
 counties <- tigris::counties("Oregon", cb = TRUE)
 counties <- counties |> 
   sf::st_transform(2991) |> 
@@ -107,7 +117,6 @@ ggplot() +
 ```
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
-library(ggspatial)
 ggplot() +
     geom_sf(data = counties, aes(fill = area))  +
   scale_fill_viridis_c(trans = "sqrt", alpha = .4) +
@@ -125,7 +134,6 @@ ggplot() +
 
 Here we make a simple leaflet map of our the location of the EPA Pacific Ecological Systems Division lab in Corvallis where I work with a custom popup we create:
 ```{r leaflet, message=FALSE, warning=FALSE, error=FALSE}
-library(leaflet)
 content <- paste(sep = "<br/>",
   "<b><a href='https://www.epa.gov/greeningepa/pacific-ecological-systems-division-pesd-laboratory'>EPA Lab Corvallis</a></b>",
   "200 S.W. 35th Street ",
@@ -150,12 +158,6 @@ Here we'll plot stream gages within Benton County:
 #| error: false
 #| message: false
 #| warning: false
-library(Rspatialworkshop)
-library(mapview)
-mapviewOptions(fgb=FALSE)
-library(readr)
-library(sf)
-library(tigris)
 counties <- counties("Oregon", cb = TRUE)
 benton <- counties[counties$NAME=='Benton',]
 fpath <- system.file("extdata", "Gages_flowdata.csv", package="Rspatialworkshop")
@@ -191,11 +193,6 @@ We'll visualize data with `mapview` and load a web map service layers alongside 
 
 First we load load an excel file containing coordinate information in a known projection and promote to an `sf` spatial data frame.
 ```{r message=FALSE, error=FALSE, warning=FALSE}
-library(Rspatialworkshop)
-library(sf)
-library(dplyr)
-library(readxl)
-library(mapview)
 fpath <- system.file("extdata", "Station_Locations.xlsx", package="Rspatialworkshop")
 stations <- read_xlsx(fpath)
 glimpse(stations)
@@ -218,7 +215,6 @@ mapview(stations)
 
 Here we'll load a web map servcice (WMS) for the  National Hydrography dataset. We're looking at stream stations so imagine we want to visualize how closely these sites match a known rivers and stream network:
 ```{r message=FALSE, error=FALSE, warning=FALSE}
-library(leaflet)
 # create a mapview object with our stations:
 m <- mapview(stations, legend=FALSE)
 
@@ -244,7 +240,6 @@ m
 
 We can explore the basics using the counties of Oregon data we've been using in previous examples and exersices.
 ```{r}
-library(tmap)
 # Add fill layer to Oregon counties
 tm_shape(counties) +
   tm_fill() 
@@ -272,7 +267,6 @@ tm_tiles("Stamen.TonerLabels")
 
 ### Choropleths with `tmap`
 ```{r}
-library(tmap)
 tm_shape(mult_wide) + tm_polygons("Median_Income")
 ```
 
@@ -306,9 +300,6 @@ tm_shape(mult_wide) + tm_polygons(c("Median_Income", "Perc_College_Ed")) + tm_fa
 ### Plotting rasters and vectors with tmap
 Bring in boundary and elevation of Crater Lake NP (datasets in `Rspatialworkshop` package) and plot with tmap
 ```{r tmap_raster_plot, message=FALSE, warning=FALSE, error=FALSE}
-library(Rspatialworkshop)
-library(tmap)
-library(terra)
 # Set mode to plot
 tmap_mode("plot")
 data(CraterLake)
