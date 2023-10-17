@@ -36,6 +36,7 @@ Here we'll demonstrate leveraging the same service through the `nhdplusTools` pa
 You can read a concise background on using web services in R [here](https://mhweber.github.io/ICRW8_Geospatial_Workshop/Slides.html#web-services)
 
 ```{r}
+#| warning: false
 corvallis <- get_nhdplus(aoi_get("Corvallis, OR"), realization = "all")
 # get stream gages too
 corvallis$gages <- nhdplusTools::get_nwis(aoi_get("Corvallis, OR"))

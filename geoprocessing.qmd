@@ -492,9 +492,10 @@ We can divide map algebra into a couple of categories:
     b. replacing values
     c. reclassifying
     d. calculating indices
-2. Focal (neighborhood operations) - summarizing output cell value as the result of a window (such as a3 x 3 input cell block)
-Zonal operations - summarizing raster values for some zones (either another raster or a vector feature)
-Global - summarizing values over entire raster(s)
+2. Focal (neighborhood operations) 
+    a. summarizing output cell value as the result of a window (such as a3 x 3 input cell block)
+    b. Zonal operations - summarizing raster values for some zones (either another raster or a vector feature)
+    c. Global - summarizing values over entire raster(s)
 
 #### Local Operations
 Say we want to convert our elevation raster from meters to feet:
@@ -524,7 +525,10 @@ plot(elevation)
 plot(elev_recl)
 ```
 
-```{r local3, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
+```{r}
+#| message: false
+#| error: false
+#| warning: false
 elev_new = elevation
 elev_new[elev_new > 2000] = NA
 plot(elev_new)
@@ -532,7 +536,10 @@ plot(elev_new)
 
 #### Focal Operations
 A simple focal window operation
-```{r focal, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
+```{r}
+#| message: false
+#| error: false
+#| warning: false
 elev_focal_mean = focal(elevation, 
                    w = matrix(1, nrow = 25, ncol = 25), 
                    fun = mean)
@@ -540,14 +547,20 @@ plot(elev_focal_mean)
 ```
 
 #### Global Operations
-```{r global, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
+```{r}
+#| message: false
+#| error: false
+#| warning: false
 terra::global(elev_mask, fun="mean", na.rm=TRUE)
 terra::global(elev_mask, fun="sum", na.rm=TRUE)
 ```
 
 ### Zonal Operations
 Here we demonstrate using the zonal function in `terra` to summarize a value raster of elevation, using an srtm.tif from `spDataLarge`, by the zones of NLCD classes using nlcd.tif raster also in the `spDataLarge` package.  We'll expand more on zonal statistics including for categorical data in the final section of the workshop.
-```{r zonal, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
+```{r}
+#| message: false
+#| error: false
+#| warning: false
 srtm_path = system.file("raster/srtm.tif", package = "spDataLarge")
 srtm_path
 srtm = rast(srtm_path)
