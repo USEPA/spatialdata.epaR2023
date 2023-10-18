@@ -73,6 +73,16 @@ This workshop was built using [Quarto](https://quarto.org/) and *rendered* to ht
 - You can update your document at any time by re-knitting the code chunks and convert your document to a number of formats (i.e. html, pdf, word documents)
 - We assume everyone in the workshop is familiar with using RStudio
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: hide
+
+library(sf)
+```
+
+
 :::{.callout-note}
 You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
 :::

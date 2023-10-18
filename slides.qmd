@@ -564,8 +564,6 @@ A coordinate reference system (CRS) is made up of several components
 3. Datum: The modeled version of the earth's shape
 4. Projection details (if applicable): The mathematical equation used to flatten objects from round surface (earth) to flat surface (paper or screen)
 
-Properly specifying coordinate reference systems is a crucial step in handling or analyzing spatial data
-
 ## The Ellipsoid and Geoid
 
 * The earth can be thought of as an ellipsoid defined by a semi-major (equatorial) axis and a semi-minor (polar) axis
@@ -870,6 +868,17 @@ ggplot(data = gages_sf) +
 
 # Visualization
 
+## Goals
+
+::: goals
+* Gain familiarity with plotting and visualizing spatial data in R
+* Work with four specific visualization and plotting libraries:
+  + `ggplot2`
+  + `leaflet`
+  + `mapview`
+  + `tmap`
+:::
+
 ## Some Advice
 
 Some advice from Martin Tennekes:
@@ -1151,6 +1160,14 @@ tm_shape(CraterLake) +
 
 # Geoprocessing
 
+## Goals
+
+::: goals
+* Learn about fundamental spatial operations in R using spatial predicates in `sf` for geometric operations
+* Explore performing 'map algebra' type operations with raster data in R
+* Learn how to do extract and zonal operations in R
+:::
+
 ## Libraries
 
 Recall that `sf` has functions to access three primary underlying geospatial libraries:
@@ -1267,6 +1284,12 @@ knitr::include_graphics("img/mult_cities.jpg")
 ::: task 
 Now subset all cities within 50,000 meters of a Multnomah county boundary (hint, use the `st_is_within_distance` predicate and the `dist` argument). Then visualize these sites overlain onto the county boundaries using `mapview()`
 :::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 4)
+```
 
 ## Our Turn
 
@@ -1489,6 +1512,15 @@ tmap_arrange(p1, p2, ncol = 2)
 
 # Advanced Applications
 
+## Goals
+
+::: goals
+* Gain familiarity with using web services for several applications in R
+* Learn about using STAC resources in R
+* Know about several extensions for integrating with other GIS software and tools in R
+* Gain some familiarity with spatial sampling and modeling libraries
+:::
+
 ## Using Web Services
 
 * Hydrology data with `nhdplusTools` and `dataRetrieval`
@@ -1512,6 +1544,7 @@ tmap_arrange(p1, p2, ncol = 2)
 
 * `spsurvey` for spatial sampling
 * `spmodel` for spatial modeling
+* `SSN` and `SSN2` for spatial modeling on stream networks
 
 ## Acknowledgements
 

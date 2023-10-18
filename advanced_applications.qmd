@@ -5,7 +5,7 @@ We'll explore a few 'advanced' applications in this section, exploring the use o
 * Gain familiarity with using web services for several applications in R
 * Learn about using STAC resources in R
 * Know about several extensions for integrating with other GIS software and tools in R
-* Gain some familiarity with spatial modeling libraries
+* Gain some familiarity with spatial sampling and modeling libraries
 
 Throughout this section we'll use the following packages:
 ```{r}
@@ -330,3 +330,7 @@ glances(spmod, lmod)
 ```
 
 The spatial model (`spmod`) has a much lower AIC and AICc than the non-spatial model (`lmod`), which indicates that incorporating spatial covariance/correlation into the model is quite helpful. To learn more about `spmodel`, visit [its website here](https://usepa.github.io/spmodel/).
+
+### Spatial Stream Networks
+
+The statistical modeling in `spmodel` uses Euclidean distances to measure spatial correlation. On a stream network, Euclidean distance (on its own) does not sufficiently describe proximity relationships. Spatial stream network models incorporate in-stream distance and Euclidean distance to improve model fit. The `SSN` **R** package has been available on CRAN for the last decade or so, but it was recently removed alongside the archiving of `rgdal`, `rgeos`, and `maptools` (see Resources) . `SSN2` will be released on CRAN, very likely by the end of 2023, so keep an eye out for it!

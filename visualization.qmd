@@ -236,7 +236,7 @@ m
 ```
 
 ## tmap
-[tamp](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) uses the same syntax as ggplot: the grammar of graphics - and it supports both static and interactive modes. Like `ggplot2`, each dataset added to a `tmap` plot can be mapped in a number of different ways such as location, color, size, etc. The [Making maps with R section of Geocomputation with R] has an excellent and in depth treatment of using `tmap`.
+[tamp](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) uses the same syntax as ggplot: the grammar of graphics - and it supports both static and interactive modes. Like `ggplot2`, each dataset added to a `tmap` plot can be mapped in a number of different ways such as location, color, size, etc. The [Making maps with R section of Geocomputation with R](https://r.geocompx.org/adv-map) has an excellent and in depth treatment of using `tmap`.
 
 We can explore the basics using the counties of Oregon data we've been using in previous examples and exersices.
 ```{r}

@@ -52,7 +52,7 @@ Before we dive into spatial libraries, it's worth a quick review of relevant dat
   + Hardware reads Binary bytes
 
 ```{r, fig.align='center', echo = FALSE, out.width="75%" }
-knitr::include_graphics("img/values.png")
+knitr::include_graphics("img/values.PNG")
 ```
 
 :::{.callout-note}
@@ -439,6 +439,7 @@ Run and examine code chunk above and try geocoding examples you think of
 The `tigris` package can be used to get census boundaries such as states and counties as vector `sf` objects in R
 ```{r tmap example}
 #| label: fig-tmapexample
+#| fig-cap: "Area of Oregon Counties"
 #| fig-width: 8
 #| results: hide
 #| message: false
@@ -563,6 +564,7 @@ Typically we don't build these up from scratch ourselves but it's important to u
 :::
 
 These primitives can all be broken down into set(s) of numeric x,y coordinates with a known coordinate reference system (crs).
+
 #### Points
 - A point in `sf` is composed of one coordinate pair (XY) in a specific coordinate system.
 - A POINT has no length, no area and a dimension of 0.
@@ -644,13 +646,15 @@ ggplot() +
   geom_sf(data = sf_polygon, fill = "grey")
 ```
 
-:::{.callout-note}
+::: {.callout-note}
 `WKT` (Well-Known Text) and `WKB`
 
 -Well-known text (`WKT`) encoding provide a human-readable description of the geometry. 
 - The well-known binary (`WKB`) encoding is machine-readable, lossless, and faster to work with than text encoding. 
 
 `WKB` is used for all interactions with GDAL and GEOS.
+
+:::
 
 #### Spatial Data Frames
 Building up from basic points, lines and strings, simple feature objects are stored in a `data.frame`, with geometry data in a special list-column, usually named 'geom' or 'geometry' - this is the same convention used in the popular Python package [GeoPandas](https://r.geocompx.org/geopandas/geopandas/issues/2098).
@@ -722,7 +726,7 @@ us_states |>
 The alternative solution above highlights a **key concept** with `sf` - `sf` objects are 'tidy-compliant' and **geometry is sticky** - it carries along with objects implicitly when performing any tidy chained operations. 
 
 ```{r, fig.align='center', echo = FALSE, out.width="100%",fig.cap="The simple features data data sructure." }
-knitr::include_graphics("img/Sticky.png")
+knitr::include_graphics("img/Sticky.PNG")
 ```
 
 
@@ -1102,7 +1106,7 @@ There are sometimes good reasons for turning `S2` off during an R session. See i
 Situations that can cause problems include operations on polygons that are not valid according to S2’s stricter definition. If you see error message such as `#> Error in s2_geography_from_wkb ...` you may want to turn `s2` off and try your operation again, perhaps turning of `s2` and running a topology clean operation like `st_make_valid()`.
 :::
 
-## Geographic Data I/O
+## Geographic Data Input/Output (I/O)
 - There are several ways we typically get spatial data into R:
   + Load spatial files we have on our machine or from remote source
   + Load spatial data that is part of an R package
