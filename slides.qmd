@@ -34,18 +34,19 @@ options(width = 80)
 
 # load background packages
 library(countdown)
-library(ggplot2)
 ```
 
 ## Welcome!
 
-1. Please visit [this link](https://usepa.github.io/spatialdata.epaR2023/) to view the workshop's accompanying workbook
+1. Please visit [https://usepa.github.io/spatialdata.epaR2023/](https://usepa.github.io/spatialdata.epaR2023/) to view the workshop's accompanying workbook
 
-2.  Install and load R packages by visiting [this link](https://usepa.github.io/spatialdata.epaR2023/#set-up)
+2. Install and load R packages by visiting "Setup" in the workbook's "Welcome" section 
 
-3. (Optional) Download the workshop slides (instructions in the workbook's "Welcome" page)
+3. (Optional) Download the workshop slides (instructions in the workbook's "Welcome" section)
 
-4. Follow along and have fun!
+4. (Optional) Fill out the poll so we can better understand attendee's level of experience handling spatial data
+
+5. Follow along and have fun!
 
 ## Who Are We?
 
@@ -297,6 +298,7 @@ sf_point <- st_sfc(pt1, pt2, pt3)
 #| fig-cap: "sf `POINT`"
 #| output-location: slide
 
+library(ggplot2)
 ggplot(sf_point) + 
   geom_sf(color = "red") +
   labs(x = "X", y = "Y")
@@ -561,8 +563,6 @@ A coordinate reference system (CRS) is made up of several components
 2. Horizontal and vertical units: The units that describe the coordinate system
 3. Datum: The modeled version of the earth's shape
 4. Projection details (if applicable): The mathematical equation used to flatten objects from round surface (earth) to flat surface (paper or screen)
-
-Properly specifying coordinate reference systems is a crucial step in handling or analyzing spatial data
 
 ## The Ellipsoid and Geoid
 
@@ -868,6 +868,17 @@ ggplot(data = gages_sf) +
 
 # Visualization
 
+## Goals
+
+::: goals
+* Gain familiarity with plotting and visualizing spatial data in R
+* Work with four specific visualization and plotting libraries:
+  + `ggplot2`
+  + `leaflet`
+  + `mapview`
+  + `tmap`
+:::
+
 ## Some Advice
 
 Some advice from Martin Tennekes:
@@ -1149,6 +1160,14 @@ tm_shape(CraterLake) +
 
 # Geoprocessing
 
+## Goals
+
+::: goals
+* Learn about fundamental spatial operations in R using spatial predicates in `sf` for geometric operations
+* Explore performing 'map algebra' type operations with raster data in R
+* Learn how to do extract and zonal operations in R
+:::
+
 ## Libraries
 
 Recall that `sf` has functions to access three primary underlying geospatial libraries:
@@ -1260,3 +1279,274 @@ mult_cities <- or_cities[mult_cnty, , op = st_intersects]
 knitr::include_graphics("img/mult_cities.jpg")
 ```
 
+## Your Turn
+
+::: task 
+Now subset all cities within 50,000 meters of a Multnomah county boundary (hint, use the `st_is_within_distance` predicate and the `dist` argument). Then visualize these sites overlain onto the county boundaries using `mapview()`
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 4)
+```
+
+## Our Turn
+
+```{r}
+#| eval: false
+close_mult_cities <- or_cities[mult_cnty, , op=st_is_within_distance,dist=50000]
+mapview(mult_cnty, alpha.regions=.07, color='black', lwd=2) +
+  mapview(close_mult_cities)
+```
+
+## Our Turn
+
+```{r}
+#| label: fig-multcities2
+#| fig-cap: "Cities within 50,000 meters of a Multnomah County boundary."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/close_mult_cities.jpg")
+```
+
+## Spatial Join
+
+We may want to join together information from one spatial data with another spatial data set
+
+```{r}
+counties <- aoi_get(state='Oregon', county='all') |> 
+  st_transform(st_crs(or_cities))
+cty_cnty <- st_join(or_cities, counties['name'], .predicate = st_intersects)
+glimpse(cty_cnty)
+```
+
+## Spatial Join
+
+* Left join is the default: Keep all variables from `x` and add variables from `y` that match a key in `x`
+* Inner join: A left join but remove rows that don't have a matching key in `y`
+
+## Buffer and Dissolve
+
+You may want to create buffers around locations
+
+```{r}
+# Filter for metro areas
+metros <- or_cities |> 
+  dplyr::filter(CITY %in% c('PORTLAND','SALEM','EUGENE','CORVALLIS','BEND','MEDFORD'))
+# Buffer larger cities
+metro_areas <- metros |> 
+  st_buffer(105600)
+```
+
+```{r}
+#| eval: false
+
+mapview(metro_areas)
+```
+
+## Buffer and Dissolve
+
+```{r}
+#| label: fig-citybuffer
+#| fig-cap: "Large Oregon cities with a 20 mile buffer."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/or_cities_buffer.jpg")
+```
+
+## Buffer and Dissolve
+
+Several tidyverse functions to easily dissolve:
+
+```{r}
+counties |>
+  group_by(combined_area_code) |>
+  summarize(mean_land_area = mean(land_area))
+```
+
+## Clipping
+
+```{r}
+#| label: fig-metrogeom
+#| fig-cap: "Metro area geometry."
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+#| fig-show: hold
+
+plot(st_geometry(metro_areas[2, ]), axes=TRUE) 
+plot(st_geometry(counties[metro_areas[2,], ]), border = "grey", add = TRUE)
+```
+
+
+## Clipping
+
+Keep only intersecting geometry
+
+```{r}
+#| label: fig-metroclip
+#| fig-cap: "Metro area geometry clipped."
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+metro_county_area <- st_intersection(metro_areas[2,], counties)
+plot(st_geometry(metro_county_area), border = "grey", axes = TRUE) 
+```
+
+## Centroids and Type Transformations
+
+A centroid is the center of mass on a feature:
+
+```{r}
+sel_counties <- counties |> 
+  dplyr::filter(name %in% c('Marion','Yamhill','Polk','Benton','Multnomah','Clackamas','Linn','Washington'))
+cnt_cent1 <- st_centroid(sel_counties)
+```
+
+```{r}
+#| eval: false
+tm_shape(sel_counties) +
+  tm_borders() +
+  tm_shape(cnt_cent1) +
+  tm_symbols(shape = 1, col = "black", size = 0.5) 
+```
+
+## Centroids and Type Transformations
+
+```{r}
+#| label: fig-centroids
+#| fig-cap: "Centroids for Oregon select counties."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/or_centroids.jpg")
+```
+
+## Your Turn
+
+::: task
+Sometimes the centroid of a geometry does not lie within the geometry's boundaries. The function `st_point_on_surface()` acts similarly but requires this point is on the surface. In the previous code to visualize the centroids, replace `st_centroid()` with `st_point_on_surface()` and re-visualize.
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+## Our Turn
+
+```{r}
+cnt_cent2 <- st_point_on_surface(sel_counties)
+```
+
+```{r}
+#| eval: false
+
+tm_shape(sel_counties) +
+  tm_borders() +
+  tm_shape(cnt_cent2) +
+  tm_symbols(shape = 1, col = "red", size = 0.5) 
+```
+
+## Our Turn
+
+```{r}
+#| label: fig-centroids2
+#| fig-cap: "Point on surface for Oregon select counties."
+#| fig-align: center
+#| out-width: "100%"
+#| echo: false
+
+knitr::include_graphics("img/or_surface.jpg")
+```
+
+## Centroids and Type Transformations
+
+* `st_centroid()` and `st_point_on_surface()` transform all geometries into `POINT` geometries
+* This is a specific application of a spatial "casting", which casts geometries from one type to another
+* `st_cast()` in `sf
+
+## Simplification
+
+* It can be useful to simplify geometries to save memory and improve efficiency
+
+```{r}
+#| label: fig-santiam
+#| fig-cap: "South Santiam geometry and simplified geometry."
+#| output-location: slide
+#| fig-width: 8
+#| results: hide
+#| message: false
+#| warning: false
+
+SouthSantiam <- dataRetrieval::findNLDI(nwis = "14187200", nav = "UT", find = "flowlines", distance_km=10)
+SouthSantiam <- SouthSantiam$UT_flowlines |>
+  st_transform(st_crs(counties))
+
+Sant_simp <-  st_simplify(SouthSantiam, dTolerance = 500)  # 500 m
+p1 <-  tm_shape(SouthSantiam) +
+  tm_lines() 
+p2 <-  tm_shape(Sant_simp) +
+  tm_lines() 
+tmap_arrange(p1, p2, ncol = 2)
+```
+
+## Raster Operations
+
+* The workbook has many examples of geoprocessing using raster data
+* Cropping
+* Map algebra (local, focal, and global operations)
+* Zonal operations
+
+# Advanced Applications
+
+## Goals
+
+::: goals
+* Gain familiarity with using web services for several applications in R
+* Learn about using STAC resources in R
+* Know about several extensions for integrating with other GIS software and tools in R
+* Gain some familiarity with spatial sampling and modeling libraries
+:::
+
+## Using Web Services
+
+* Hydrology data with `nhdplusTools` and `dataRetrieval`
+* Watershed data with `StreamCatTools`
+* Elevation as a service
+* OpenDAP and STAC
+
+## Zonal Statistics
+
+* The `zonal` package
+
+## Extensions
+
+* RQGIS
+* R-ArcGIS bridge
+* Accessing Python toolbox using reticulate
+* R Whitebox Tools
+* `rgee`
+
+## Spatial Sampling and Modeling
+
+* `spsurvey` for spatial sampling
+* `spmodel` for spatial modeling
+* `SSN` and `SSN2` for spatial modeling on stream networks
+
+## Acknowledgements
+
+* Thank you so much for attending!
+* Questions?
