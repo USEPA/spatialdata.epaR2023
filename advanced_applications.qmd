@@ -7,9 +7,23 @@ We'll explore a few 'advanced' applications in this section, exploring the use o
 * Know about several extensions for integrating with other GIS software and tools in R
 * Gain some familiarity with spatial modeling libraries
 
-:::{.callout-note}
-You may click on any of the functions in this book to be directed to their respective documentation. For example, clicking on `st_join()` takes you to the documentation page for the `st_join()` function on the `sf` website.
-:::
+Throughout this section we'll use the following packages:
+```{r}
+#| warning: false
+library(AOI)
+library(nhdplusTools)
+library(dataRetrieval)
+library(mapview)
+mapviewOptions(fgb=FALSE)
+library(ggplot2)
+library(StreamCatTools)
+library(tmap)
+library(opendap.catalog)
+library(climateR)
+library(terra)
+library(zonal)
+library(cowplot)
+```
 
 ## Using Web Services
 ### Hydrology data with `nhdplusTools` and `dataRetrieval`
@@ -19,12 +33,10 @@ We previously saw an example of getting an area of interest using Mike Johnson's
 
 Here we'll demonstrate leveraging the same service through the `nhdplusTools` package in combination with the `AOI` package to quickly pull in spatial data for analysis via web services and combine with gage data from the `dataRetrieval` package.
 
+You can read a concise background on using web services in R [here](https://mhweber.github.io/ICRW8_Geospatial_Workshop/Slides.html#web-services)
+
 ```{r}
-library(AOI)
-library(nhdplusTools)
-library(dataRetrieval)
-library(mapview)
-mapviewOptions(fgb=FALSE)
+#| warning: false
 corvallis <- get_nhdplus(aoi_get("Corvallis, OR"), realization = "all")
 # get stream gages too
 corvallis$gages <- nhdplusTools::get_nwis(aoi_get("Corvallis, OR"))
@@ -36,10 +48,6 @@ Pretty cool.  All that data in a one-liner!
 Next we'll go back to the South Santiam basin we derived in the geoprocessing section and we'll grab all the gage data in the basin.  We'll get stream flow data for the gages using `dataRetrieval`  flow data in `dataRetrieval` is accessed with code '00060' which can be found with `dataRetrieval::parameterCdFile`.  See the [dataRetrieval package website](https://doi-usgs.github.io/dataRetrieval/) for documentation and tutorials.
 
 ```{r}
-library(dataRetrieval)
-library(nhdplusTools)
-library(mapview)
-mapviewOptions(fgb=FALSE)
 nldi_feature <- list(featureSource = "nwissite", 
                      featureID = "USGS-14187200")
 SouthSantiam <- navigate_nldi(nldi_feature,  mode = "upstreamTributaries", distance_km=100)
@@ -53,11 +61,11 @@ Notice we pulled in some stream gages within the **bounding box** of our basin b
 ```{r}
 #| warning: false
 gages <- sf::st_intersection(gages, basin)
+mapview(SouthSantiam) + mapview(basin) + mapview(gages)
 ```
 
 Now we'll grab stream flow data for our watershed with `dataRetrieval`:
 ```{r}
-library(ggplot2)
 flows = dataRetrieval::readNWISdv(site = gages$site_no, parameterCd = "00060") |> 
   renameNWISColumns()
 
@@ -79,7 +87,7 @@ To use the NLDI you supply a starting feature which can be a:
 
 You can see what is available with:
 ```{r}
-DT::datatable(get_nldi_sources())
+dataRetrieval::get_nldi_sources()
 ```
 :::
 
@@ -88,8 +96,6 @@ DT::datatable(get_nldi_sources())
 
 We can easily pull in watershed data from StreamCat for our basin with `StreamCatTools`:
 ```{r}
-library(StreamCatTools)
-library(tmap)
 comids <- SouthSantiam$UT_flowlines$nhdplus_comid
 # we need a simple comma separated list for StreamCat
 comids <- paste(comids,collapse=",",sep="")
@@ -107,8 +113,6 @@ tm_shape(flowlines) + tm_lines("MSST_2014", title.col ="Mean Summer Stream\nTemp
 ### Elevation as a service
 Thanks to our own Jeff Hollister we have the handy [elevatr](https://cran.r-project.org/web/packages/elevatr/vignettes/introduction_to_elevatr.html) package for retrieving elevation data as a service for user provided points or areas - we can easily return elevation for our South Santiam basin we've created using elevation web services with `elevatr`:
 ```{r}
-library(mapview)
-mapviewOptions(fgb=FALSE)
 elev <- elevatr::get_elev_raster(basin, z = 9)
 mapview(elev)
 ```
@@ -119,9 +123,7 @@ mapview(elev)
 Here we'll just show an example of using OpenDAP via Mike Johnson's [OpenDAP Catalog](https://mikejohnson51.github.io/opendap.catalog/) and [ClimateR](https://mikejohnson51.github.io/climateR/) packages.
 
 ```{r}
-library(opendap.catalog)
-library(climateR)
-
+#| warning: false
 # See what is available - a LOT! As in 14,691 resources available via web services!!
 dplyr::glimpse(opendap.catalog::params)
 ```
@@ -131,36 +133,57 @@ We can search for resources of interest:
 opendap.catalog::search("monthly swe")
 ```
 
-Here we'll just show extracting a particular resource (in this case PRISM data) using `climateR` and we'll go back to using our counties in Oregon data from earlier.
+
+And we can extract a particular resource (in this case PRISM climate data) using `climateR` - we'll go back to using our counties in Oregon data from earlier.
 ```{r}
-library(AOI)
-library(climateR)
 counties <- aoi_get(state='Oregon', county='all')
 precip <- getPRISM(counties,
                varname = "ppt",
                startDate = "2020-01-01",
-               endDate  = "2020-02-28",
+               endDate  = "2020-03-30",
                timeRes="monthly")
+precip <- terra::rast(precip)
+
+names(precip)
+plot(precip)
 ```
 
-## Zonal Statistics and Categorical Summaries
+## Zonal Statistics
+We can easily run zonal statistics for counties of Oregon using the `zonal` package with our precipitation data we extracted for Oregon from PRISM:
+```{r}
+counties <- sf::st_transform(counties, crs(precip))
+county_precip <- zonal::execute_zonal(precip, counties, ID='name',fun='mean')
+
+# Rename monthly precip
+names(county_precip)[16:17] <- c('ppt_2020-01-31','ppt_2020-03-01')
+a <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-01-01`))
+b <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-01-31`))
+c <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-03-01`))
+d <- ggplot() + 
+  geom_sf(data=county_precip, aes(fill=`ppt_2020-04-01`))
+plot_grid(a,b,c,d)
+```
 
 ## Extensions
-## RQGIS
+### RQGIS
 There's a bit of overhead to install QGIS and configure RQGIS - I use QGIS but have not set up RQGIS myself, I recommend reading the description in [Geocomputation with R](https://geocompr.robinlovelace.net/gis.html#rqgis)
 
-## R-ArcGIS bridge
+### R-ArcGIS bridge
 See [this description](https://www.esri.com/en-us/arcgis/products/r-arcgis-bridge/get-started) describing how to link your R install to the R-ArcGIS bridge
 
-## Accessing Python toolbox using reticulate
-I use this all the time! I highly recommend this approach if you want to integrate python workflows and libraries (including arcpy) with R workflows within reproducible R markdown files.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=TRUE}
+### Accessing Python toolbox using reticulate
+I highly recommend this approach if you want to integrate python workflows and libraries (including arcpy) with R workflows within reproducible R quarto or markdown files.
+```{r}
+#| eval: false
 library(reticulate)
-use_condaenv("StreamCat")
 ```
 
 We can immediately start playing with python within a code block designated as python
 ```{python}
+#| eval: false
 import pandas as pd
 
 print('hello python')
@@ -172,6 +195,7 @@ print(some_dict.keys())
 
 Load our gage data in Python...
 ```{python}
+#| eval: false
 import pandas as pd
 gages = pd.read_csv('C:/Users/mweber/GitProjects/Rspatialworkshop/inst/extdata/Gages_flowdata.csv')
 gages.head()
@@ -179,20 +203,19 @@ gages['STATE'].unique()
 PNW_gages = gages[gages['STATE'].isin(['OR','WA','ID'])]
 ```
 
-### Access Python objects directly from R
+#### Access Python objects directly from R
 Now work with the pandas data directly within R
 ```{r}
-library(sf)
-library(ggplot2)
-
+#| eval: false
 gages <- st_as_sf(py$PNW_gages,coords = c('LON_SITE','LAT_SITE'),crs = 4269) 
 gages <- st_transform(gages, crs=5070) #5070 is Albers system in metres
 ggplot(gages) + geom_sf()
 ```
 
-### And share spatial results from Python
+And share spatial results from Python
 You can work with spatial tools in Python and share results with R!
-```{python, eval=FALSE}
+```{python}
+#| eval: false
 from rasterstats import zonal_stats
 clnp = 'C:/Users/mweber/Temp/CraterLake_tm.shp'
 elev = 'C:/Users/mweber/Temp/elevation_tm.tif'
@@ -201,17 +224,19 @@ park_elev = zonal_stats(clnp, elev, all_touched=True,geojson_out=True, stats="co
 geostats = gp.GeoDataFrame.from_features(park_elev)
 ```
 
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 zonal <- py$geostats
 ```
 
-## R Whitebox Tools
+### R Whitebox Tools
 We won't go into here but worth mentioning as a rich set of tools you can access in R - [whiteboxR](https://giswqs.github.io/whiteboxR/)
 
-## rgee
+### rgee
 Here I'm just running the demo code in the ReadMe for the `rgee` package as a proof of concept of cool things you can do being able to leverage Earth Engine directly in R.  Note that there is overhead in getting this all set up.
 
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 library(reticulate)
 library(rgee)
 ee_Initialize()
@@ -219,7 +244,8 @@ ee_Initialize()
 ```
 
 Function to create a time band containing image date as years since 1991.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 createTimeBand <-function(img) {
   year <- ee$Date(img$get('system:time_start'))$get('year')$subtract(1991L)
   ee$Image(year)$byte()$addBands(img)
@@ -227,7 +253,8 @@ createTimeBand <-function(img) {
 ```
 
 Using Earth Engine syntax, we 'Map' the time band creation helper over the night-time lights collection.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 collection <- ee$
   ImageCollection('NOAA/DMSP-OLS/NIGHTTIME_LIGHTS')$
   select('stable_lights')$
@@ -235,7 +262,8 @@ collection <- ee$
 ```
 
 We compute a linear fit over the series of values at each pixel, visualizing the y-intercept in green, and positive/negative slopes as red/blue.
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 col_reduce <- collection$reduce(ee$Reducer$linearFit())
 col_reduce <- col_reduce$addBands(
   col_reduce$select('scale'))
@@ -243,7 +271,8 @@ ee_print(col_reduce)
 ```
 
 We make an interactive visualization - pretty cool!
-```{r warning=FALSE, error=FALSE, message=FALSE, eval=FALSE}
+```{r}
+#| eval: false
 Map$setCenter(9.08203, 47.39835, 3)
 Map$addLayer(
   eeObject = col_reduce,
@@ -255,4 +284,5 @@ Map$addLayer(
   name = "stable lights trend"
 )
 ```
+
 ## Spatial Modeling
