@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,27 +17,8 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
 }
 </style>
 
@@ -86,11 +67,16 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Resources</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./resources.html">Resources</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -98,64 +84,77 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Spatial Data Workshop</a> 
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations</span></a>
+  <a href="./foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./geoprocessing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geoprocessing</span></a>
+  <a href="./visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./visualization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  <a href="./geoprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geoprocessing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./advanced_applications.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced Applications</span></a>
+  <a href="./advanced_applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced Applications</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resources.html" class="sidebar-item-text sidebar-link active">Resources</a>
+  <a href="./resources.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Resources</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-spatial-resources" id="toc-r-spatial-resources" class="nav-link active" data-scroll-target="#r-spatial-resources">R Spatial Resources</a></li>
+  <li><a href="#goals-and-outcomes" id="toc-goals-and-outcomes" class="nav-link active" data-scroll-target="#goals-and-outcomes">Goals and Outcomes</a></li>
+  <li><a href="#sf" id="toc-sf" class="nav-link" data-scroll-target="#sf"><code>sf</code></a></li>
+  <li><a href="#terra" id="toc-terra" class="nav-link" data-scroll-target="#terra"><code>terra</code></a></li>
+  <li><a href="#other-useful-spatial-data-packages" id="toc-other-useful-spatial-data-packages" class="nav-link" data-scroll-target="#other-useful-spatial-data-packages">Other Useful Spatial Data Packages</a></li>
+  <li><a href="#retirement-of-rgdal-rgeos-and-maptools-plan-for-sp" id="toc-retirement-of-rgdal-rgeos-and-maptools-plan-for-sp" class="nav-link" data-scroll-target="#retirement-of-rgdal-rgeos-and-maptools-plan-for-sp">Retirement of <code>rgdal</code>, <code>rgeos</code>, and <code>maptools</code>; Plan for <code>sp</code></a></li>
+  <li><a href="#r-spatial-resources" id="toc-r-spatial-resources" class="nav-link" data-scroll-target="#r-spatial-resources">R Spatial Resources</a></li>
   <li><a href="#r-vector-processing-simple-features-resources" id="toc-r-vector-processing-simple-features-resources" class="nav-link" data-scroll-target="#r-vector-processing-simple-features-resources">R Vector Processing / Simple Features Resources</a></li>
   <li><a href="#r-raster-resources" id="toc-r-raster-resources" class="nav-link" data-scroll-target="#r-raster-resources">R Raster Resources</a></li>
   <li><a href="#r-mapping-resources" id="toc-r-mapping-resources" class="nav-link" data-scroll-target="#r-mapping-resources">R Mapping Resources</a></li>
   <li><a href="#web-services-in-r" id="toc-web-services-in-r" class="nav-link" data-scroll-target="#web-services-in-r">Web Services in R</a></li>
   <li><a href="#general-r-resources" id="toc-general-r-resources" class="nav-link" data-scroll-target="#general-r-resources">General R Resources</a></li>
+  <li><a href="#previous-r-spatial-workshops" id="toc-previous-r-spatial-workshops" class="nav-link" data-scroll-target="#previous-r-spatial-workshops">Previous R Spatial Workshops</a></li>
   </ul>
 </nav>
     </div>
@@ -164,7 +163,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Resources</h1>
+<h1 class="title">Resources</h1>
 </div>
 
 
@@ -179,13 +178,53 @@ div.csl-indent {
 
 </header>
 
+<section id="goals-and-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="goals-and-outcomes">Goals and Outcomes</h2>
+<ul>
+<li>Summarize the functionality of modern <strong>R</strong> packages for handling spatial data.</li>
+<li>Discuss the retirement of <code>rgdal</code>, <code>rgeos</code>, and <code>maptools</code> and its effect on the rest of the spatial data ecosystem in <strong>R</strong>.</li>
+<li>Provide additional resources for handling spatial data in <strong>R</strong></li>
+</ul>
+</section>
+<section id="sf" class="level2">
+<h2 class="anchored" data-anchor-id="sf"><code>sf</code></h2>
+<p>The <code>sf</code> <strong>R</strong> package <span class="citation" data-cites="pebesma2018sf">(<a href="#ref-pebesma2018sf" role="doc-biblioref"><strong>pebesma2018sf?</strong></a>)</span> implements an <strong>R</strong>-based approach to handling spatial data based on simple features, a set of standards that specify how spatial objects are represented by computers. The simple features standards are widely implemented in spatial databases like GIS and GDAL. They have a <code>geometry</code> that describes their location on Earth using a coordinate reference system. Simple features objects in <strong>R</strong> are called <code>sf</code> objects and build upon <strong>R</strong>’s standard data frame by adding <code>geometry</code>. <code>sf</code> objects have two main components:</p>
+<ol type="1">
+<li>A <code>data.frame</code> with feature attributes</li>
+<li>A list-column with geometries for each feature</li>
+</ol>
+<p>You can operate on <code>sf</code> objects just as you would a operate on a <code>data.frame</code>, and there are many tidyverse operations (e.g., <code>select()</code>, <code>filter()</code>) that work directly with <code>sf</code> objects. All <code>sf</code> functions that operate on spatial data are prefixed by <code>st_</code>, which refers to <em>spatial type</em>. The prefix makes them easy to find via tab (or command-line) completion. For example, to inspect the <code>sf</code> function’s geometry as well-known text, run <code>st_geometry()</code>.</p>
+<p>The <code>sf</code> <strong>R</strong> package is the modern approach to manipulating spatial data in <strong>R</strong> using simple features and is designed to completely supersede <code>sp</code>. For more of <code>sf</code>, <a href="https://r-spatial.github.io/sf/">visit their website here</a> or <a href="https://r-spatial.org/book/07-Introsf.html#sec-sfintro">this overview here</a>.</p>
+</section>
+<section id="terra" class="level2">
+<h2 class="anchored" data-anchor-id="terra"><code>terra</code></h2>
+<p>The <code>terra</code> <strong>R</strong> package <span class="citation" data-cites="hijmans2023terra">(<a href="#ref-hijmans2023terra" role="doc-biblioref"><strong>hijmans2023terra?</strong></a>)</span> is used to create, read, manipulate, and write raster data. Raster data is a spatial data structure that divides a region into rectangles called “cells” or “pixels” that can store one or more values fore each cell. Raster data structures are often called “grids”, a contrast with the “vector” data used to represent points, lines, and polygons as in the <code>sf</code> package. One advantage of the <code>terra</code> package and raster data structures is that it can handle large data sets on disk that are too large to be loaded into memory.</p>
+<p>Raster objects in <code>terra</code> are typically created or read in using the <code>rast()</code> function. Raster objects in <code>terra</code> support common algebraic operations (e.g., <code>+</code>, <code>*</code>), logical operations (e.g., <code>&gt;=</code>, <code>==</code>), and functionals (e.g., <code>round</code>, <code>log</code>) on raster cells. There are several options for modifying raster objects: <code>crop</code>, which subsets a larger <code>terra</code> object; <code>trim</code>, which removes outer rows and columns with <code>NA</code> values; <code>extend</code>, which adds outer rows and columns with <code>NA</code> values, <code>merge</code>, which merges two or more raster objects into a single object; <code>aggregate</code> and <code>disagg</code> for changing the resolution (cell size) of a raster object; <code>wrap</code> for transforming to a new coordinate reference system; and more. There are also options for computing distances, summary statistics, prediction, and visualization.</p>
+<p>The <code>terra</code> <strong>R</strong> package is the modern approach to manipulating raster data in <strong>R</strong> and is designed to completely supersede <code>raster``. For more of</code>terra`, <a href="https://rspatial.org/pkg/index.html">visit their website here</a>.</p>
+</section>
+<section id="other-useful-spatial-data-packages" class="level2">
+<h2 class="anchored" data-anchor-id="other-useful-spatial-data-packages">Other Useful Spatial Data Packages</h2>
+<ul>
+<li><code>stars</code> for handling spatio-temporal vector and raster data (<a href="https://r-spatial.github.io/stars/">link here</a>)</li>
+<li><code>leaflet</code> for an <strong>R</strong> package that accesses leaflet, a population JavaScript library for interactive maps (<a href="https://rstudio.github.io/leaflet/">link here</a>)</li>
+<li><code>tmap</code> for generating thematic maps in <strong>R</strong> for (<a href="https://r-tmap.github.io/tmap/">link here</a>)</li>
+<li><code>mapview</code> for a different approach to interacting with the leaflet Javascript library (<a href="https://github.com/r-spatial/mapview">link here</a>)</li>
+<li><code>ggplot2</code> for general graphics in <strong>R</strong> (<a href="https://ggplot2.tidyverse.org/">link here</a>), with a focus on <code>geom_sf()</code> (<a href="https://ggplot2.tidyverse.org/reference/ggsf.html">link here</a>)</li>
+</ul>
+</section>
+<section id="retirement-of-rgdal-rgeos-and-maptools-plan-for-sp" class="level2">
+<h2 class="anchored" data-anchor-id="retirement-of-rgdal-rgeos-and-maptools-plan-for-sp">Retirement of <code>rgdal</code>, <code>rgeos</code>, and <code>maptools</code>; Plan for <code>sp</code></h2>
+<p>The <code>rgdal</code>, <code>rgeos</code>, and <code>maptools</code> <strong>R</strong> packages won’t be available on CRAN after October, 2023. Preparation for these retirements has been worked on for quite some time and is one of the motivating factors in pursuing modern alternatives like <code>sf</code> and <code>terra</code>. The <code>sp</code> package will still be available from CRAN, but it won’t be actively maintained, and <code>sf</code> should be used instead. To learn more about these retirements and understand how you may be affected, <a href="https://geocompx.org/post/2023/rgdal-retirement/">visit this link here</a>.</p>
+</section>
 <section id="r-spatial-resources" class="level2">
 <h2 class="anchored" data-anchor-id="r-spatial-resources">R Spatial Resources</h2>
 <ul>
-<li><a href="http://rspatial.org/spatial/">R Spatial - <strong>Spatial Data Science with R</strong></a></li>
-<li><a href="https://geocompr.robinlovelace.net/"><strong>Geocomputation with R</strong></a></li>
-<li><a href="https://cran.r-project.org/web/views/Spatial.html"><strong>R Spatial Task View</strong></a></li>
-<li><a href="http://files.zevross.com/workshops/spatial/slides/html/0-deck-list.html"><strong>Modern Geospatial Data Analysis with R by Zev Ross</strong></a></li>
+<li><a href="https://r-spatial.org/book/"><strong>Spatial Data Science With Applications in R</strong></a></li>
+<li><a href="http://rspatial.org/spatial/"><strong>R Spatial - Spatial Data Science with R</strong></a></li>
+<li><a href="https://r.geocompx.org/"><strong>Geocomputation with R</strong></a></li>
+<li><a href="https://cran.r-project.org/web/views/Spatial.html">R-Spatial Task View</a></li>
+<li><a href="https://r-spatial.org/">R-Spatial Website</a></li>
+<li><a href="http://files.zevross.com/workshops/spatial/slides/html/0-deck-list.html"><strong>Modern Geospatial Data Analysis with R by Zev Ross</strong></a> <a href="https://www.paulamoraga.com/book-spatial/index.html">**Spatial Statistics for Data Science: Theory and Practice with R</a></li>
 <li><a href="https://nowosad.github.io/SIGR2021/"><strong>SIGR2021 Summer School</strong></a></li>
 <li><a href="https://keen-swartz-3146c4.netlify.com/"><strong>Spatial Data Science - Pebesma and Bivand</strong></a></li>
 <li><a href="http://adamwilson.us/SpatialDataScience/index.html"><strong>Spatial Data Science Course- Prof.&nbsp;Adam Wilson</strong></a></li>
@@ -244,10 +283,18 @@ div.csl-indent {
 <ul>
 <li><a href="https://google.github.io/styleguide/Rguide.xml"><strong>Google R Style Guide</strong></a></li>
 <li><a href="http://adv-r.had.co.nz/"><strong>Advanced R by Hadley Wickham</strong></a></li>
+<li><a href="https://r4ds.had.co.nz/"><strong>R for Data Science</strong></a></li>
 </ul>
-<div id="refs" role="doc-bibliography" style="display: none">
-
-</div>
+</section>
+<section id="previous-r-spatial-workshops" class="level2">
+<h2 class="anchored" data-anchor-id="previous-r-spatial-workshops">Previous R Spatial Workshops</h2>
+<ul>
+<li><a href="https://mhweber.github.io/ICRW8_Geospatial_Workshop/Slides.html">‘Working with Geospatial Hydrologic Data for Watershed Analyses in R and Python Using Web Services’ Workshop for the International Conference on the Watersheds</a></li>
+<li><a href="https://github.com/mhweber/AWRA2022GeoWorkshop">AWRA 2022 Geospatial R and Python Workshop</a></li>
+<li><a href="https://mhweber.github.io/R-User-Group-Spatial-Workshop-2021/">EPA R User Group Spatial Workshop 2021</a></li>
+<li><a href="https://mhweber.github.io/AWRA_2020_R_Spatial/">AWRA 2020 Spatial Analysis in R Workshop</a></li>
+<li><a href="https://mhweber.github.io/AWRA_GIS_R_Workshop/">AWRA 2018 Geospatial R Workshop</a></li>
+</ul>
 
 
 </section>
@@ -280,9 +327,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -347,6 +408,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -399,6 +546,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">Spatial Data Workshop Materials written by Marc Weber and Michael Dumelle</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
     <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
