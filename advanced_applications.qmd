@@ -23,6 +23,8 @@ library(climateR)
 library(terra)
 library(zonal)
 library(cowplot)
+library(spsurvey)
+library(spmodel)
 ```
 
 ## Using Web Services
@@ -286,4 +288,45 @@ Map$addLayer(
 )
 ```
 
-## Spatial Modeling
+## Spatial Sampling and Modeling
+
+### Spatial Sampling
+
+Often we take a sample from a population and use the sample to make inferences regarding the population. For spatial resources, spatially balanced sampling generally yields samples that a more well-spread in space and representative of the true population compared to a sample that ignores spatial information. The `spsurvey` **R** package is used to select spatially balanced samples of `sf` objects using the Generalized Random Tessellation Stratified (GRTS) algorithm, which can be applied to `POINT`, `LINESTRING`, and `POLYGON` geometries.
+
+The `NE_Lakes` data in `spsurvey` is an `sf` object with data on 195 lakes in the Northeastern United States. TO select a spatially balanced sample of size 50 from these 195 lakes, run
+```{r}
+samp <- grts(NE_Lakes, 50)
+```
+
+The sample locations can be visualized alongside `NE_Lakes` by running
+```{r}
+plot(samp, NE_Lakes, pch = 19, key.pos = 1)
+```
+
+There are many additional options for sampling, such as stratification, unequal probability sampling, over/replacement sampling, and much more. `spsurvey` also has much more functionality, including tools for calculating the spatial balance of a sample and summarizing, visualizing, and analyzing data. To learn more about `spsurvey`, visit [its website here](https://usepa.github.io/spsurvey/).
+
+### Spatial Modeling
+
+Linear models are used to describe the relationship between a response variable and explanatory variables. Linear models are typically fit in **R** using `lm()`. These models, however, ignore the fact that observations may be correlated in space. The `spmodel` **R** package provides support for fitting spatial linear models, which do explicitly incorporate spatial covariance/correlation. Spatial linear models are fit using the `splm()` function and share similar structure as `lm()`.
+
+The `moss` data in `spmodel` contains data on Zinc concentrations in Alaska, USA. The log Zinc concentration is visualized by running
+```{r}
+ggplot(moss, aes(color = log_Zn)) +
+  geom_sf() +
+  scale_color_viridis_c()
+```
+
+There is a road running through the middle of the domain where log Zinc concentrations are highest. We model log zinc concentration as a function of the log distance to the road with an exponential spatial covariance function by running
+```{r}
+spmod <- splm(log_Zn ~ log_dist2road, moss, spcov_type = "exponential")
+summary(spmod)
+```
+
+There appears to be a significant decrease in log zinc concentration as the log distance to the road increases. We can fit a non-spatial model and comapre both models using `glances()`:
+```{r}
+lmod <- splm(log_Zn ~ log_dist2road, moss, spcov_type = "none")
+glances(spmod, lmod)
+```
+
+The spatial model (`spmod`) has a much lower AIC and AICc than the non-spatial model (`lmod`), which indicates that incorporating spatial covariance/correlation into the model is quite helpful. To learn more about `spmodel`, visit [its website here](https://usepa.github.io/spmodel/).

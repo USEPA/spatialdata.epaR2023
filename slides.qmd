@@ -34,18 +34,19 @@ options(width = 80)
 
 # load background packages
 library(countdown)
-library(ggplot2)
 ```
 
 ## Welcome!
 
-1. Please visit [this link](https://usepa.github.io/spatialdata.epaR2023/) to view the workshop's accompanying workbook
+1. Please visit [https://usepa.github.io/spatialdata.epaR2023/](https://usepa.github.io/spatialdata.epaR2023/) to view the workshop's accompanying workbook
 
-2.  Install and load R packages by visiting [this link](https://usepa.github.io/spatialdata.epaR2023/#set-up)
+2. Install and load R packages by visiting "Setup" in the workbook's "Welcome" section 
 
-3. (Optional) Download the workshop slides (instructions in the workbook's "Welcome" page)
+3. (Optional) Download the workshop slides (instructions in the workbook's "Welcome" section)
 
-4. Follow along and have fun!
+4. (Optional) Fill out the poll so we can better understand attendee's level of experience handling spatial data
+
+5. Follow along and have fun!
 
 ## Who Are We?
 
@@ -297,6 +298,7 @@ sf_point <- st_sfc(pt1, pt2, pt3)
 #| fig-cap: "sf `POINT`"
 #| output-location: slide
 
+library(ggplot2)
 ggplot(sf_point) + 
   geom_sf(color = "red") +
   labs(x = "X", y = "Y")
