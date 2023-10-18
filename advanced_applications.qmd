@@ -79,7 +79,8 @@ It looks like only 5 of our nwis sites had flow data for which we've plotted str
 ::: {.callout-note appearance="simple"}
 We've shown the client functionality for The [Network-Linked Data Index (NLDI)](https://waterdata.usgs.gov/blog/nldi-intro/)  using both `nhdplusTools` and `dataRetrieval`; either works similarly.  The NLDI can index spatial and river network-linked data and navigate the river network to allow discovery of indexed information.
 
-To use the NLDI you supply a starting feature which can be a:
+To use the NLDI you supply a starting feature which can be an:
+
 - NHDPlus COMID
 - NWIS ID
 - WQP ID
@@ -87,7 +88,7 @@ To use the NLDI you supply a starting feature which can be a:
 
 You can see what is available with:
 ```{r}
-dataRetrieval::get_nldi_sources()
+knitr::kable(dataRetrieval::get_nldi_sources())
 ```
 :::
 
